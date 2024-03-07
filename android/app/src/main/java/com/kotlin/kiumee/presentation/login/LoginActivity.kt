@@ -1,6 +1,7 @@
 package com.kotlin.kiumee.presentation.login
 
 import android.content.Intent
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
@@ -9,8 +10,13 @@ import com.kotlin.kiumee.presentation.form.FormActivity
 
 class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_login) {
     override fun initView() {
+        initAppbarHomeBtn()
         initTextChanged()
         initLoginBtnClickListener()
+    }
+
+    private fun initAppbarHomeBtn() {
+        binding.appbarLogin.ibLoginHome.isVisible = false
     }
 
     private fun initTextChanged() {
