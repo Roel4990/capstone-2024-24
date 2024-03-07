@@ -11,6 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include
+            android:id="@+id/appbar_form"
+            layout="@layout/view_appbar" />
+
         <GridView
             android:id="@+id/gv_form"
             android:layout_width="0dp"
@@ -24,7 +28,34 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/appbar_form" />
+
+        <LinearLayout
+            android:id="@+id/layout_form_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appbar_form">
+
+            <ImageView
+                android:id="@+id/iv_form_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="94dp"
+                android:src="@drawable/img_empty" />
+
+            <TextView
+                android:id="@+id/tv_form_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="생성된 키오스크 폼이 없습니다.\n관리자 페이지에서 추가해주세요." />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
