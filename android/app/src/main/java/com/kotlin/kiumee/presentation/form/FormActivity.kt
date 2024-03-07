@@ -1,6 +1,7 @@
 package com.kotlin.kiumee.presentation.form
 
 import android.content.Intent
+import android.view.View
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
 import com.kotlin.kiumee.core.util.context.toast
@@ -31,12 +32,16 @@ class FormActivity : BindingActivity<ActivityFormBinding>(R.layout.activity_form
             )
         )
 
-        val adapter = FormGridviewAdapter(this, storeList)
-        binding.gvForm.adapter = adapter
+        if (storeList.isEmpty()) {
+            binding.layoutFormEmpty.visibility = View.VISIBLE
+        } else {
+            val adapter = FormGridviewAdapter(this, storeList)
+            binding.gvForm.adapter = adapter
 
-        adapter.onItemClick = { item ->
-            toast("클릭된 항목: ${item.name}")
-            startActivity(Intent(this, HomeActivity::class.java))
+            adapter.onItemClick = { item ->
+                toast("클릭된 항목: ${item.name}")
+                startActivity(Intent(this, HomeActivity::class.java))
+            }
         }
     }
 }
