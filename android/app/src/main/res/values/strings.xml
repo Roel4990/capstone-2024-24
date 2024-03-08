@@ -7,4 +7,5 @@
     <string name="order_select_store">매장</string>
     <string name="order_select_takeaway">포장</string>
     <string name="form_empty">생성된 키오스크 폼이 없습니다.\n관리자 페이지에서 추가해주세요.</string>
+    <string name="order_finish">감사합니다!\n주문이 접수되었습니다.</string>
 </resources>
