@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">kiumee</string>
+    <string name="login_id">아이디</string>
+    <string name="login_pw">비밀번호</string>
+    <string name="login_start">로그인하기</string>
+    <string name="order_select_start">반가워요!\n주문을 시작할게요.</string>
+    <string name="order_select_store">매장</string>
+    <string name="order_select_takeaway">포장</string>
+    <string name="form_empty">생성된 키오스크 폼이 없습니다.\n관리자 페이지에서 추가해주세요.</string>
 </resources>
