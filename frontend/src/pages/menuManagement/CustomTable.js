@@ -113,6 +113,7 @@ const CustomTable = ({ data }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const { name } = e.target;
+    // todo : image 보내서 링크로 받기
     console.log(name)
     console.log(file)
     if (file) {
