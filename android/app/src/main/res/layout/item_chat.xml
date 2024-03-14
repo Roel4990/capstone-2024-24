@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_gray3_fill_end_bottom_20_rect"
             android:paddingHorizontal="15dp"
-            android:paddingVertical="11dp"
+            android:paddingVertical="10dp"
             android:text="@{chat.content}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
