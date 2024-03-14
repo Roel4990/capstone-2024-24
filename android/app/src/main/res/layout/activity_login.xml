@@ -30,6 +30,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="65dp"
                 app:boxBackgroundColor="@android:color/transparent"
                 app:counterMaxLength="10">
 
@@ -41,10 +42,6 @@
                     android:hint="@string/login_id" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="65dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_login_pw"
