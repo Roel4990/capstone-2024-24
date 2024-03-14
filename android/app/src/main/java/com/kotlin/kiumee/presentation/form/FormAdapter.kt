@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.kotlin.kiumee.R
 
-class FormGridviewAdapter(
+class FormAdapter(
     private val context: Context,
     private val storeList: MutableList<Store>
 ) : BaseAdapter() {
@@ -31,18 +31,18 @@ class FormGridviewAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var convertView = convertView
         if (convertView == null) convertView =
-            LayoutInflater.from(parent?.context).inflate(R.layout.item_form, parent, false)
+            LayoutInflater.from(parent?.context).inflate(R.layout.item_form_store, parent, false)
 
         val item: Store = storeList[position]
 
-        val formImage = convertView?.findViewById<View>(R.id.iv_item_form) as ImageView
-        val formName = convertView?.findViewById<View>(R.id.tv_item_form_name) as TextView
-        val formDescription =
-            convertView?.findViewById<View>(R.id.tv_item_form_description) as TextView
+        val storeImage = convertView?.findViewById<View>(R.id.iv_item_form_store) as ImageView
+        val storeName = convertView?.findViewById<View>(R.id.tv_item_form_store_name) as TextView
+        val storeDescription =
+            convertView?.findViewById<View>(R.id.tv_item_form_store_description) as TextView
 
-        Glide.with(context).load(item.imageUrl).into(formImage)
-        formName.text = item.name
-        formDescription.text = item.description
+        Glide.with(context).load(item.imageUrl).into(storeImage)
+        storeName.text = item.name
+        storeDescription.text = item.description
 
         convertView.setOnClickListener {
             onItemClick?.invoke(item)
