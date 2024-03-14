@@ -8,7 +8,7 @@ import com.kotlin.kiumee.presentation.orderfinish.OrderFinishFragment
 class MenuCartSelectFragment :
     BindingFragment<FragmentMenuCartSelectBinding>(R.layout.fragment_menu_cart_select) {
     override fun initView() {
-        binding.btnMenuCartSelectTest.setOnClickListener {
+        binding.btnMenuCartSelectNo.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_chat, OrderFinishFragment())
                 addToBackStack(null) // 뒤로 가기 동작을 위해 백스택에 추가
