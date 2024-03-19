@@ -1,14 +1,30 @@
 package com.kotlin.kiumee.presentation.chat
 
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
 import com.kotlin.kiumee.databinding.ActivityChatBinding
 import com.kotlin.kiumee.presentation.orderselect.OrderSelectFragment
 
 class ChatActivity : BindingActivity<ActivityChatBinding>(R.layout.activity_chat) {
+    private val smoothScroller: RecyclerView.SmoothScroller by lazy {
+        object : LinearSmoothScroller(this) {
+            override fun getVerticalSnapPreference() = SNAP_TO_START
+        }
+    }
+
     override fun initView() {
         initChatAdapter()
         initActivityFragment()
+
+        binding.btn.setOnClickListener {
+            binding.rvChat?.layoutManager?.startSmoothScroll(
+                smoothScroller.apply {
+                    targetPosition = 2
+                }
+            )
+        }
     }
 
     private fun initChatAdapter() {
