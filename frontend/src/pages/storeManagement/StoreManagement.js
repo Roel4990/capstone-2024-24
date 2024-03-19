@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Typography, TextField, Button } from "@material-ui/core";
+import { Grid, Typography, TextField, Button, Chip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import PageTitle from "../../components/PageTitle";
 import Widget from "../../components/Widget";
@@ -35,15 +35,19 @@ const useStyles = makeStyles(theme => ({
 
 export default function StoreManagement() {
     const classes = useStyles();
-
     // useState 훅을 사용하여 매장명과 매장 설명 상태를 관리합니다.
     const [storeName, setStoreName] = useState('');
     const [storeDescription, setStoreDescription] = useState('');
     const [logoImage, setLogoImage] = useState('');
     const [mainImage, setMainImage] = useState('');
+
+    // 카테고리 관리를 위한 상태
+    const [categories, setCategories] = useState(["커피", "디저트", "에이드"]);
+    const [newCategory, setNewCategory] = useState('');
+
     // 저장 버튼을 눌렀을 때 실행될 함수입니다.
     const handleSave = () => {
-        console.log('저장됨:', { storeName, storeDescription });
+        console.log('저장됨:', { storeName, storeDescription, logoImage, mainImage, categories });
         // 이곳에서 저장 로직을 구현합니다. 예를 들어, API 호출을 통해 서버에 데이터를 저장할 수 있습니다.
     };
     const handleImageChange = (e, setImage) => {
@@ -54,6 +58,18 @@ export default function StoreManagement() {
             setImage(reader.result);
         };
         reader.readAsDataURL(file);
+    };
+    // 카테고리 추가
+    const addCategory = () => {
+        if (newCategory && !categories.includes(newCategory)) {
+            setCategories([...categories, newCategory]);
+            setNewCategory('');
+        }
+    };
+
+    // 카테고리 삭제
+    const deleteCategory = (categoryToDelete) => {
+        setCategories(categories.filter(category => category !== categoryToDelete));
     };
     return (
         <>
@@ -121,6 +137,28 @@ export default function StoreManagement() {
                                     <div style={{
                                         backgroundImage: `url(${mainImage})`,
                                     }} className={classes.mainImage}/>
+                                    {/* 카테고리 관리 UI */}
+                                    <TextField
+                                        label="새 카테고리"
+                                        variant="outlined"
+                                        value={newCategory}
+                                        onChange={(e) => setNewCategory(e.target.value)}
+                                        style={{marginBottom: 16, marginTop: 20}}
+                                    />
+                                    <Button onClick={addCategory} variant="contained" color="primary" style={{marginBottom: 16, marginTop: 30, marginLeft: 10}}>
+                                        카테고리 추가
+                                    </Button>
+                                    <div>
+                                        {categories.map((category, index) => (
+                                            <Chip
+                                                key={index}
+                                                label={category}
+                                                onDelete={() => deleteCategory(category)}
+                                                color="primary"
+                                                style={{margin: '5px'}}
+                                            />
+                                        ))}
+                                    </div>
                                     {/* 저장 버튼 */}
                                     <Button
                                         variant="contained"
