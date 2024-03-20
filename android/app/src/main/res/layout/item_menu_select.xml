@@ -14,7 +14,7 @@
         android:padding="12dp">
 
         <ImageView
-            android:id="@+id/iv_item_form_store"
+            android:id="@+id/iv_item_store"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="50dp"
@@ -25,14 +25,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_item_form_store_name"
+            android:id="@+id/tv_item_store_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_item_form_store"
+            app:layout_constraintTop_toBottomOf="@id/iv_item_store"
             tools:text="(Hot) 아메리카노" />
 
         <TextView
@@ -44,7 +44,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_form_store_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_store_name"
             tools:text="2500원" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
