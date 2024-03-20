@@ -33,7 +33,7 @@
             android:name=".presentation.home.HomeActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.chat.ChatActivity"
+            android:name=".presentation.menu.MenuActivity"
             android:exported="true" />
         <activity
             android:name=".presentation.orderfinish.OrderFinishActivity"
