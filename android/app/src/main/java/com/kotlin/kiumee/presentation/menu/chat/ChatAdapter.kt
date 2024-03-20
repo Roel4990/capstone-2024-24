@@ -1,4 +1,4 @@
-package com.kotlin.kiumee.presentation.chat
+package com.kotlin.kiumee.presentation.menu.chat
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
