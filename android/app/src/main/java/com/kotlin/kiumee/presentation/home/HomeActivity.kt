@@ -21,7 +21,7 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>(R.layout.activity_home
 
     private fun initBackground() {
         Glide.with(this)
-            .load("https://cdn.newscj.com/news/photo/202307/3043256_3048062_3725.jpg")
+            .load("https://lh3.googleusercontent.com/proxy/vtbz9OUETXc-KrI33FzQBGWEf8775hRdKRY5CYEG1H7Ue8e7jmHqQ2iejfChLJ-FWxyzRqdx3zlQokGEz7LfVW-Jf5oCYprofnMEIzWzPIQ2UZO1MOhuy0uXwRLbhXB66QLdudfRzk7JoEnqOsAmNKW0onAAqfwT7K57QKpyyxWG7cNjKg7n_yU-Wx4LAW9yIBdvFFGQCedUdFNjdNeHZoxAGGNG2eSo")
             .centerCrop()
             .into(binding.ivHomeBackground)
     }
