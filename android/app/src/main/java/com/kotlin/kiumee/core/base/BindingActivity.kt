@@ -1,12 +1,10 @@
 package com.kotlin.kiumee.core.base
 
-import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.kotlin.kiumee.core.util.context.hideKeyboard
@@ -20,9 +18,6 @@ abstract class BindingActivity<T : ViewDataBinding>(
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutRes)
         binding.lifecycleOwner = this
-        if (Build.VERSION.SDK_INT >= 30) { // API 30 에 적용
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-        }
         initView()
     }
 
