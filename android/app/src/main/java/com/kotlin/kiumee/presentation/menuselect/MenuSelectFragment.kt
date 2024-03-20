@@ -1,16 +1,16 @@
 package com.kotlin.kiumee.presentation.menuselect
 
-import com.google.android.material.tabs.TabLayoutMediator
+import android.content.Intent
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingFragment
 import com.kotlin.kiumee.databinding.FragmentMenuSelectBinding
-import com.kotlin.kiumee.presentation.orderfinish.OrderFinishFragment
+import com.kotlin.kiumee.presentation.orderfinish.OrderFinishActivity
 
 class MenuSelectFragment :
     BindingFragment<FragmentMenuSelectBinding>(R.layout.fragment_menu_select) {
     override fun initView() {
-        //initTabPager()
-        initPayBtnClickListener()
+        // initTabPager()
+        initOrderBtnClickListener()
     }
 
 //    private fun initTabPager() {
@@ -33,13 +33,9 @@ class MenuSelectFragment :
 //        }.attach()
 //    }
 
-    private fun initPayBtnClickListener() {
-        binding.btnMenuSelectCartPay.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fcv_chat, OrderFinishFragment())
-                addToBackStack(null) // 뒤로 가기 동작을 위해 백스택에 추가
-                commit()
-            }
+    private fun initOrderBtnClickListener() {
+        binding.btnMenuSelectCartOrder.setOnClickListener {
+            startActivity(Intent(context, OrderFinishActivity::class.java))
         }
     }
 }
