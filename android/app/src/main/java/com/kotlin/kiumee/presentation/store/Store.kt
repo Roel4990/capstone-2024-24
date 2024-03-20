@@ -1,4 +1,4 @@
-package com.kotlin.kiumee.presentation.form
+package com.kotlin.kiumee.presentation.store
 
 data class Store(
     val imageUrl: String,
