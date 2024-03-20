@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
 import com.kotlin.kiumee.databinding.ActivityChatBinding
-import com.kotlin.kiumee.presentation.orderselect.OrderSelectFragment
+import com.kotlin.kiumee.presentation.menuselect.MenuSelectFragment
 
 class ChatActivity : BindingActivity<ActivityChatBinding>(R.layout.activity_chat) {
     private val smoothScroller: RecyclerView.SmoothScroller by lazy {
@@ -46,7 +46,7 @@ class ChatActivity : BindingActivity<ActivityChatBinding>(R.layout.activity_chat
 
     private fun initActivityFragment() {
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fcv_chat, OrderSelectFragment())
+            replace(R.id.fcv_chat, MenuSelectFragment())
             commit()
         }
     }
