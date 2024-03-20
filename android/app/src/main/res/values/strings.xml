@@ -1,11 +1,18 @@
 <resources>
     <string name="app_name">kiumee</string>
+
+    <!-- 로그인 페이지 -->
     <string name="login_id">아이디</string>
     <string name="login_pw">비밀번호</string>
     <string name="login_start">로그인하기</string>
-    <string name="order_select_start">반가워요!\n주문을 시작할게요.</string>
-    <string name="order_select_store">매장</string>
-    <string name="order_select_takeaway">포장</string>
-    <string name="form_empty">생성된 키오스크 폼이 없습니다.\n관리자 페이지에서 추가해주세요.</string>
-    <string name="order_finish">감사합니다!\n주문이 접수되었습니다.</string>
+
+    <!-- 매장 선택 페이지 -->
+    <string name="store_empty">생성된 키오스크 폼이 없습니다.\n관리자 페이지에서 추가해주세요.</string>
+    <string name="store_choice">원하는 매장을 선택해주세요.</string>
+
+    <!-- 주문 완료 페이지 -->
+    <string name="order_finish">주문이 접수되었습니다.\n10초 후 자동으로 메뉴 선택 화면으로 넘어갑니다.</string>
+
+    <!-- 홈 페이지 -->
+    <string name="home_touch">주문하시려면 화면을 터치해주세요.</string>
 </resources>
