@@ -25,20 +25,19 @@
         </activity>
         <activity
             android:name=".presentation.login.LoginActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:exported="true" />
         <activity
-            android:name=".presentation.form.FormActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:name=".presentation.store.StoreActivity"
+            android:exported="true" />
         <activity
             android:name=".presentation.home.HomeActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:exported="true" />
         <activity
             android:name=".presentation.chat.ChatActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:exported="true" />
+        <activity
+            android:name=".presentation.orderfinish.OrderFinishActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
