@@ -6,7 +6,7 @@ import androidx.core.widget.addTextChangedListener
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
 import com.kotlin.kiumee.databinding.ActivityLoginBinding
-import com.kotlin.kiumee.presentation.form.FormActivity
+import com.kotlin.kiumee.presentation.store.StoreActivity
 
 class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_login) {
     override fun initView() {
@@ -36,7 +36,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                 btnLogin.isEnabled = true
             } else {
                 btnLogin.setTextColor(resources.getColor(R.color.black))
-                btnLogin.setBackgroundResource(R.drawable.shape_gray7_line_10_rect)
+                btnLogin.setBackgroundResource(R.drawable.shape_gray7_line_20_rect)
                 btnLogin.isEnabled = false
             }
         }
@@ -44,7 +44,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
 
     private fun initLoginBtnClickListener() {
         binding.btnLogin.setOnClickListener {
-            startActivity(Intent(this, FormActivity::class.java))
+            startActivity(Intent(this, StoreActivity::class.java))
         }
     }
 }
