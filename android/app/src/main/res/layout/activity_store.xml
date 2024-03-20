@@ -12,27 +12,35 @@
         android:layout_height="match_parent">
 
         <include
-            android:id="@+id/appbar_form"
+            android:id="@+id/appbar_store"
             layout="@layout/view_appbar" />
 
-        <GridView
-            android:id="@+id/gv_form"
+        <TextView
+            android:id="@+id/tv_store_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/store_choice"
+            app:layout_constraintBottom_toTopOf="@id/rv_store"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appbar_store" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_store"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginVertical="36dp"
-            android:horizontalSpacing="30dp"
-            android:numColumns="2"
-            android:orientation="horizontal"
-            android:paddingHorizontal="28dp"
-            android:verticalSpacing="36dp"
+            android:layout_marginBottom="25dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appbar_form"
-            tools:listitem="@layout/item_form_store" />
+            app:layout_constraintTop_toBottomOf="@id/tv_store_title"
+            tools:listitem="@layout/item_store" />
 
         <LinearLayout
-            android:id="@+id/layout_form_empty"
+            android:id="@+id/layout_store_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -41,20 +49,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appbar_form">
+            app:layout_constraintTop_toBottomOf="@id/appbar_store">
 
             <ImageView
-                android:id="@+id/iv_form_empty"
+                android:id="@+id/iv_store_empty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="94dp"
+                android:layout_marginBottom="50dp"
                 android:src="@drawable/img_empty" />
 
             <TextView
-                android:id="@+id/tv_form_empty"
+                android:id="@+id/tv_store_empty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/form_empty" />
+                android:text="@string/store_empty" />
 
         </LinearLayout>
 
