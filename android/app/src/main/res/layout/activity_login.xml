@@ -39,7 +39,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:hint="@string/login_id" />
+                    android:hint="@string/login_id"
+                    android:textAppearance="@style/TextAppearance.Kiumee.body4_regular_44" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,7 +58,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:hint="@string/login_pw"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:textAppearance="@style/TextAppearance.Kiumee.body4_regular_44" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,6 +75,7 @@
             android:enabled="false"
             android:paddingVertical="18dp"
             android:text="@string/login_start"
+            android:textAppearance="@style/TextAppearance.Kiumee.head4_regular_54"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
