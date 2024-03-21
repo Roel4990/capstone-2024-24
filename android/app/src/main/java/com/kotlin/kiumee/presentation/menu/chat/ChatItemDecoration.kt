@@ -17,12 +17,10 @@ class ChatItemDecoration(val context: Context) : RecyclerView.ItemDecoration() {
         val position = parent.getChildAdapterPosition(view)
 
         if (position == 0) {
-            outRect.top = context.pxToDp(15)
-            outRect.bottom = context.pxToDp(10)
-        } else if (position != -1) {
-            outRect.bottom = context.pxToDp(10)
+            outRect.top = context.pxToDp(16)
         } else {
-            outRect.bottom = context.pxToDp(15)
+            outRect.bottom = context.pxToDp(2)
         }
+        outRect.bottom = context.pxToDp(16)
     }
 }
