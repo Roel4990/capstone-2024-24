@@ -1,7 +1,9 @@
 package com.kotlin.kiumee.presentation.menu
 
 import android.content.Intent
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
@@ -42,7 +44,10 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         binding.vpMenu.adapter = adapter
 
         TabLayoutMediator(binding.layoutMenuTabContent, binding.vpMenu) { tab, position ->
-            tab.text = tabTitles[position]
+            val customView = LayoutInflater.from(this).inflate(R.layout.item_menu_tab, null)
+            val tabText = customView.findViewById<TextView>(R.id.tv_menu_tab)
+            tabText.text = tabTitles[position]
+            tab.customView = customView
         }.attach()
 
         binding.vpMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
