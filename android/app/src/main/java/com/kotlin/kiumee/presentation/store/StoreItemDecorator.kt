@@ -17,10 +17,10 @@ class StoreItemDecorator(val context: Context) : RecyclerView.ItemDecoration() {
         val position = parent.getChildAdapterPosition(view)
 
         if (position == 0) {
-            outRect.left = context.pxToDp(8)
+            outRect.left = context.pxToDp(28)
         } else {
-            outRect.left = context.pxToDp(5)
+            outRect.left = context.pxToDp(2)
         }
-        outRect.right = context.pxToDp(8)
+        outRect.right = context.pxToDp(28)
     }
 }
