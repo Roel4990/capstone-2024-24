@@ -1,14 +1,18 @@
 package com.kotlin.kiumee.presentation.menu
 
 import android.content.Intent
+import android.view.View
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
 import com.kotlin.kiumee.databinding.ActivityMenuBinding
+import com.kotlin.kiumee.presentation.menu.cart.Cart
+import com.kotlin.kiumee.presentation.menu.cart.CartAdapter
+import com.kotlin.kiumee.presentation.menu.cart.CartItemDecorator
 import com.kotlin.kiumee.presentation.menu.chat.Chat
 import com.kotlin.kiumee.presentation.menu.chat.ChatAdapter
-import com.kotlin.kiumee.presentation.menu.chat.ChatItemDecoration
+import com.kotlin.kiumee.presentation.menu.chat.ChatItemDecorator
 import com.kotlin.kiumee.presentation.orderfinish.OrderFinishActivity
 
 class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu) {
@@ -20,6 +24,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
     override fun initView() {
         initChatAdapter()
+        initLayoutState()
 
         binding.btnMenuRvChat.setOnClickListener {
             binding.rvMenuRvChat?.layoutManager?.startSmoothScroll(
@@ -29,34 +34,46 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             )
         }
 
-        // initTabPager()
         initOrderBtnClickListener()
     }
-
-    //    private fun initTabPager() {
-//        val tabLayout = binding.layoutFragmentMenuSelectTab
-//        val viewPager = binding.vpMenuSelect
-//
-//        val menuTabAdapter = MenuSelectAdapter(this)
-//        viewPager.adapter = menuTabAdapter
-//
-//        val tabs = listOf(
-//            "커피(HOT)",
-//            "커피(ICE)",
-//            "에이드&티",
-//            "음료",
-//            "디저트"
-//        )
-//
-//        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-//            tab.text = tabs[position]
-//        }.attach()
-//    }
 
     private fun initOrderBtnClickListener() {
         binding.btnMenuCartOrder.setOnClickListener {
             startActivity(Intent(this, OrderFinishActivity::class.java))
         }
+    }
+
+    private fun initLayoutState() {
+        // 추후 코드 변경 필요
+        if (true) {
+            initCartAdapter()
+        } else {
+            initEmptyLayout()
+        }
+    }
+
+    private fun initEmptyLayout() {
+        with(binding) {
+            rvMenuCart.visibility = View.GONE
+            tvMenuCartEmpty.visibility = View.VISIBLE
+        }
+    }
+
+    private fun initCartAdapter() {
+        val cartList = listOf(
+            Cart("미도인 스테이크 덮밥", 1, 10500),
+            Cart("화산 불백 덮밥", 1, 9500)
+        )
+
+        binding.rvMenuCart.adapter = CartAdapter().apply {
+            submitList(cartList)
+        }
+
+        binding.rvMenuCart.addItemDecoration(CartItemDecorator(this))
+
+        // 카트 목록의 가격 합계 계산
+        val totalPrice = cartList.sumOf { it.price }
+        binding.tvMenuCartTotalPrice.text = totalPrice.toString() + "원"
     }
 
     private fun initChatAdapter() {
@@ -73,6 +90,6 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             )
         }
 
-        binding.rvMenuRvChat.addItemDecoration(ChatItemDecoration(this))
+        binding.rvMenuRvChat.addItemDecoration(ChatItemDecorator(this))
     }
 }
