@@ -28,7 +28,6 @@
                 android:layout_marginBottom="30dp"
                 android:text="@string/menu_tab_title"
                 android:textAppearance="@style/TextAppearance.Kiumee.head2_smbold_58"
-                app:layout_constraintBottom_toTopOf="@id/layout_menu_tab_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,14 +35,12 @@
                 android:id="@+id/layout_menu_tab_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:orientation="vertical"
+                android:rotation="90"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_menu_tab_title"
-                app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/primary"
-                app:tabTextAppearance="@style/TextAppearance.Kiumee.body2_regular_48"
-                app:tabTextColor="@color/black" />
+                app:tabMode="scrollable" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
