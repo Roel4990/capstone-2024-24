@@ -25,16 +25,19 @@
                 android:id="@+id/tv_menu_tab_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
                 android:text="@string/menu_tab_title"
                 android:textAppearance="@style/TextAppearance.Kiumee.head2_smbold_58"
+                app:layout_constraintBottom_toTopOf="@id/layout_menu_tab_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/layout_menu_tab_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_menu_tab_title"
                 app:tabMode="scrollable" />
@@ -74,14 +77,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rv_menu_rv_chat" />
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vp_menu_rv"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_menu_chat"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_menu_rv_chat" />
+                app:layout_constraintTop_toBottomOf="@id/btn_menu_rv_chat"
+                tools:listitem="@layout/item_menu" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -102,6 +109,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/menu_cart_title"
                 android:textAppearance="@style/TextAppearance.Kiumee.head2_smbold_58"
+                android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -110,24 +118,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="10dp"
                 android:background="@color/gray_4"
-                app:layout_constraintBottom_toTopOf="@id/tv_menu_cart_content"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_menu_cart_title" />
 
             <TextView
-                android:id="@+id/tv_menu_cart_content"
+                android:id="@+id/tv_menu_cart_empty"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginVertical="12dp"
                 android:text="@string/menu_cart_select"
                 android:textAppearance="@style/TextAppearance.Kiumee.body4_regular_44"
                 android:textColor="@color/gray_10"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/view_menu_cart_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_menu_cart_top" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_menu_cart"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginVertical="12dp"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@id/view_menu_cart_bottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_menu_cart_top"
+                tools:listitem="@layout/item_menu_cart" />
 
             <View
                 android:id="@+id/view_menu_cart_bottom"
@@ -135,6 +159,7 @@
                 android:layout_height="3dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/gray_4"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@id/tv_menu_cart_total"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -147,6 +172,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="@string/menu_cart_total"
                 android:textAppearance="@style/TextAppearance.Kiumee.body4_regular_44"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@id/btn_menu_cart_order"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -155,22 +181,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="3dp"
-                android:text="13,000원"
                 android:textAppearance="@style/TextAppearance.Kiumee.body3_medium_44"
                 android:textColor="@color/error"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_menu_cart_total" />
+                app:layout_constraintTop_toTopOf="@id/tv_menu_cart_total"
+                tools:text="13,000원" />
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_menu_cart_back"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/shape_gray7_line_10_rect"
+                android:paddingVertical="10dp"
+                android:text="@string/menu_cart_back"
+                android:textAppearance="@style/TextAppearance.Kiumee.head3_medium_54"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/btn_menu_cart_order"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_menu_cart_order"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/secondary"
+                android:background="@drawable/shape_primary_fill_10_rect"
                 android:paddingVertical="10dp"
                 android:text="@string/menu_cart_order"
                 android:textAppearance="@style/TextAppearance.Kiumee.head3_medium_54"
                 android:textColor="@color/white"
-                app:cornerRadius="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
