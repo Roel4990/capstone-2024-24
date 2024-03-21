@@ -3,6 +3,7 @@ package com.kotlin.kiumee.presentation.menu.chat
 import android.view.Gravity
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.kiumee.R
+import com.kotlin.kiumee.core.util.context.colorOf
 import com.kotlin.kiumee.databinding.ItemChatBinding
 
 class ChatViewHolder(private val binding: ItemChatBinding) :
@@ -12,11 +13,13 @@ class ChatViewHolder(private val binding: ItemChatBinding) :
             chat = data
 
             if (data.type == 0) { // 본인 채팅
-                tvItemChat.setBackgroundResource(R.drawable.shape_secondary_fill_start_bottom_20_rect)
+                tvItemChat.setBackgroundResource(R.drawable.shape_secondary_fill_start_bottom_30_rect)
                 layoutItemChat.gravity = Gravity.END
+                tvItemChat.setTextColor(root.context.colorOf(R.color.white))
             } else if (data.type == 1) { // 상대 채팅
-                tvItemChat.setBackgroundResource(R.drawable.shape_gray3_fill_end_bottom_20_rect)
+                tvItemChat.setBackgroundResource(R.drawable.shape_gray3_fill_end_bottom_30_rect)
                 layoutItemChat.gravity = Gravity.START
+                tvItemChat.setTextColor(root.context.colorOf(R.color.black))
             }
         }
     }
