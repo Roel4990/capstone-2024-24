@@ -6,7 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.kiumee.core.util.context.pxToDp
 
-class ChatItemDecoration(val context: Context) : RecyclerView.ItemDecoration() {
+class ChatItemDecorator(val context: Context) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
