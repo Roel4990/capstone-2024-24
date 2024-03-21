@@ -22,21 +22,21 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tv_menu_title"
+                android:id="@+id/tv_menu_tab_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="메뉴"
+                android:text="@string/menu_tab_title"
                 android:textAppearance="@style/TextAppearance.Kiumee.head2_smbold_58"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/layout_fragment_menu_select_tab"
+                android:id="@+id/layout_menu_tab_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_menu_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_menu_tab_title"
                 app:tabMode="scrollable" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -52,7 +52,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_chat"
+                android:id="@+id/rv_menu_rv_chat"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:layout_marginTop="28dp"
@@ -67,21 +67,21 @@
                 tools:listitem="@layout/item_chat" />
 
             <Button
-                android:id="@+id/btn"
+                android:id="@+id/btn_menu_rv_chat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="here"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_chat" />
+                app:layout_constraintTop_toBottomOf="@id/rv_menu_rv_chat" />
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vp_menu_select"
+                android:id="@+id/vp_menu_rv"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn" />
+                app:layout_constraintTop_toBottomOf="@id/btn_menu_rv_chat" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -100,7 +100,7 @@
                 android:id="@+id/tv_menu_cart_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="장바구니"
+                android:text="@string/menu_cart_title"
                 android:textAppearance="@style/TextAppearance.Kiumee.head2_smbold_58"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -121,7 +121,7 @@
                 android:id="@+id/tv_menu_cart_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:text="메뉴를 선택해주세요."
+                android:text="@string/menu_cart_select"
                 android:textAppearance="@style/TextAppearance.Kiumee.body4_regular_44"
                 android:textColor="@color/gray_10"
                 app:layout_constraintBottom_toTopOf="@id/view_menu_cart_bottom"
@@ -145,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
                 android:layout_marginBottom="8dp"
-                android:text="합계"
+                android:text="@string/menu_cart_total"
                 android:textAppearance="@style/TextAppearance.Kiumee.body4_regular_44"
                 app:layout_constraintBottom_toTopOf="@id/btn_menu_cart_order"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -167,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/secondary"
                 android:paddingVertical="10dp"
-                android:text="주문하기"
+                android:text="@string/menu_cart_order"
                 android:textAppearance="@style/TextAppearance.Kiumee.head3_medium_54"
                 android:textColor="@color/white"
                 app:cornerRadius="10dp"
