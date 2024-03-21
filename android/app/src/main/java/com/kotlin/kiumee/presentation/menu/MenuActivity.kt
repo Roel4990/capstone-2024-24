@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayoutMediator
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
 import com.kotlin.kiumee.databinding.ActivityMenuBinding
@@ -13,6 +14,7 @@ import com.kotlin.kiumee.presentation.menu.cart.CartItemDecorator
 import com.kotlin.kiumee.presentation.menu.chat.Chat
 import com.kotlin.kiumee.presentation.menu.chat.ChatAdapter
 import com.kotlin.kiumee.presentation.menu.chat.ChatItemDecorator
+import com.kotlin.kiumee.presentation.menu.tab.TabAdapter
 import com.kotlin.kiumee.presentation.orderfinish.OrderFinishActivity
 
 class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu) {
@@ -33,6 +35,17 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                 }
             )
         }
+
+        val tabTitles = listOf("직원 호출", "메인 메뉴", "사이드 메뉴", "추가 메뉴", "음료 메뉴", "주류 메뉴")
+
+        val adapter = TabAdapter(supportFragmentManager, lifecycle, tabTitles)
+        binding.vpMenu.adapter = adapter
+
+        TabLayoutMediator(binding.layoutMenuTabContent, binding.vpMenu) { tab, position ->
+            tab.text = tabTitles[position]
+        }.attach()
+
+        binding.vpMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
 
         initOrderBtnClickListener()
     }
