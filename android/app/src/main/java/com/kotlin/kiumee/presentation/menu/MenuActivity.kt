@@ -21,8 +21,8 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     override fun initView() {
         initChatAdapter()
 
-        binding.btn.setOnClickListener {
-            binding.rvChat?.layoutManager?.startSmoothScroll(
+        binding.btnMenuRvChat.setOnClickListener {
+            binding.rvMenuRvChat?.layoutManager?.startSmoothScroll(
                 smoothScroller.apply {
                     targetPosition = 2
                 }
@@ -60,7 +60,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     }
 
     private fun initChatAdapter() {
-        binding.rvChat.adapter = ChatAdapter().apply {
+        binding.rvMenuRvChat.adapter = ChatAdapter().apply {
             submitList(
                 listOf(
                     Chat(1, "키우미에게 대화를 시작해주세요!"),
@@ -73,6 +73,6 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             )
         }
 
-        binding.rvChat.addItemDecoration(ChatItemDecoration(this))
+        binding.rvMenuRvChat.addItemDecoration(ChatItemDecoration(this))
     }
 }
