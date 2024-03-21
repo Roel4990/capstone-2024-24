@@ -1,6 +1,7 @@
 package com.kotlin.kiumee.presentation.store
 
 import android.content.Intent
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
@@ -10,7 +11,7 @@ import com.kotlin.kiumee.presentation.login.LoginActivity
 
 class StoreActivity : BindingActivity<ActivityStoreBinding>(R.layout.activity_store) {
     override fun initView() {
-        initFormAdapter()
+        initLayoutState()
         initHomeBtnClickListener()
     }
 
@@ -21,6 +22,23 @@ class StoreActivity : BindingActivity<ActivityStoreBinding>(R.layout.activity_st
         }
     }
 
+    private fun initLayoutState() {
+        // 추후 코드 변경 필요
+        if (true) {
+            initFormAdapter()
+        } else {
+            initEmptyLayout()
+        }
+    }
+
+    private fun initEmptyLayout() {
+        with(binding) {
+            tvStoreTitle.visibility = View.GONE
+            rvStore.visibility = View.GONE
+            layoutStoreEmpty.visibility = View.VISIBLE
+        }
+    }
+
     private fun initFormAdapter() {
         binding.rvStore.adapter = StoreAdapter(click = { store, position ->
             startActivity(Intent(this, HomeActivity::class.java))
@@ -28,7 +46,7 @@ class StoreActivity : BindingActivity<ActivityStoreBinding>(R.layout.activity_st
             submitList(
                 listOf(
                     Store(
-                        "https://lh3.googleusercontent.com/proxy/1QKnsPvJvPd2toUa5no4UUyq4N3zL_5jBcCq1wVF5oeIbNt1AeJMb0VOrO6tRNoWHnELpDT6m2p0JfCzlbYLrKdrAhDLfhWUfJCdTdUtgMBFHIqfUYy6Y5Xf2D9MJukb4ajhBjEpifDvNVED0wAeTf7zJDHbQZ0j_d02c50Fi505WqxbYUCT9-60s16RR_q0xATftQ",
+                        "https://www.hecbob.com/img/page/brand/like_logo.png",
                         "미도인",
                         ""
                     ),
@@ -38,7 +56,7 @@ class StoreActivity : BindingActivity<ActivityStoreBinding>(R.layout.activity_st
                         "강남점"
                     ),
                     Store(
-                        "https://lh3.googleusercontent.com/proxy/1QKnsPvJvPd2toUa5no4UUyq4N3zL_5jBcCq1wVF5oeIbNt1AeJMb0VOrO6tRNoWHnELpDT6m2p0JfCzlbYLrKdrAhDLfhWUfJCdTdUtgMBFHIqfUYy6Y5Xf2D9MJukb4ajhBjEpifDvNVED0wAeTf7zJDHbQZ0j_d02c50Fi505WqxbYUCT9-60s16RR_q0xATftQ",
+                        "https://www.hecbob.com/img/page/brand/like_logo.png",
                         "미도인",
                         "홍대점"
                     ),
@@ -48,7 +66,7 @@ class StoreActivity : BindingActivity<ActivityStoreBinding>(R.layout.activity_st
                         ""
                     ),
                     Store(
-                        "https://lh3.googleusercontent.com/proxy/1QKnsPvJvPd2toUa5no4UUyq4N3zL_5jBcCq1wVF5oeIbNt1AeJMb0VOrO6tRNoWHnELpDT6m2p0JfCzlbYLrKdrAhDLfhWUfJCdTdUtgMBFHIqfUYy6Y5Xf2D9MJukb4ajhBjEpifDvNVED0wAeTf7zJDHbQZ0j_d02c50Fi505WqxbYUCT9-60s16RR_q0xATftQ",
+                        "https://www.hecbob.com/img/page/brand/like_logo.png",
                         "미도인",
                         "강남점"
                     ),
@@ -58,7 +76,7 @@ class StoreActivity : BindingActivity<ActivityStoreBinding>(R.layout.activity_st
                         "홍대점"
                     ),
                     Store(
-                        "https://lh3.googleusercontent.com/proxy/1QKnsPvJvPd2toUa5no4UUyq4N3zL_5jBcCq1wVF5oeIbNt1AeJMb0VOrO6tRNoWHnELpDT6m2p0JfCzlbYLrKdrAhDLfhWUfJCdTdUtgMBFHIqfUYy6Y5Xf2D9MJukb4ajhBjEpifDvNVED0wAeTf7zJDHbQZ0j_d02c50Fi505WqxbYUCT9-60s16RR_q0xATftQ",
+                        "https://www.hecbob.com/img/page/brand/like_logo.png",
                         "미도인",
                         ""
                     ),
@@ -68,7 +86,7 @@ class StoreActivity : BindingActivity<ActivityStoreBinding>(R.layout.activity_st
                         "강남점"
                     ),
                     Store(
-                        "https://lh3.googleusercontent.com/proxy/1QKnsPvJvPd2toUa5no4UUyq4N3zL_5jBcCq1wVF5oeIbNt1AeJMb0VOrO6tRNoWHnELpDT6m2p0JfCzlbYLrKdrAhDLfhWUfJCdTdUtgMBFHIqfUYy6Y5Xf2D9MJukb4ajhBjEpifDvNVED0wAeTf7zJDHbQZ0j_d02c50Fi505WqxbYUCT9-60s16RR_q0xATftQ",
+                        "https://www.hecbob.com/img/page/brand/like_logo.png",
                         "미도인",
                         "홍대점"
                     )
