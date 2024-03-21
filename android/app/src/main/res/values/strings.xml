@@ -14,5 +14,5 @@
     <string name="order_finish">주문이 접수되었습니다.\n10초 후 자동으로 메뉴 선택 화면으로 넘어갑니다.</string>
 
     <!-- 홈 페이지 -->
-    <string name="home_touch">주문하시려면 화면을 터치해주세요.</string>
+    <string name="home_touch">주문하시려면 {}에게 대화를 시작하거나\n화면을 터치해주세요.</string>
 </resources>
