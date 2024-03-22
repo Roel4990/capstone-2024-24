@@ -31,9 +31,13 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     override fun initView() {
         initChatAdapter()
         initLayoutState()
+        initTabAdapter()
 
         initMoveRvBtnClickListener()
+        initOrderBtnClickListener()
+    }
 
+    private fun initTabAdapter() {
         val tabTitles = listOf("직원 호출", "스테이크류", "덮밥류", "면류", "사이드 메뉴", "음료 메뉴", "주류 메뉴")
         binding.vpMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabTitles)
 
@@ -60,8 +64,6 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }
         binding.vpMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
         binding.layoutMenuTabContent.addItemDecoration(TabItemDecorator(this))
-
-        initOrderBtnClickListener()
     }
 
     private fun initMoveRvBtnClickListener() {
@@ -117,12 +119,19 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             )
         }
 
+        initCartScrollPointer()
+        initCartTotalPrice()
+    }
+
+    private fun initCartScrollPointer() {
         binding.rvMenuCart?.layoutManager?.startSmoothScroll(
             smoothScroller.apply {
                 targetPosition = cartList.size - 1
             }
         )
+    }
 
+    private fun initCartTotalPrice() {
         // 카트 목록의 가격 합계 계산
         val totalPrice = cartList.sumOf { it.price }
         binding.tvMenuCartTotalPrice.text = totalPrice.toString() + "원"
