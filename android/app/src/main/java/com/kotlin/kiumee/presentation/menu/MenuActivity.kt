@@ -39,31 +39,35 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
     private fun initTabAdapter() {
         val tabTitles = listOf("직원 호출", "스테이크류", "덮밥류", "면류", "사이드 메뉴", "음료 메뉴", "주류 메뉴")
-        binding.vpMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabTitles)
+        with(binding) {
+            vpMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabTitles)
 
-        binding.layoutMenuTabContent.adapter = TabAdapter(click = { tab, position ->
-            val layoutManager = binding.layoutMenuTabContent.layoutManager as LinearLayoutManager
-            val itemCount = layoutManager.itemCount
-            for (i in 0 until itemCount) {
-                val viewHolder = binding.layoutMenuTabContent.findViewHolderForAdapterPosition(i)
-                if (viewHolder is TabViewHolder) {
-                    if (i == position) {
-                        viewHolder.binding.selected = true
-                        viewHolder.binding.tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body1_medium_48)
-                        viewHolder.binding.viewMenuTab.visibility = View.VISIBLE
-                    } else {
-                        viewHolder.binding.selected = false
-                        viewHolder.binding.tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body2_regular_48)
-                        viewHolder.binding.viewMenuTab.visibility = View.INVISIBLE
+            rvMenuTabContent.adapter = TabAdapter(click = { tab, position ->
+                val layoutManager = rvMenuTabContent.layoutManager as LinearLayoutManager
+                val itemCount = layoutManager.itemCount
+                for (i in 0 until itemCount) {
+                    val viewHolder = rvMenuTabContent.findViewHolderForAdapterPosition(i)
+                    if (viewHolder is TabViewHolder) {
+                        with(viewHolder.binding) {
+                            if (i == position) {
+                                selected = true
+                                tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body1_medium_48)
+                                viewMenuTab.visibility = View.VISIBLE
+                            } else {
+                                selected = false
+                                tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body2_regular_48)
+                                viewMenuTab.visibility = View.INVISIBLE
+                            }
+                        }
                     }
                 }
+                vpMenu.currentItem = position
+            }).apply {
+                submitList(tabTitles)
             }
-            binding.vpMenu.currentItem = position
-        }).apply {
-            submitList(tabTitles)
+            vpMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
+            rvMenuTabContent.addItemDecoration(TabItemDecorator(this@MenuActivity))
         }
-        binding.vpMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
-        binding.layoutMenuTabContent.addItemDecoration(TabItemDecorator(this))
     }
 
     private fun initMoveRvBtnClickListener() {

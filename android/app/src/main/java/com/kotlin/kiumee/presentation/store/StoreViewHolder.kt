@@ -10,7 +10,7 @@ class StoreViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(data: Store) {
         with(binding) {
-            Glide.with(root.context).load(data.imageUrl).centerCrop().into(binding.ivItemStore)
+            Glide.with(root.context).load(data.imageUrl).centerCrop().into(ivItemStore)
             tvItemStoreName.text = data.name
             tvItemStoreDescription.text = data.description
 

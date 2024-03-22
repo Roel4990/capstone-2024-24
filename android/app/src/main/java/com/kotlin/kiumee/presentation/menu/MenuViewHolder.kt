@@ -10,7 +10,7 @@ class MenuViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(data: Menu) {
         with(binding) {
-            Glide.with(root.context).load(data.imageUrl).centerCrop().into(binding.ivItemMenu)
+            Glide.with(root.context).load(data.imageUrl).centerCrop().into(ivItemMenu)
             tvItemMenuName.text = data.name
             tvItemMenuPrice.text = data.price.toString() + "원"
             tvItemMenuDescription.text = data.description
