@@ -1,12 +1,10 @@
 package com.kotlin.kiumee.presentation.menu
 
 import android.content.Intent
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.tabs.TabLayoutMediator
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
 import com.kotlin.kiumee.databinding.ActivityMenuBinding
@@ -16,7 +14,10 @@ import com.kotlin.kiumee.presentation.menu.cart.CartItemDecorator
 import com.kotlin.kiumee.presentation.menu.chat.Chat
 import com.kotlin.kiumee.presentation.menu.chat.ChatAdapter
 import com.kotlin.kiumee.presentation.menu.chat.ChatItemDecorator
+import com.kotlin.kiumee.presentation.menu.menuviewpager.MenuViewPagerAdapter
 import com.kotlin.kiumee.presentation.menu.tab.TabAdapter
+import com.kotlin.kiumee.presentation.menu.tab.TabItemDecorator
+import com.kotlin.kiumee.presentation.menu.tab.TabViewHolder
 import com.kotlin.kiumee.presentation.orderfinish.OrderFinishActivity
 
 class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu) {
@@ -25,11 +26,45 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             override fun getVerticalSnapPreference() = SNAP_TO_START
         }
     }
+    private val cartList = mutableListOf<Cart>()
 
     override fun initView() {
         initChatAdapter()
         initLayoutState()
 
+        initMoveRvBtnClickListener()
+
+        val tabTitles = listOf("직원 호출", "스테이크류", "덮밥류", "면류", "사이드 메뉴", "음료 메뉴", "주류 메뉴")
+        binding.vpMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabTitles)
+
+        binding.layoutMenuTabContent.adapter = TabAdapter(click = { tab, position ->
+            val layoutManager = binding.layoutMenuTabContent.layoutManager as LinearLayoutManager
+            val itemCount = layoutManager.itemCount
+            for (i in 0 until itemCount) {
+                val viewHolder = binding.layoutMenuTabContent.findViewHolderForAdapterPosition(i)
+                if (viewHolder is TabViewHolder) {
+                    if (i == position) {
+                        viewHolder.binding.selected = true
+                        viewHolder.binding.tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body1_medium_48)
+                        viewHolder.binding.viewMenuTab.visibility = View.VISIBLE
+                    } else {
+                        viewHolder.binding.selected = false
+                        viewHolder.binding.tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body2_regular_48)
+                        viewHolder.binding.viewMenuTab.visibility = View.INVISIBLE
+                    }
+                }
+            }
+            binding.vpMenu.currentItem = position
+        }).apply {
+            submitList(tabTitles)
+        }
+        binding.vpMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
+        binding.layoutMenuTabContent.addItemDecoration(TabItemDecorator(this))
+
+        initOrderBtnClickListener()
+    }
+
+    private fun initMoveRvBtnClickListener() {
         binding.btnMenuRvChat.setOnClickListener {
             binding.rvMenuRvChat?.layoutManager?.startSmoothScroll(
                 smoothScroller.apply {
@@ -37,22 +72,6 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                 }
             )
         }
-
-        val tabTitles = listOf("직원 호출", "메인 메뉴", "사이드 메뉴", "추가 메뉴", "음료 메뉴", "주류 메뉴")
-
-        val adapter = TabAdapter(supportFragmentManager, lifecycle, tabTitles)
-        binding.vpMenu.adapter = adapter
-
-        TabLayoutMediator(binding.layoutMenuTabContent, binding.vpMenu) { tab, position ->
-            val customView = LayoutInflater.from(this).inflate(R.layout.item_menu_tab, null)
-            val tabText = customView.findViewById<TextView>(R.id.tv_menu_tab)
-            tabText.text = tabTitles[position]
-            tab.customView = customView
-        }.attach()
-
-        binding.vpMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
-
-        initOrderBtnClickListener()
     }
 
     private fun initOrderBtnClickListener() {
@@ -63,7 +82,11 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
     private fun initLayoutState() {
         // 추후 코드 변경 필요
-        if (true) {
+        if (cartList.isNotEmpty()) {
+            with(binding) {
+                rvMenuCart.visibility = View.VISIBLE
+                tvMenuCartEmpty.visibility = View.GONE
+            }
             initCartAdapter()
         } else {
             initEmptyLayout()
@@ -77,17 +100,28 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }
     }
 
-    private fun initCartAdapter() {
-        val cartList = listOf(
-            Cart("미도인 스테이크 덮밥", 1, 10500),
-            Cart("화산 불백 덮밥", 1, 9500)
-        )
+    fun addCartItem(cartItem: Cart) {
+        // 기존 cartList에 새로운 항목 추가
+        cartList.add(cartItem)
+        initLayoutState()
+    }
 
+    private fun initCartAdapter() {
         binding.rvMenuCart.adapter = CartAdapter().apply {
             submitList(cartList)
         }
 
-        binding.rvMenuCart.addItemDecoration(CartItemDecorator(this))
+        if (binding.rvMenuCart.itemDecorationCount == 0) {
+            binding.rvMenuCart.addItemDecoration(
+                CartItemDecorator(this)
+            )
+        }
+
+        binding.rvMenuCart?.layoutManager?.startSmoothScroll(
+            smoothScroller.apply {
+                targetPosition = cartList.size - 1
+            }
+        )
 
         // 카트 목록의 가격 합계 계산
         val totalPrice = cartList.sumOf { it.price }
