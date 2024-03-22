@@ -14,14 +14,20 @@ class MenuViewPagerFragment : BindingFragment<FragmentTabBinding>(R.layout.fragm
     private var tabPosition: Int = 0
 
     override fun initView() {
+        initFragmentInstance()
+        initMenuViewPagerAdapter()
+    }
+
+    private fun initFragmentInstance() {
         arguments?.getInt(ARG_TAB_POSITION)?.let {
             tabPosition = it
         }
+    }
 
+    private fun initMenuViewPagerAdapter() {
         // 탭에 따른 데이터 설정
         val data = fetchDataForTab(tabPosition)
         binding.rvTab.adapter = MenuAdapter(click = { menu, position ->
-            // 여기에 추후 추가하기
             val newCartItem = Cart(menu.name, 1, menu.price)
             (activity as? MenuActivity)?.addCartItem(newCartItem)
         }).apply {
