@@ -3,11 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_menu_tab"
-        android:layout_width="wrap_content"
+    <data>
+
+        <variable
+            name="selected"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:rotation="-90"
-        android:textAppearance="@style/TextAppearance.Kiumee.body2_regular_48"
-        tools:text="안녕" />
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/tv_menu_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textAppearance="@style/TextAppearance.Kiumee.body2_regular_48"
+            android:textColor="@{selected ? @color/primary : @color/black}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="안녕" />
+
+        <View
+            android:id="@+id/view_menu_tab"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:background="@color/primary"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@id/tv_menu_tab"
+            app:layout_constraintStart_toStartOf="@id/tv_menu_tab"
+            app:layout_constraintTop_toBottomOf="@id/tv_menu_tab" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
