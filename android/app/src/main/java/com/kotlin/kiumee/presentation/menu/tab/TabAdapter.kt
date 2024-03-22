@@ -1,16 +1,39 @@
 package com.kotlin.kiumee.presentation.menu.tab
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
-import androidx.viewpager2.adapter.FragmentStateAdapter
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
+import com.kotlin.kiumee.core.view.ItemDiffCallback
+import com.kotlin.kiumee.databinding.ItemMenuTabBinding
 
-class TabAdapter(fm: FragmentManager, lifecycle: Lifecycle, private val menuList: List<String>) :
-    FragmentStateAdapter(fm, lifecycle) {
+class TabAdapter(
+    private val click: (String, Int) -> Unit = { _, _ -> },
+) :
+    ListAdapter<String, TabViewHolder>(
+        TabAdapterDiffCallback
+    ) {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): TabViewHolder {
+        val binding =
+            ItemMenuTabBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return TabViewHolder(binding, click)
+    }
 
-    override fun getItemCount(): Int = menuList.size
+    override fun onBindViewHolder(
+        holder: TabViewHolder,
+        position: Int
+    ) {
+        holder.bind(currentList[position])
+    }
 
-    override fun createFragment(position: Int): Fragment {
-        return TabFragment.newInstance(position)
+    companion object {
+        private val TabAdapterDiffCallback =
+            ItemDiffCallback<String>(
+                // 수정해야 함
+                onItemsTheSame = { old, new -> old == new },
+                onContentsTheSame = { old, new -> old == new }
+            )
     }
 }
