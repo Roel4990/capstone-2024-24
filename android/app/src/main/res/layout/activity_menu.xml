@@ -11,13 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_menu_speak"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/shape_point_fill_circle"
+            android:padding="30dp"
+            android:text="대화\n켜기"
+            android:textAppearance="@style/TextAppearance.Kiumee.head5_smbold_50"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_menu_tab"
             android:layout_width="280dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:paddingHorizontal="30dp"
             android:paddingVertical="26dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_menu_speak"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -184,7 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="3dp"
                 android:textAppearance="@style/TextAppearance.Kiumee.body3_medium_44"
-                android:textColor="@color/error"
+                android:textColor="@color/point"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_menu_cart_total"
