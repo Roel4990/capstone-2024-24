@@ -6,7 +6,7 @@
     <color name="pale">#FFDBEFFB</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF0E0E0E</color>
-    <color name="error">#FFFF5E5E</color>
+    <color name="point">#FFFF5E5E</color>
     <!-- gray scale -->
     <color name="gray_1">#FFF6F6F7</color>
     <color name="gray_2">#FFEBEBEE</color>
