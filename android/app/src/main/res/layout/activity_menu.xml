@@ -43,12 +43,12 @@
                 android:layout_marginBottom="45dp"
                 android:text="@string/menu_tab_title"
                 android:textAppearance="@style/TextAppearance.Kiumee.head2_smbold_58"
-                app:layout_constraintBottom_toTopOf="@id/layout_menu_tab_content"
+                app:layout_constraintBottom_toTopOf="@id/rv_menu_tab_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/layout_menu_tab_content"
+                android:id="@+id/rv_menu_tab_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:visibility="visible"
