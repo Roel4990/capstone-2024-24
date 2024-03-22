@@ -25,22 +25,24 @@
                 android:id="@+id/tv_menu_tab_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="45dp"
                 android:text="@string/menu_tab_title"
                 android:textAppearance="@style/TextAppearance.Kiumee.head2_smbold_58"
+                app:layout_constraintBottom_toTopOf="@id/layout_menu_tab_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.tabs.TabLayout
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/layout_menu_tab_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:rotation="90"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_menu_tab_title"
-                app:tabMode="scrollable" />
+                tools:listitem="@layout/item_menu_tab" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -194,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/shape_gray7_line_10_rect"
-                android:paddingVertical="10dp"
+                android:paddingVertical="12dp"
                 android:text="@string/menu_cart_back"
                 android:textAppearance="@style/TextAppearance.Kiumee.head3_medium_54"
                 android:textColor="@color/black"
@@ -208,7 +210,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_primary_fill_10_rect"
-                android:paddingVertical="10dp"
+                android:paddingVertical="12dp"
                 android:text="@string/menu_cart_order"
                 android:textAppearance="@style/TextAppearance.Kiumee.head3_medium_54"
                 android:textColor="@color/white"
