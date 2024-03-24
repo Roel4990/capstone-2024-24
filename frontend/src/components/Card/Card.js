@@ -30,6 +30,8 @@ const useStyles = makeStyles({
         paddingTop: '100%', // 너비와 동일한 비율로 높이 설정하여 1:1 비율 만듦
         position: 'relative', // 이미지 위치 조정을 위한 상대 위치 설정
         overflow: 'hidden', // 컨테이너를 넘어가는 이미지 숨김 처리
+        borderRadius: '4px', // 부드러운 모서리 효과를 위해 borderRadius 추가
+        boxShadow: '0 0 8px rgba(0, 0, 0, 0.1)', // 이미지 주위에 자연스러운 테두리를 만들기 위한 그림자 효과
     },
     image: {
         position: 'absolute', // 컨테이너 내에서 절대 위치 설정
