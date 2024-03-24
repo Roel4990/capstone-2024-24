@@ -163,5 +163,11 @@ export default makeStyles(theme => ({
   },
   dialogContent: {
     width: "500px",
+  },
+  addButtonContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end', // 버튼을 오른쪽으로 정렬
+    // backgroundColor: '#f0f0f0', // 배경색 설정
+    padding: theme.spacing(1), // 상하좌우에 패딩 적용
   }
 }));

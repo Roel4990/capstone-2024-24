@@ -15,7 +15,7 @@ import CollectionsIcon from "@material-ui/icons/Collections";
 // styles
 import useStyles from "./styles";
 // context
-// import { useUserDispatch } from "../../context/UserContext";
+import {signOut, useUserDispatch} from "../../context/UserContext";
 // 예제 데이터
 const initialCardData = [
     {
@@ -42,6 +42,7 @@ const initialCardData = [
 ]
 
 function Login(props) {
+
   var classes = useStyles();
   const [cardData, setCardData] = useState(initialCardData);
   // local
@@ -56,6 +57,7 @@ function Login(props) {
   // 새로운 매장 추가하기
   const [newItem, setNewItem] = useState({ name: '', description: '', logo: ''}); // 새 항목의 상태
   const [cardImagePreview, setCardImagePreview] = useState(null); // 이미지 미리보기 URL 상태
+  var userDispatch = useUserDispatch();
   // 회원가입 함수
   const createUser = () => {
     // todo : 회원가입 API 및 로그인 API
@@ -99,8 +101,11 @@ function Login(props) {
     //   description: '스타벅스2임다.',
     //   date: '생성일: 2024-03-20',
     // };
-    console.log(newItem)
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    // console.log(document.body.scrollHeight)
+    console.log(document.body.scrollHeight)
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 1000)
     setCardData([...cardData, newItem]); // 기존 cardData에 새 카드 추가
     // 모달 닫기
     handleClose()
@@ -306,7 +311,8 @@ function Login(props) {
                   }}
             >
               <Grid container spacing={2} style={{ marginTop: 50 }}>
-                <Grid item xs={12}>
+                <Grid item xs={12} className={classes.addButtonContainer} >
+                  <Button onClick={() => signOut(userDispatch, props.history)} color="secondary">뒤로가기</Button>
                   <Button onClick={handleOpen} color="primary">매장 추가하기</Button>
                 </Grid>
                 {/*<div className={classes.cardContainer}>*/}
