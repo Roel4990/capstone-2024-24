@@ -43,10 +43,11 @@ const CustomTable = ({ data }) => {
   const [open, setOpen] = useState(false); // 모달 상태
   const [newItem, setNewItem] = useState({ name: '', price: '', description: '', category: '', status: '활성화' }); // 새 항목의 상태
   const [imagePreview, setImagePreview] = useState(null); // 이미지 미리보기 URL 상태
-  const [selectedCategory, setSelectedCategory] = useState('');
-  // 카테고리별로 고유한 값 추출
-  // const uniqueCategories = Array.from(new Set(data.map(item => item.category)));
+  const [selectedCategory, setSelectedCategory] = useState(categoryList[0]);
 
+  //리스트 초기값 세팅
+  // const filteredItems = items.filter(item => categoryList[0] === '' || item.category === categoryList[0]);
+  // setItems(filteredItems)
   // 색상 배열
   const colors = [
     '#FFD700',
@@ -91,7 +92,6 @@ const CustomTable = ({ data }) => {
     setOpen(false);
   };
   const handleCategoryChange = (event) => {
-    console.log(event.target.value)
     setSelectedCategory(event.target.value);
     const filteredItems = data.filter(item => event.target.value === '' || item.category === event.target.value);
     setItems(filteredItems)

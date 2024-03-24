@@ -161,4 +161,7 @@ export default makeStyles(theme => ({
       bottom: theme.spacing(2),
     },
   },
+  dialogContent: {
+    width: "500px",
+  }
 }));
