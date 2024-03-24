@@ -20,22 +20,22 @@ import useStyles from "./styles";
 const initialCardData = [
     {
       logo: '/testImage1.png',
-      title: '스타벅스',
+      name: '스타벅스',
       description: '강남점',
       date: '생성일: 2024-03-20',
     },{
       logo: '/testImage2.jpeg',
-      title: '미도인',
+      name: '미도인',
       description: '삼성점',
       date: '생성일: 2024-03-20',
     },{
       logo: '/testImage2.jpeg',
-      title: '미도인',
+      name: '미도인',
       description: '성수점',
       date: '생성일: 2024-03-20',
     },{
       logo: '/testImage2.jpeg',
-      title: '미도인',
+      name: '미도인',
       description: '국민대점',
       date: '생성일: 2024-03-20',
     }
@@ -92,13 +92,18 @@ function Login(props) {
     setCardData(updatedCards);
   };
   const handleAddCard = () => {
-    const newCard = {
-      logo: '/testImage1.jpeg',
-      title: '스타벅스2',
-      description: '스타벅스2임다.',
-      date: '생성일: 2024-03-20',
-    };
-    setCardData([...cardData, newCard]); // 기존 cardData에 새 카드 추가
+    // setNewItem
+    // const newCard = {
+    //   logo: cardImagePreview,
+    //   title: '스타벅스2',
+    //   description: '스타벅스2임다.',
+    //   date: '생성일: 2024-03-20',
+    // };
+    console.log(newItem)
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    setCardData([...cardData, newItem]); // 기존 cardData에 새 카드 추가
+    // 모달 닫기
+    handleClose()
   };
 
   // 매장 생성함수
@@ -110,6 +115,7 @@ function Login(props) {
   const handleClose = () => {
     // todo : setNewItem => 빈 아이템으로 바꾸기
     setNewItem({ name: '', description: '', logo: '' })
+    setCardImagePreview("")
     setOpen(false);
   };
   const handleChange = (e) => {
@@ -299,10 +305,18 @@ function Login(props) {
                     marginTop: 50
                   }}
             >
-              <Button onClick={handleOpen} color="primary">매장 추가하기</Button>
-              {cardData.map((data, index) => (
-                  <CustomCard key={index} {...data} updateCard={updateCard} className={classes.marginTop}/>
-              ))}
+              <Grid container spacing={2} style={{ marginTop: 50 }}>
+                <Grid item xs={12}>
+                  <Button onClick={handleOpen} color="primary">매장 추가하기</Button>
+                </Grid>
+                {/*<div className={classes.cardContainer}>*/}
+                {cardData.map((data, index) => (
+                    <Grid item xs={12} md={6} key={index}>
+                      <CustomCard key={index} {...data} updateCard={updateCard} className={classes.marginTop}/>
+                    </Grid>
+                ))}
+              </Grid>
+                {/*</div>*/}
               <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">매장 추가하기</DialogTitle>
                 <DialogContent className={classes.dialogContent}>
@@ -311,8 +325,7 @@ function Login(props) {
                       accept="image/*"
                       style={{display: 'none'}}
                       id="raised-button-file"
-                      name="image"
-                      multiple
+                      name="logo"
                       type="file"
                       onChange={handleCardImageChange}
                   />
