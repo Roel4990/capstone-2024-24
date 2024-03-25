@@ -1,179 +1,284 @@
 import React, { useState } from "react";
-import { Grid, Typography, TextField, Button, Chip } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import {
+    Grid,
+    TextField,
+    Button,
+    Chip,
+    Paper,
+    Table,
+    TableBody,
+    TableRow,
+    TableCell,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Dialog,
+} from "@material-ui/core";
 import PageTitle from "../../components/PageTitle";
 import Widget from "../../components/Widget";
+import useStyles from "./styles";
+import CollectionsIcon from "@material-ui/icons/Collections";
+// import CollectionsIcon from "@material-ui/icons/Collections";
 
-const useStyles = makeStyles(theme => ({
-    saveButton: {
-
-    },
-    logoImage: {
-        width: '100px',
-        height: '100px',
-        marginTop: '10px',
-        border: '1px solid #ddd',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-    },
-    mainImage: {
-        width: '100px',
-        height: '150px',
-        marginTop: '10px',
-        border: '1px solid #ddd',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-    }
-}))
-
+const initialStore = {
+    logo: '/testImage2.jpeg',
+    name: '스타벅스',
+    description: '강남점',
+    aiDescription:"와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄와랄라랄",
+    date: '2024-03-20',
+    categories: ["커피", "디저트", "에이드"]
+}
+const initialCategories = initialStore.categories
 
 export default function StoreManagement() {
     const classes = useStyles();
-    // useState 훅을 사용하여 매장명과 매장 설명 상태를 관리합니다.
-    const [storeName, setStoreName] = useState('');
-    const [storeDescription, setStoreDescription] = useState('');
-    const [logoImage, setLogoImage] = useState('');
-    const [mainImage, setMainImage] = useState('');
-
+    // useState 훅을 사용하여 매장데이터 상태를 관리합니다.
+    const [storeData, setStoreData] = useState(initialStore)
+    // 업데이트할 storeData 내용
+    const [storeUpdateData, setStoreUpdateData] = useState(initialStore)
     // 카테고리 관리를 위한 상태
-    const [categories, setCategories] = useState(["커피", "디저트", "에이드"]);
+    const [categories, setCategories] = useState(initialCategories);
+    // 업데이트할 categories 내용
+    const [updateCategories, setUpdateCategories] = useState(initialCategories);
     const [newCategory, setNewCategory] = useState('');
-
+    const [open, setOpen] = useState(false); // 모달 상태
+    const [newImage, setNewImage] = useState(initialStore.logo)
     // 저장 버튼을 눌렀을 때 실행될 함수입니다.
     const handleSave = () => {
-        console.log('저장됨:', { storeName, storeDescription, logoImage, mainImage, categories });
+        storeData.categories = categories
+        console.log('저장됨:', { storeUpdateData });
+        setStoreData(storeUpdateData)
         // 이곳에서 저장 로직을 구현합니다. 예를 들어, API 호출을 통해 서버에 데이터를 저장할 수 있습니다.
     };
-    const handleImageChange = (e, setImage) => {
+    const handleImageChange = (e) => {
         const file = e.target.files[0];
-        const reader = new FileReader();
-        // todo : image 보내서 링크로 받기
-        reader.onloadend = () => {
-            setImage(reader.result);
-        };
-        reader.readAsDataURL(file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setNewImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
     };
     // 카테고리 추가
     const addCategory = () => {
-        if (newCategory && !categories.includes(newCategory)) {
-            setCategories([...categories, newCategory]);
+        if (newCategory && !updateCategories.includes(newCategory)) {
+            setUpdateCategories([...updateCategories, newCategory]);
             setNewCategory('');
         }
     };
-
     // 카테고리 삭제
     const deleteCategory = (categoryToDelete) => {
-        setCategories(categories.filter(category => category !== categoryToDelete));
+        setUpdateCategories(updateCategories.filter(category => category !== categoryToDelete));
+    };
+    const handleStoreChange = (e) => {
+        const { name, value } = e.target;
+        setStoreData({ ...storeData, [name]: value })
+    }
+    // 모달 닫기
+    const handleModalOpen = () => {
+        console.log('수정하기 모달 띄우기');
+        // todo: 추가하기 모달 띄우기
+        setOpen(true);
+    };
+    // 모달 닫기
+    const handleModalClose = () => {
+        setOpen(false);
+    };
+    const handleUpdateChange = (e) => {
+        const { name, value } = e.target;
+        setStoreUpdateData({ ...storeUpdateData, [name]: value });
     };
     return (
-        <>
+        <div>
             <PageTitle title="매장 관리하기" />
-
             <Grid container spacing={4}>
                 <Grid item xs={12}>
                     <Widget disableWidgetMenu>
-                        <Grid container item xs={12}>
-                            <Grid item xs={12}>
-                                <Widget title="" noWidgetShadow disableWidgetMenu noBodyPadding noHeaderPadding
-                                        style={{paddingRight: 15}} headerClass={classes.widgetHeader}>
-                                    {/* 매장명 입력 필드 */}
-                                    <TextField
-                                        label="매장명"
-                                        variant="outlined"
-                                        fullWidth
-                                        value={storeName}
-                                        onChange={(e) => setStoreName(e.target.value)}
-                                        style={{marginBottom: 16, marginTop: 10}}
-                                    />
-                                    {/* 매장 설명 입력 필드 */}
-                                    <TextField
-                                        label="매장 설명"
-                                        variant="outlined"
-                                        fullWidth
-                                        multiline
-                                        rows={4}
-                                        value={storeDescription}
-                                        onChange={(e) => setStoreDescription(e.target.value)}
-                                    />
-                                    {/* 로고 이미지 업로드 */}
-                                    <input
-                                        accept="image/*"
-                                        style={{display: 'none'}}
-                                        id="logo-image-upload"
-                                        type="file"
-                                        onChange={(e) => handleImageChange(e, setLogoImage)}
-                                    />
-                                    <label htmlFor="logo-image-upload">
-                                        <Button variant="contained" component="span" className={classes.button}
-                                                style={{marginTop: '10px'}}>
-                                            로고 이미지 업로드
-                                        </Button>
-                                    </label>
-                                    {/* 이미지 미리보기 */}
-                                    <div style={{
-                                        backgroundImage: `url(${logoImage})`,
-                                    }} className={classes.logoImage}/>
-                                    {/* 기본화면 이미지 업로드 */}
-                                    <input
-                                        accept="image/*"
-                                        style={{display: 'none'}}
-                                        id="main-image-upload"
-                                        type="file"
-                                        onChange={(e) => handleImageChange(e, setMainImage)}
-                                    />
-                                    <label htmlFor="main-image-upload">
-                                        <Button variant="contained" component="span" className={classes.button}
-                                                style={{marginTop: '10px'}}>
-                                            기본화면 이미지 업로드
-                                        </Button>
-                                    </label>
-                                    {/* 이미지 미리보기 */}
-                                    <div style={{
-                                        backgroundImage: `url(${mainImage})`,
-                                    }} className={classes.mainImage}/>
-                                    {/* 카테고리 관리 UI */}
-                                    <TextField
-                                        label="새 카테고리"
-                                        variant="outlined"
-                                        value={newCategory}
-                                        onChange={(e) => setNewCategory(e.target.value)}
-                                        style={{marginBottom: 16, marginTop: 20}}
-                                    />
-                                    <Button onClick={addCategory} variant="contained" color="primary" style={{marginBottom: 16, marginTop: 30, marginLeft: 10}}>
-                                        카테고리 추가
-                                    </Button>
-                                    <div>
-                                        {categories.map((category, index) => (
-                                            <Chip
-                                                key={index}
-                                                label={category}
-                                                onDelete={() => deleteCategory(category)}
-                                                color="primary"
-                                                style={{margin: '5px'}}
-                                            />
-                                        ))}
-                                    </div>
-                                    {/* 저장 버튼 */}
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={handleSave}
-                                        style={{marginTop: 16}}
-                                    >
-                                        저장하기
-                                    </Button>
-                                </Widget>
-                            </Grid>
-                        </Grid>
+                        <input
+                            accept="image/*"
+                            style={{display: 'none'}}
+                            id="raised-button-file"
+                            name="logo"
+                            type="file"
+                            onChange={handleImageChange}
+                        />
+                        <div className={classes.flexContainer}>
+                            <div className={classes.imageContainer}>
+                                {/* 이미지 미리보기 */}
+                                <div className={classes.image}
+                                     style={{
+                                         backgroundImage: `url(${storeData.logo})`,
+                                     }}
+                                >
+                                    {!storeData.logo && '이미지 업로드'}
+                                </div>
+                            </div>
+                            <Paper className={classes.tableContainer}>
+                                <div className={classes.tableSection}>
+                                    <Table className={classes.table} aria-label="simple table">
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell align="center"
+                                                           className={classes.tableHeaderCell}>매장명</TableCell>
+                                                <TableCell align="center">{storeData.name}</TableCell>
+                                                <TableCell align="center"
+                                                           className={classes.tableHeaderCell}>지점</TableCell>
+                                                <TableCell align="center">{storeData.description}</TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                                <div className={classes.aiTextSection}>
+                                    {storeData.aiDescription}
+                                </div>
+                            </Paper>
+                        </div>
+                        <Paper
+                            style={{
+                                marginTop: "20px"
+                            }}
+                        >
+                            <div className={classes.tableSection}>
+                                <Table className={classes.table} aria-label="simple table">
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell align="center"
+                                                       className={classes.tableHeaderCell}
+                                                       style={{width: '30%'}}>메뉴 카테고리</TableCell>
+                                            <TableCell align="left"
+                                                       style={{width: '70%'}}>
+                                                {categories.map((category, index) => (
+                                                    <Chip
+                                                        key={index}
+                                                        label={category}
+                                                        color="primary"
+                                                        style={{margin: '5px'}}
+                                                    />
+                                                ))}
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        </Paper>
+
+                        {/* 저장 버튼 */}
+                        <div className={classes.rightAlignContainer}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleModalOpen}
+                            >
+                                수정하기
+                            </Button>
+                        </div>
                     </Widget>
                 </Grid>
             </Grid>
-        </>
+            <Dialog open={open} onClose={handleModalClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">매장 관리하기</DialogTitle>
+                <DialogContent>
+                    {/* 이미지 업로드 필드 */}
+                    <div style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center", // 수평 중앙 정렬
+                    }}>
+                        <input
+                            accept="image/*"
+                            style={{display: 'none'}}
+                            id="raised-button-file"
+                            name="logo"
+                            type="file"
+                            onChange={handleImageChange}
+                        />
+                        <div className={classes.newImageContainer}>
+                            {/* 이미지 미리보기 */}
+                            <div
+                                className={classes.newImage}
+                                style={{
+                                    backgroundImage: `url(${newImage})`,
+                                }}
+                            >
+                                {!newImage && '이미지 업로드'}
+                            </div>
+                            {/* 이미지 업로드 버튼 */}
+                            <label htmlFor="raised-button-file" className={classes.uploadBtn}>
+                                <Button variant="contained" component="span" style={{padding: 0, minWidth: 0}}>
+                                    <CollectionsIcon/>
+                                </Button>
+                            </label>
+                        </div>
+                    </div>
+
+                    <TextField
+                        margin="dense"
+                        name="name"
+                        label="매장명"
+                        type="text"
+                        variant="outlined"
+                        value={storeUpdateData.name}
+                        fullWidth
+                        onChange={handleUpdateChange}
+                        className={classes.textFieldCustom}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="description"
+                        label="지점"
+                        type="text"
+                        variant="outlined"
+                        value={storeUpdateData.description}
+                        fullWidth
+                        onChange={handleUpdateChange}
+                        className={classes.textFieldCustom}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="AI 텍스트"
+                        type="text"
+                        multiline
+                        rows={6}
+                        variant="outlined"
+                        name="aiDescription"
+                        value={storeUpdateData.aiDescription}
+                        onChange={handleUpdateChange}
+                        fullWidth
+                        className={classes.textFieldCustom}
+                    />
+                    <TextField
+                        label="새 카테고리"
+                        variant="outlined"
+                        value={newCategory}
+                        onChange={(e) => setNewCategory(e.target.value)}
+                        style={{marginBottom: 16, marginTop: 20}}
+                    />
+                    <Button onClick={addCategory} variant="contained" color="primary"
+                            style={{marginBottom: 16, marginTop: 30, marginLeft: 10}}>
+                        카테고리 추가
+                    </Button>
+                    <div>
+                        {updateCategories.map((category, index) => (
+                            <Chip
+                                key={index}
+                                label={category}
+                                onDelete={() => deleteCategory(category)}
+                                color="primary"
+                                style={{margin: '5px'}}
+                            />
+                        ))}
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleModalClose} color="secondary">
+                        취소하기
+                    </Button>
+                    <Button onClick={handleSave} color="primary">
+                        저장하기
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </div>
     );
 }

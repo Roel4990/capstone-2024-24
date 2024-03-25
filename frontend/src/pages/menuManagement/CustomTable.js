@@ -105,8 +105,6 @@ const CustomTable = ({ data }) => {
   // 입력 값 변경 처리
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name)
-    console.log(value)
     setNewItem({ ...newItem, [name]: value });
   };
   // 이미지 변경 핸들러
