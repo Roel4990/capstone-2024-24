@@ -17,10 +17,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.Kiumee.body4_regular_44"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ib_menu_cart_trash"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="주문 메뉴명" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_menu_cart_trash"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:src="@drawable/ic_menu_cart_trash"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_item_menu_cart_name" />
 
         <TextView
             android:id="@+id/tv_item_menu_cart_count"
