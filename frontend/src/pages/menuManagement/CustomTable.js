@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Dialog, DialogActions, DialogContent, DialogTitle, TextField, FormControl, Select, MenuItem, InputLabel } from '@material-ui/core';
-import { makeStyles } from "@material-ui/core/styles";
-
+import useStyles from "./styles";
+import CollectionsIcon from "@material-ui/icons/Collections";
 // 데이터 배열을 재정렬하는 함수
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -11,39 +11,31 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const useStyles = makeStyles((theme) => ({
-  addButton: {
-    position: 'absolute', // 컨테이너 기준 절대 위치
-    top: theme.spacing(2), // 상단에서 16px (theme.spacing(2)의 기본값은 8)
-    right: theme.spacing(2) + 100, // 왼쪽에서 16px
-  },
-  saveButton: {
-    position: 'absolute',
-    top: theme.spacing(2),
-    right: theme.spacing(2) , // '추가하기' 버튼의 너비를 고려하여 위치 조정
-  },
-  formControl: {
-    position: 'absolute',
-    width: "100px",
-    top: theme.spacing(2),
-    left: theme.spacing(2), // '추가하기' 버튼의 너비를 고려하여 위치 조정
-  },
-}));
-
 // todo : 데이터 베이스 직접 받아서 처리할 수 있도록 ( get )
 const categoryList = [
-  "coffee",
-  "ade",
-  "dessert"
+  "커피",
+  "에이드",
+  "디저트"
 ]
 
+// todo : 데이터 베이스 직접 받아서 처리할 수 있도록 ( get )
+const initialMenuList = [
+  { id: '1', image:"",name: "아메리카노", price: 2000, description: "에스프레소에 뜨거운 물을 추가하여 만듭니다.", category: "커피", status: "입고" },
+  { id: '2', image:"",name: "카페라떼", price: 2500, description: "에스프레소에 우유를 넣음", category: "커피", status: "품절" },
+  { id: '3', image:"",name: "에스프레소", price: 1400, description: "진하고 강렬한 맛의 기본이 되는 커피.", category: "커피", status: "입고" },
+  { id: '4', image:"",name: "아이스티", price: 3000, description: "아이스티입니다", category: "커피", status: "품절" },
+  { id: '5', image:"",name: "레몬에이드", price: 4000, description: "레몬에이드.", category: "에이드", status: "입고" },
+  { id: '6', image:"",name: "케이크", price: 5000, description: "맛있음", category: "디저트", status: "품절" }
+];
 
-const CustomTable = ({ data }) => {
-  const [items, setItems] = useState(data);
+const CustomTable = () => {
+  const [totalMenuList, setTotalMenuList] = useState(initialMenuList)
   const [open, setOpen] = useState(false); // 모달 상태
-  const [newItem, setNewItem] = useState({ name: '', price: '', description: '', category: '', status: '활성화' }); // 새 항목의 상태
+  const [newItem, setNewItem] = useState({ name: '', price: '', description: '', category: '', status: '입고' }); // 새 항목의 상태
   const [imagePreview, setImagePreview] = useState(null); // 이미지 미리보기 URL 상태
   const [selectedCategory, setSelectedCategory] = useState(categoryList[0]);
+  const filteredMenuList = totalMenuList.filter(menu => menu.category === selectedCategory);
+  const [menuList, setMenuList] = useState(filteredMenuList);
 
   //리스트 초기값 세팅
   // const filteredItems = items.filter(item => categoryList[0] === '' || item.category === categoryList[0]);
@@ -68,15 +60,15 @@ const CustomTable = ({ data }) => {
     }
 
     const reorderedItems = reorder(
-      items,
+        menuList,
       result.source.index,
       result.destination.index
     );
 
-    setItems(reorderedItems);
+    setMenuList(reorderedItems);
   };
   const handleSave = () => {
-    console.log('저장된 데이터:', items);
+    console.log('저장된 데이터:', menuList);
     // todo: 서버로 데이터 리스트 보내기(items) 자체를 보내면 됩니다. ( post )
   };
   const handleAdd = () => {
@@ -87,19 +79,29 @@ const CustomTable = ({ data }) => {
   // 모달 닫기
   const handleClose = () => {
     // todo : setNewItem => 빈 아이템으로 바꾸기
-    // setNewItem({ name: '', price: '', description: '', category: '', status: '활성화' })
-
+    setNewItem({ name: '', price: '', description: '', category: selectedCategory, status: '입고' })
+    setImagePreview(null)
     setOpen(false);
   };
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
-    const filteredItems = data.filter(item => event.target.value === '' || item.category === event.target.value);
-    setItems(filteredItems)
+  const handleCategoryChange = (e) => {
+    const {value} = e.target
+    setSelectedCategory(value);
+    const filteredItems = totalMenuList.filter(item => item.category === value);
+    setMenuList(filteredItems)
   };
   // 새 항목 추가
   const handleAddItem = () => {
-    setItems([...items, { ...newItem, id: `new_${Date.now()}` }]);
-    handleClose(); // 모달 닫기
+    if(window.confirm("추가하시겠습니까?")) {
+      if(!imagePreview) return window.alert("이미지를 업로드 해주세요.")
+      if(!newItem.name) return window.alert("메뉴명을 입력해 주세요.")
+      if(!newItem.price) return window.alert("가격을 입력해 주세요.")
+      if(!newItem.description) return window.alert("설명을 입력해 주세요.")
+      if(!newItem.description) return window.alert("설명을 입력해 주세요.")
+      newItem.category = selectedCategory
+      setMenuList([...menuList, { ...newItem, id: totalMenuList.length + 1, image: imagePreview }]);
+      handleClose(); // 모달 닫기
+    }
+
   };
 
   // 입력 값 변경 처리
@@ -111,13 +113,10 @@ const CustomTable = ({ data }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const { name } = e.target;
-    // todo : image 보내서 링크로 받기
-    console.log(name)
-    console.log(file)
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setNewItem({ ...newItem, [name]:reader.result ,"imageFile": file });
+        setNewItem({ ...newItem, [name]:reader.result });
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
@@ -125,14 +124,24 @@ const CustomTable = ({ data }) => {
   };
 
   const toggleStatus = (id) => {
-    setItems(items.map(item => {
+    setMenuList(menuList.map(item => {
       if (item.id === id) {
-        return { ...item, status: item.status === '활성화' ? '비활성화' : '활성화' };
+        return { ...item, status: item.status === '입고' ? '품절' : '입고' };
       }
       return item;
     }));
   };
+  const handleDelete = (id) => {
+    // id를 사용하여 menuList에서 해당 항목을 찾아 삭제하는 로직
+    // 예: setMenuList(current => current.filter(item => item.id !== id));
+    console.log("삭제 버튼 클릭", id);
+  };
 
+  const handleViewDetails = (id) => {
+    // id를 사용하여 상세 정보를 표시하는 로직
+    // 예: 상세 정보 모달 열기 또는 상세 페이지로 라우팅
+    console.log("상세보기 버튼 클릭", id);
+  };
   const classes = useStyles();
   return (
     <>
@@ -144,11 +153,10 @@ const CustomTable = ({ data }) => {
           value={selectedCategory}
           onChange={handleCategoryChange}
         >
-          <MenuItem value=""><em>None</em></MenuItem>
           {/* 카테고리 목록을 동적으로 생성 */}
-          {data.map((item) => (
-            <MenuItem key={item.id} value={item.category}>{item.category}</MenuItem>
-          )).filter((v, i, a) => a.findIndex(t => (t.props.value === v.props.value)) === i)} {/* 중복 제거 */}
+          {categoryList.map((category)=> (
+            <MenuItem key={category} value={category}>{category}</MenuItem>
+          ))}
         </Select>
       </FormControl>
       <Button variant="contained" color="primary" className={classes.addButton} onClick={handleAdd}>
@@ -162,18 +170,20 @@ const CustomTable = ({ data }) => {
           {(provided) => (
             <Table {...provided.droppableProps} ref={provided.innerRef}>
               <TableHead>
-                <TableRow>
-                  <TableCell>#</TableCell>
-                  <TableCell>이미지</TableCell>
-                  <TableCell>메뉴명</TableCell>
-                  <TableCell>가격</TableCell>
-                  <TableCell>설명</TableCell>
-                  <TableCell>category</TableCell>
-                  <TableCell>status</TableCell>
+                <TableRow >
+                  <TableCell className={classes.textCenter}>#</TableCell>
+                  <TableCell className={classes.textCenter}>이미지</TableCell>
+                  <TableCell className={classes.textCenter}>메뉴명</TableCell>
+                  <TableCell className={classes.textCenter}>가격</TableCell>
+                  <TableCell className={classes.textCenter}>설명</TableCell>
+                  <TableCell className={classes.textCenter}>카테고리</TableCell>
+                  <TableCell className={classes.textCenter}>입고상태</TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {items.map((item, index) => (
+                {menuList.map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided) => (
                       <TableRow
@@ -218,11 +228,23 @@ const CustomTable = ({ data }) => {
                             onClick={() => toggleStatus(item.id)}
                             style={{
                               cursor: 'pointer', // 마우스 오버 시 커서 변경
-                              backgroundColor: item.status === '활성화' ? '#90EE90' : '#FFB6C1', // 상태에 따른 배경색
+                              backgroundColor: item.status === '입고' ? '#90EE90' : '#FFB6C1', // 상태에 따른 배경색
                             }}
                           >
                             {item.status}
                           </Button>
+                        </TableCell>
+                        <TableCell>
+                          <Button onClick={() => handleViewDetails(item.id)} style={{
+                            backgroundColor: '#a3e9f3',
+                          }}
+                          >상세</Button>
+                        </TableCell>
+                        <TableCell>
+                          <Button onClick={() => handleDelete(item.id)} style={{
+                            backgroundColor: '#FFB6C1',
+                          }}
+                          >삭제</Button>
                         </TableCell>
                       </TableRow>
                     )}
@@ -235,97 +257,89 @@ const CustomTable = ({ data }) => {
         </Droppable>
       </DragDropContext>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">새 항목 추가</DialogTitle>
+        <DialogTitle id="form-dialog-title">메뉴 추가</DialogTitle>
         <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            name="name"
-            label="메뉴명"
-            type="text"
-            fullWidth
-            onChange={handleChange}
-          />
           {/* 이미지 업로드 필드 */}
-          <input
-            accept="image/*"
-            style={{ display: 'none' }}
-            id="raised-button-file"
-            name="image"
-            multiple
-            type="file"
-            onChange={handleImageChange}
-          />
-          <label htmlFor="raised-button-file">
-            <Button variant="contained" component="span">
-              이미지 업로드
-            </Button>
-          </label>
-          {/* 이미지 미리보기 */}
           <div style={{
-            width: '100px',
-            height: '100px',
-            marginTop: '10px',
-            border: '1px solid #ddd',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundImage: `url(${imagePreview})`,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center", // 수평 중앙 정렬
           }}>
-            {!imagePreview && '이미지 업로드'}
+            <input
+                accept="image/*"
+                style={{display: 'none'}}
+                id="raised-button-file"
+                name="logo"
+                type="file"
+                onChange={handleImageChange}
+            />
+            <div className={classes.newImageContainer}>
+              {/* 이미지 미리보기 */}
+              <div
+                  className={classes.newImage}
+                  style={{
+                    backgroundImage: `url(${imagePreview})`,
+                  }}
+              >
+                {!imagePreview && '이미지 업로드'}
+              </div>
+              {/* 이미지 업로드 버튼 */}
+              <label htmlFor="raised-button-file" className={classes.uploadBtn}>
+                <Button variant="contained" component="span" style={{padding: 0, minWidth: 0}}>
+                  <CollectionsIcon/>
+                </Button>
+              </label>
+            </div>
           </div>
+          <TextField
+              autoFocus
+              margin="dense"
+              name="name"
+              label="메뉴명"
+              type="text"
+              variant="outlined"
+              fullWidth
+              onChange={handleChange}
+              className={classes.textFieldCustom}
+          />
           <TextField
             margin="dense"
             name="price"
             label="가격"
             type="number"
+            variant="outlined"
             fullWidth
             onChange={handleChange}
+            className={classes.textFieldCustom}
           />
           <TextField
             margin="dense"
             name="description"
             label="설명"
             type="text"
+            variant="outlined"
             fullWidth
             onChange={handleChange}
+            className={classes.textFieldCustom}
           />
-          {/*<TextField*/}
-          {/*  margin="dense"*/}
-          {/*  name="category"*/}
-          {/*  label="카테고리"*/}
-          {/*  type="text"*/}
-          {/*  fullWidth*/}
-          {/*  onChange={handleChange}*/}
-          {/*/>*/}
-          <Select
-            labelId="category-select-label"
-            id="category-select"
-            name="category"
-            value={newItem.category} // 현재 선택된 카테고리 값. newItem은 상태 관리를 위한 객체입니다.
-            onChange={handleChange}
-            fullWidth
-            style={{
-              marginTop: "11px",
-              marginBottom: "4px"
-            }}
-          >
-            {categoryList.map((category) => (
-              <MenuItem key={category} value={category}>
-                {category}
-              </MenuItem>
-            ))}
-          </Select>
+          <TextField
+              margin="dense"
+              name="aiDescription"
+              label="AI 설명"
+              type="text"
+              variant="outlined"
+              fullWidth
+              onChange={handleChange}
+              className={classes.textFieldCustom}
+          />
           {/* 상태는 기본적으로 '활성화'로 설정 */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">
-            취소
+            취소하기
           </Button>
           <Button onClick={handleAddItem} color="primary">
-            추가
+            추가하기
           </Button>
         </DialogActions>
       </Dialog>

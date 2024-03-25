@@ -75,8 +75,6 @@ export default function StoreManagement() {
     };
     // 모달 닫기
     const handleModalOpen = () => {
-        console.log('수정하기 모달 띄우기');
-        // todo: 추가하기 모달 띄우기
         setOpen(true);
     };
     // 모달 닫기
