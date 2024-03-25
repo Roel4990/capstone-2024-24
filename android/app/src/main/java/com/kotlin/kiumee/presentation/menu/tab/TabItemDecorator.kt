@@ -17,7 +17,7 @@ class TabItemDecorator(val context: Context) : RecyclerView.ItemDecoration() {
         val position = parent.getChildAdapterPosition(view)
 
         if (position != 0) {
-            outRect.top = context.pxToDp(32)
+            outRect.top = context.pxToDp(28)
         }
     }
 }
