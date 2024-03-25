@@ -1,6 +1,7 @@
 package com.kotlin.kiumee.presentation.menu
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
@@ -27,6 +28,11 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }
     }
     private val cartList = mutableListOf<Cart>()
+    private var currentPosition = 0
+        set(value) {
+            field = value
+            updateTabSelection()
+        }
 
     override fun initView() {
         initChatAdapter()
@@ -43,30 +49,38 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             vpMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabTitles)
 
             rvMenuTabContent.adapter = TabAdapter(click = { tab, position ->
-                val layoutManager = rvMenuTabContent.layoutManager as LinearLayoutManager
-                val itemCount = layoutManager.itemCount
-                for (i in 0 until itemCount) {
-                    val viewHolder = rvMenuTabContent.findViewHolderForAdapterPosition(i)
-                    if (viewHolder is TabViewHolder) {
-                        with(viewHolder.binding) {
-                            if (i == position) {
-                                selected = true
-                                tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body1_medium_48)
-                                viewMenuTab.visibility = View.VISIBLE
-                            } else {
-                                selected = false
-                                tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body2_regular_48)
-                                viewMenuTab.visibility = View.INVISIBLE
-                            }
-                        }
-                    }
-                }
                 vpMenu.currentItem = position
+                currentPosition = position
             }).apply {
                 submitList(tabTitles)
             }
+
             vpMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
             rvMenuTabContent.addItemDecoration(TabItemDecorator(this@MenuActivity))
+        }
+    }
+
+    private fun updateTabSelection() {
+        val layoutManager = binding.rvMenuTabContent.layoutManager as LinearLayoutManager
+        val itemCount = layoutManager.itemCount
+        for (i in 0 until itemCount) {
+            val viewHolder = binding.rvMenuTabContent.findViewHolderForAdapterPosition(i)
+            if (viewHolder is TabViewHolder) {
+                Log.e("ddd", "됨")
+                with(viewHolder.binding) {
+                    if (i == currentPosition) {
+                        selected = true
+                        tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body1_medium_48)
+                        viewMenuTab.visibility = View.VISIBLE
+                        Log.e("true", "{$i}")
+                    } else {
+                        selected = false
+                        tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body2_regular_48)
+                        viewMenuTab.visibility = View.INVISIBLE
+                        Log.e("false", "{$i}")
+                    }
+                }
+            }
         }
     }
 
