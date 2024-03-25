@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.ListAdapter
 import com.kotlin.kiumee.core.view.ItemDiffCallback
 import com.kotlin.kiumee.databinding.ItemMenuCartBinding
 
-class CartAdapter() : ListAdapter<Cart, CartViewHolder>(CartAdapterDiffCallback) {
+class CartAdapter(private val onDeleteClickListener: (Cart) -> Unit) :
+    ListAdapter<Cart, CartViewHolder>(CartAdapterDiffCallback) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -20,7 +21,11 @@ class CartAdapter() : ListAdapter<Cart, CartViewHolder>(CartAdapterDiffCallback)
         holder: CartViewHolder,
         position: Int
     ) {
-        holder.bind(currentList[position])
+        val cartItem = currentList[position]
+        holder.bind(cartItem)
+        holder.binding.ibMenuCartTrash.setOnClickListener {
+            onDeleteClickListener.invoke(cartItem)
+        }
     }
 
     companion object {
