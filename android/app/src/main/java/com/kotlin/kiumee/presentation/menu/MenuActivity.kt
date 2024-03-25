@@ -111,6 +111,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         } else {
             initEmptyLayout()
         }
+        initCartTotalPrice()
     }
 
     private fun initEmptyLayout() {
@@ -127,7 +128,11 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     }
 
     private fun initCartAdapter() {
-        binding.rvMenuCart.adapter = CartAdapter().apply {
+        val cartAdapter = CartAdapter { cartItem ->
+            cartList.remove(cartItem)
+            initLayoutState()
+        }
+        binding.rvMenuCart.adapter = cartAdapter.apply {
             submitList(cartList)
         }
 
@@ -138,7 +143,6 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }
 
         initCartScrollPointer()
-        initCartTotalPrice()
     }
 
     private fun initCartScrollPointer() {

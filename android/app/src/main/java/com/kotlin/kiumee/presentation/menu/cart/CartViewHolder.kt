@@ -3,7 +3,7 @@ package com.kotlin.kiumee.presentation.menu.cart
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.kiumee.databinding.ItemMenuCartBinding
 
-class CartViewHolder(private val binding: ItemMenuCartBinding) :
+class CartViewHolder(val binding: ItemMenuCartBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(data: Cart) {
         with(binding) {
