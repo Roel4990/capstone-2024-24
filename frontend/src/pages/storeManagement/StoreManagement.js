@@ -18,7 +18,6 @@ import PageTitle from "../../components/PageTitle";
 import Widget from "../../components/Widget";
 import useStyles from "./styles";
 import CollectionsIcon from "@material-ui/icons/Collections";
-// import CollectionsIcon from "@material-ui/icons/Collections";
 
 const initialStore = {
     logo: '/testImage2.jpeg',
@@ -45,10 +44,13 @@ export default function StoreManagement() {
     const [newImage, setNewImage] = useState(initialStore.logo)
     // 저장 버튼을 눌렀을 때 실행될 함수입니다.
     const handleSave = () => {
-        storeData.categories = categories
-        console.log('저장됨:', { storeUpdateData });
-        setStoreData(storeUpdateData)
-        // 이곳에서 저장 로직을 구현합니다. 예를 들어, API 호출을 통해 서버에 데이터를 저장할 수 있습니다.
+        if(window.confirm("저장하시겠습니까?")) {
+            storeData.categories = updateCategories
+            setStoreData(storeUpdateData)
+            setCategories(updateCategories)
+            setOpen(false)
+        }
+        // todo : API 호출을 통해 서버에 데이터를 저장
     };
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -71,10 +73,6 @@ export default function StoreManagement() {
     const deleteCategory = (categoryToDelete) => {
         setUpdateCategories(updateCategories.filter(category => category !== categoryToDelete));
     };
-    const handleStoreChange = (e) => {
-        const { name, value } = e.target;
-        setStoreData({ ...storeData, [name]: value })
-    }
     // 모달 닫기
     const handleModalOpen = () => {
         console.log('수정하기 모달 띄우기');
@@ -83,6 +81,9 @@ export default function StoreManagement() {
     };
     // 모달 닫기
     const handleModalClose = () => {
+        setStoreUpdateData(storeData)
+        setUpdateCategories(categories)
+        setNewCategory('')
         setOpen(false);
     };
     const handleUpdateChange = (e) => {
