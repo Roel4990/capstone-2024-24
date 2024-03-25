@@ -96,7 +96,9 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
     private fun initOrderBtnClickListener() {
         binding.btnMenuCartOrder.setOnClickListener {
-            startActivity(Intent(this, OrderFinishActivity::class.java))
+            if (cartList.isNotEmpty()) {
+                startActivity(Intent(this, OrderFinishActivity::class.java))
+            }
         }
     }
 
