@@ -1,6 +1,22 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Button, Table, TableBody, TableCell, TableHead, TableRow, Dialog, DialogActions, DialogContent, DialogTitle, TextField, FormControl, Select, MenuItem, InputLabel } from '@material-ui/core';
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel
+} from '@material-ui/core';
 import useStyles from "./styles";
 import CollectionsIcon from "@material-ui/icons/Collections";
 // 데이터 배열을 재정렬하는 함수
@@ -36,10 +52,9 @@ const CustomTable = () => {
   const [selectedCategory, setSelectedCategory] = useState(categoryList[0]);
   const filteredMenuList = totalMenuList.filter(menu => menu.category === selectedCategory);
   const [menuList, setMenuList] = useState(filteredMenuList);
+  const [selectedMenu, setSelectedMenu] = useState({})
+  const [detailOpen, setDetailOpen] = useState(false)
 
-  //리스트 초기값 세팅
-  // const filteredItems = items.filter(item => categoryList[0] === '' || item.category === categoryList[0]);
-  // setItems(filteredItems)
   // 색상 배열
   const colors = [
     '#FFD700',
@@ -83,6 +98,10 @@ const CustomTable = () => {
     setImagePreview(null)
     setOpen(false);
   };
+  const handleDetailClose = () => {
+    setDetailOpen(false);
+  };
+
   const handleCategoryChange = (e) => {
     const {value} = e.target
     setSelectedCategory(value);
@@ -134,14 +153,24 @@ const CustomTable = () => {
   const handleDelete = (id) => {
     // id를 사용하여 menuList에서 해당 항목을 찾아 삭제하는 로직
     // 예: setMenuList(current => current.filter(item => item.id !== id));
-    console.log("삭제 버튼 클릭", id);
+    if(window.confirm("해당 메뉴를 삭제하시겠습니까?")) {
+      setMenuList(current => current.filter(item => item.id !== id));
+      setTotalMenuList(current => current.filter(item => item.id !== id));
+      alert("삭제가 완료되었습니다.")
+    }
   };
 
   const handleViewDetails = (id) => {
     // id를 사용하여 상세 정보를 표시하는 로직
     // 예: 상세 정보 모달 열기 또는 상세 페이지로 라우팅
     console.log("상세보기 버튼 클릭", id);
+    const value = menuList.find(menu => menu.id === id)
+    setSelectedMenu(value)
+    setDetailOpen(true)
   };
+  const handleUpdateMenu = (id) => {
+    console.log("업데이트 버튼", id);
+  }
   const classes = useStyles();
   return (
     <>
@@ -165,97 +194,102 @@ const CustomTable = () => {
       <Button onClick={handleSave} variant="contained" className={classes.saveButton} color="secondary">
         저장하기
       </Button>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="droppableTable">
-          {(provided) => (
-            <Table {...provided.droppableProps} ref={provided.innerRef}>
-              <TableHead>
-                <TableRow >
-                  <TableCell className={classes.textCenter}>#</TableCell>
-                  <TableCell className={classes.textCenter}>이미지</TableCell>
-                  <TableCell className={classes.textCenter}>메뉴명</TableCell>
-                  <TableCell className={classes.textCenter}>가격</TableCell>
-                  <TableCell className={classes.textCenter}>설명</TableCell>
-                  <TableCell className={classes.textCenter}>카테고리</TableCell>
-                  <TableCell className={classes.textCenter}>입고상태</TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {menuList.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided) => (
-                      <TableRow
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell>
-                          <div style={{
-                            width: "100px",
-                            height: "100px",
-                            marginTop: "10px",
-                            border: "1px solid #ddd",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                            backgroundImage: `url(${item.image})`,
-                          }}>
-                            {!item.image && "NO IMAGE"}
-                          </div>
-                        </TableCell>
-                        <TableCell>{item.name}</TableCell>
-                        <TableCell>{item.price}</TableCell>
-                        <TableCell>{item.description}</TableCell>
-                        {/*<TableCell>{item.category}</TableCell>*/}
-                        <TableCell>
-                          <Button
-                            style={{
-                              backgroundColor: categoryColors[item.category] || '#FFFFFF', // 매핑된 색상이 없는 경우 기본 색상
-                              color: '#000000', // 텍스트 색상
-                            }}
-                          >
-                            {item.category}
-                          </Button>
-                        </TableCell>
-                        {/*<TableCell>{item.status}</TableCell>*/}
-                        <TableCell>
-                          <Button
-                            onClick={() => toggleStatus(item.id)}
-                            style={{
-                              cursor: 'pointer', // 마우스 오버 시 커서 변경
-                              backgroundColor: item.status === '입고' ? '#90EE90' : '#FFB6C1', // 상태에 따른 배경색
-                            }}
-                          >
-                            {item.status}
-                          </Button>
-                        </TableCell>
-                        <TableCell>
-                          <Button onClick={() => handleViewDetails(item.id)} style={{
-                            backgroundColor: '#a3e9f3',
-                          }}
-                          >상세</Button>
-                        </TableCell>
-                        <TableCell>
-                          <Button onClick={() => handleDelete(item.id)} style={{
-                            backgroundColor: '#FFB6C1',
-                          }}
-                          >삭제</Button>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </TableBody>
-            </Table>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <div style={{
+        maxWidth: '100%',
+        overflowX: 'auto',
+      }}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppableTable">
+            {(provided) => (
+                <Table {...provided.droppableProps} ref={provided.innerRef}>
+                  <TableHead>
+                    <TableRow >
+                      <TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>#</TableCell>
+                      <TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>이미지</TableCell>
+                      <TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>메뉴명</TableCell>
+                      <TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>가격</TableCell>
+                      <TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>설명</TableCell>
+                      <TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>카테고리</TableCell>
+                      <TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>입고상태</TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {menuList.map((item, index) => (
+                        <Draggable key={item.id} draggableId={item.id} index={index}>
+                          {(provided) => (
+                              <TableRow
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                              >
+                                <TableCell>{index + 1}</TableCell>
+                                <TableCell>
+                                  <div style={{
+                                    width: "100px",
+                                    height: "100px",
+                                    marginTop: "10px",
+                                    border: "1px solid #ddd",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                    backgroundImage: `url(${item.image})`,
+                                  }}>
+                                    {!item.image && "NO IMAGE"}
+                                  </div>
+                                </TableCell>
+                                <TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>{item.name}</TableCell>
+                                <TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>{item.price}</TableCell>
+                                <TableCell className={classes.minWidth300}>{item.description}</TableCell>
+                                {/*<TableCell>{item.category}</TableCell>*/}
+                                <TableCell>
+                                  <Button
+                                      style={{
+                                        backgroundColor: categoryColors[item.category] || '#FFFFFF', // 매핑된 색상이 없는 경우 기본 색상
+                                        color: '#000000', // 텍스트 색상
+                                      }}
+                                  >
+                                    {item.category}
+                                  </Button>
+                                </TableCell>
+                                {/*<TableCell>{item.status}</TableCell>*/}
+                                <TableCell>
+                                  <Button
+                                      onClick={() => toggleStatus(item.id)}
+                                      style={{
+                                        cursor: 'pointer', // 마우스 오버 시 커서 변경
+                                        backgroundColor: item.status === '입고' ? '#90EE90' : '#FFB6C1', // 상태에 따른 배경색
+                                      }}
+                                  >
+                                    {item.status}
+                                  </Button>
+                                </TableCell>
+                                <TableCell>
+                                  <Button onClick={() => handleViewDetails(item.id)} style={{
+                                    backgroundColor: '#a3e9f3',
+                                  }}
+                                  >상세</Button>
+                                </TableCell>
+                                <TableCell>
+                                  <Button onClick={() => handleDelete(item.id)} style={{
+                                    backgroundColor: '#FFB6C1',
+                                  }}
+                                  >삭제</Button>
+                                </TableCell>
+                              </TableRow>
+                          )}
+                        </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </TableBody>
+                </Table>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">메뉴 추가</DialogTitle>
         <DialogContent>
@@ -327,6 +361,8 @@ const CustomTable = () => {
               name="aiDescription"
               label="AI 설명"
               type="text"
+              multiline
+              rows={6}
               variant="outlined"
               fullWidth
               onChange={handleChange}
@@ -340,6 +376,95 @@ const CustomTable = () => {
           </Button>
           <Button onClick={handleAddItem} color="primary">
             추가하기
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={detailOpen} onClose={handleDetailClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">상세보기</DialogTitle>
+        <DialogContent>
+          {/* 이미지 업로드 필드 */}
+          <div style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center", // 수평 중앙 정렬
+          }}>
+            <div className={classes.newImageContainer}>
+              {/* 이미지 미리보기 */}
+              <div
+                  className={classes.newImage}
+                  style={{
+                    backgroundImage: `url(${selectedMenu.image})`,
+                  }}
+              >
+                {!selectedMenu.image && '이미지 업로드'}
+              </div>
+            </div>
+          </div>
+          <Table className={classes.table} aria-label="simple table">
+            <TableBody>
+              <TableRow>
+                <TableCell align="center"
+                           className={classes.tableHeaderCell}
+                           style={{
+                             width: '30%',
+                             whiteSpace: "nowrap"}}>
+                  메뉴명
+                </TableCell>
+                <TableCell align="left"
+                           style={{width: '70%'}}>
+                  {selectedMenu.name}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell align="center"
+                           className={classes.tableHeaderCell}
+                           style={{
+                             width: '30%',
+                             whiteSpace: "nowrap"}}>
+                  가격
+                </TableCell>
+                <TableCell align="left"
+                           style={{width: '70%'}}>
+                  {selectedMenu.price}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell align="center"
+                           className={classes.tableHeaderCell}
+                           style={{
+                             width: '30%',
+                             whiteSpace: "nowrap"}}>
+                  설명
+                </TableCell>
+                <TableCell align="left"
+                           style={{width: '70%'}}>
+                  {selectedMenu.description}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell align="center"
+                           className={classes.tableHeaderCell}
+                           style={{
+                             width: '30%',
+                             whiteSpace: "nowrap"}}>
+                  AI 설명
+                </TableCell>
+                <TableCell align="left"
+                           style={{width: '70%'}}>
+                  {selectedMenu.aiDescription}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+          {/* 상태는 기본적으로 '활성화'로 설정 */}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDetailClose} color="secondary">
+            닫기
+          </Button>
+          <Button onClick={handleUpdateMenu} color="primary">
+            수정하기
           </Button>
         </DialogActions>
       </Dialog>

@@ -56,5 +56,11 @@ export default makeStyles(theme => ({
     },
     textCenter: {
         textAlign: "center"
+    },
+    textNowrap: {
+        whiteSpace: "nowrap"
+    },
+    minWidth300: {
+        minWidth: "300px"
     }
 }));
