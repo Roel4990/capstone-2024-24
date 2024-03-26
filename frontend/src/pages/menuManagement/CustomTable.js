@@ -83,6 +83,7 @@ const CustomTable = () => {
     setMenuList(reorderedItems);
   };
   const handleSave = () => {
+    console.log('카테고리:', selectedCategory);
     console.log('저장된 데이터:', menuList);
     // todo: 서버로 데이터 리스트 보내기(items) 자체를 보내면 됩니다. ( post )
   };
@@ -117,7 +118,8 @@ const CustomTable = () => {
       if(!newItem.description) return window.alert("설명을 입력해 주세요.")
       if(!newItem.description) return window.alert("설명을 입력해 주세요.")
       newItem.category = selectedCategory
-      setMenuList([...menuList, { ...newItem, id: totalMenuList.length + 1, image: imagePreview }]);
+      const maxId = Math.max(...totalMenuList.map(item => parseInt(item.id, 10)));
+      setMenuList([...menuList, { ...newItem, id: `${maxId + 1}`, image: imagePreview }]);
       handleClose(); // 모달 닫기
     }
 
@@ -150,6 +152,7 @@ const CustomTable = () => {
       return item;
     }));
   };
+
   const handleDelete = (id) => {
     // id를 사용하여 menuList에서 해당 항목을 찾아 삭제하는 로직
     // 예: setMenuList(current => current.filter(item => item.id !== id));
@@ -168,8 +171,11 @@ const CustomTable = () => {
     setSelectedMenu(value)
     setDetailOpen(true)
   };
-  const handleUpdateMenu = (id) => {
-    console.log("업데이트 버튼", id);
+  // 업데이트 버튼 클릭시
+  const handleUpdateMenu = () => {
+    console.log("업데이트 버튼");
+    setDetailOpen(false)
+    setOpen(true)
   }
   const classes = useStyles();
   return (
