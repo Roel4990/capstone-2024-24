@@ -8,6 +8,7 @@ import {
 // styles
 // import useStyles from "./styles";
 import SalesChart from "../../components/Chart/SalesChart"
+import AgeGroupYearMonthSalesChart from "../../components/Chart/AgeGroupYearMonthSalesChart"
 // components
 import PageTitle from "../../components/PageTitle";
 
@@ -22,6 +23,9 @@ export default function Dashboard(props) {
       <Grid container spacing={4}>
         <Grid item xs={12}>
             <SalesChart />
+        </Grid>
+        <Grid item xs={12}>
+          <AgeGroupYearMonthSalesChart />
         </Grid>
       </Grid>
     </>
