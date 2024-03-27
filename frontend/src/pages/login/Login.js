@@ -94,18 +94,6 @@ function Login(props) {
     setCardData(updatedCards);
   };
   const handleAddCard = () => {
-    // setNewItem
-    // const newCard = {
-    //   logo: cardImagePreview,
-    //   title: '스타벅스2',
-    //   description: '스타벅스2임다.',
-    //   date: '생성일: 2024-03-20',
-    // };
-    // console.log(document.body.scrollHeight)
-    console.log(document.body.scrollHeight)
-    setTimeout(() => {
-      window.scrollTo(0, document.body.scrollHeight);
-    }, 1000)
     setCardData([...cardData, newItem]); // 기존 cardData에 새 카드 추가
     // 모달 닫기
     handleClose()
@@ -113,7 +101,6 @@ function Login(props) {
 
   // 매장 생성함수
   const handleOpen = () => {
-    console.log('추가하기 모달 띄우기');
     // todo: 추가하기 모달 띄우기
     setOpen(true);
   }
@@ -125,8 +112,6 @@ function Login(props) {
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name)
-    console.log(value)
     setNewItem({ ...newItem, [name]: value });
   };
   const handleCardImageChange = (e) => {

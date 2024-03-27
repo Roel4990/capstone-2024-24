@@ -16,7 +16,7 @@ import {
 import useStyles from "./styles";
 // components
 import Widget from "../../Widget";
-import PageTitle from "../../PageTitle";
+// import PageTitle from "../../PageTitle";
 import { Typography } from "../../Wrappers";
 import Dot from "../../Sidebar/components/Dot";
 
@@ -81,8 +81,6 @@ const SalesChart = () => {
     const [salesChartData, setSalesChartData] = useState(getChartDataForYear(selectedYear));
 
     const handleYearChange = (event) => {
-        console.log(event.target.value)
-        console.log(getChartDataForYear(event.target.value))
         setSelectedYear(event.target.value);
         setSalesChartData(getChartDataForYear(event.target.value));
     };

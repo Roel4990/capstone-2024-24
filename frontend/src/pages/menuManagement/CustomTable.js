@@ -88,7 +88,6 @@ const CustomTable = () => {
     // todo: 서버로 데이터 리스트 보내기(items) 자체를 보내면 됩니다. ( post )
   };
   const handleAdd = () => {
-    console.log('추가하기 모달 띄우기');
     // todo: 추가하기 모달 띄우기
     setOpen(true);
   };
@@ -166,14 +165,12 @@ const CustomTable = () => {
   const handleViewDetails = (id) => {
     // id를 사용하여 상세 정보를 표시하는 로직
     // 예: 상세 정보 모달 열기 또는 상세 페이지로 라우팅
-    console.log("상세보기 버튼 클릭", id);
     const value = menuList.find(menu => menu.id === id)
     setSelectedMenu(value)
     setDetailOpen(true)
   };
   // 업데이트 버튼 클릭시
   const handleUpdateMenu = () => {
-    console.log("업데이트 버튼");
     setDetailOpen(false)
     setOpen(true)
   }
