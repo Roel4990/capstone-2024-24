@@ -1,7 +1,6 @@
 package com.kotlin.kiumee.presentation.home
 
 import android.content.Intent
-import com.bumptech.glide.Glide
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
 import com.kotlin.kiumee.databinding.ActivityHomeBinding
