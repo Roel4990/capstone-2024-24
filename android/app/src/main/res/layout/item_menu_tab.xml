@@ -5,9 +5,6 @@
 
     <data>
 
-        <variable
-            name="selected"
-            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +18,6 @@
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:textAppearance="@style/TextAppearance.Kiumee.body2_regular_48"
-            android:textColor="@{selected ? @color/primary : @color/black}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="안녕" />
