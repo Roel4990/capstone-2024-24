@@ -9,7 +9,6 @@ import com.kotlin.kiumee.presentation.menu.MenuActivity
 
 class HomeActivity : BindingActivity<ActivityHomeBinding>(R.layout.activity_home) {
     override fun initView() {
-        initBackground()
         initScreenClickListener()
     }
 
@@ -17,12 +16,5 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>(R.layout.activity_home
         binding.ivHomeBackground.setOnClickListener {
             startActivity(Intent(this, MenuActivity::class.java))
         }
-    }
-
-    private fun initBackground() {
-        Glide.with(this)
-            .load("https://www.greened.kr/news/photo/201711/41493_30484_2027.jpg")
-            .centerCrop()
-            .into(binding.ivHomeBackground)
     }
 }
