@@ -11,12 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
+        <ImageView
             android:id="@+id/iv_home_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/primary"
             android:clickable="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_home_test"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +27,7 @@
             android:id="@+id/tv_home_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="120dp"
+            android:layout_marginBottom="165dp"
             android:gravity="center"
             android:text="@string/home_touch"
             android:textAppearance="@style/TextAppearance.Kiumee.head1_regular_66"
