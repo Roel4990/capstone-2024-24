@@ -41,6 +41,13 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
         initMoveRvBtnClickListener()
         initOrderBtnClickListener()
+        initSpeakBtnClickListener()
+    }
+
+    private fun initSpeakBtnClickListener() {
+        binding.btnMenuSpeak.setOnClickListener {
+            // 여기에 음성 인식 추가
+        }
     }
 
     private fun initTabAdapter() {
