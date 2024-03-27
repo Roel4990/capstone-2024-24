@@ -1,9 +1,7 @@
 package com.kotlin.kiumee.presentation.menu
 
 import android.content.Intent
-import android.util.Log
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.kiumee.R
@@ -18,7 +16,6 @@ import com.kotlin.kiumee.presentation.menu.chat.ChatItemDecorator
 import com.kotlin.kiumee.presentation.menu.menuviewpager.MenuViewPagerAdapter
 import com.kotlin.kiumee.presentation.menu.tab.TabAdapter
 import com.kotlin.kiumee.presentation.menu.tab.TabItemDecorator
-import com.kotlin.kiumee.presentation.menu.tab.TabViewHolder
 import com.kotlin.kiumee.presentation.orderfinish.OrderFinishActivity
 
 class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu) {
@@ -28,11 +25,6 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }
     }
     private val cartList = mutableListOf<Cart>()
-    private var currentPosition = 0
-        set(value) {
-            field = value
-            updateTabSelection()
-        }
 
     override fun initView() {
         initChatAdapter()
@@ -57,37 +49,12 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
             rvMenuTabContent.adapter = TabAdapter(click = { tab, position ->
                 vpMenu.currentItem = position
-                currentPosition = position
             }).apply {
                 submitList(tabTitles)
             }
 
             vpMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
             rvMenuTabContent.addItemDecoration(TabItemDecorator(this@MenuActivity))
-        }
-    }
-
-    private fun updateTabSelection() {
-        val layoutManager = binding.rvMenuTabContent.layoutManager as LinearLayoutManager
-        val itemCount = layoutManager.itemCount
-        for (i in 0 until itemCount) {
-            val viewHolder = binding.rvMenuTabContent.findViewHolderForAdapterPosition(i)
-            if (viewHolder is TabViewHolder) {
-                Log.e("ddd", "됨")
-                with(viewHolder.binding) {
-                    if (i == currentPosition) {
-                        selected = true
-                        tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body1_medium_48)
-                        viewMenuTab.visibility = View.VISIBLE
-                        Log.e("true", "{$i}")
-                    } else {
-                        selected = false
-                        tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body2_regular_48)
-                        viewMenuTab.visibility = View.INVISIBLE
-                        Log.e("false", "{$i}")
-                    }
-                }
-            }
         }
     }
 
