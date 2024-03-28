@@ -47,6 +47,7 @@ export default makeStyles(theme => ({
         padding: '20px',
         overflow: 'auto', // 컨텐츠가 넘칠 경우 스크롤바 생성
         maxHeight: 'calc(100% - 40px)', // 최대 높이를 설정하여 스크롤 내부적으로만 발생하도록 합니다.
+        whiteSpace: "pre-wrap"
     },
     newImageContainer:{
         position: 'relative',
