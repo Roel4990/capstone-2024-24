@@ -3,6 +3,23 @@ import React from "react";
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext();
 
+// 3가지 상태로 존재해야된다.
+// 1. 로그인이 안되어있을 경우
+// 2. 로그인이 되어있지만 매장을 선택하지 않은 경우
+// 3. 로그인도 되어있고 매장도 선택되어 있는 경우
+
+// function userReducer(state, action) {
+//   switch (action.type) {
+//     case "LOGIN_SUCCESS":
+//       return { ...state, isAuthenticated: true };
+//     case "SIGN_OUT_SUCCESS":
+//       return { ...state, isAuthenticated: false };
+//     default: {
+//       throw new Error(`Unhandled action type: ${action.type}`);
+//     }
+//   }
+// }
+
 function userReducer(state, action) {
   switch (action.type) {
     case "LOGIN_SUCCESS":
@@ -71,8 +88,11 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
 }
 
 function signOut(dispatch, history) {
-  // todo: 로그아웃 API 넣는 곳 그냥 id_token 빼도 될 듯하긴함.
+
+  // 로그인 토큰 제거
   localStorage.removeItem("id_token");
+  // 회사 토큰 제거
+  localStorage.removeItem("company_id");
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   history.push("/login");
 }

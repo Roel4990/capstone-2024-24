@@ -24,17 +24,17 @@ const initialCardData = [
       description: '강남점',
       date: '생성일: 2024-03-20',
     },{
-      logo: '/testImage2.jpeg',
+      logo: '/Midoin/MidoinLogo.jpeg',
       name: '미도인',
       description: '삼성점',
       date: '생성일: 2024-03-20',
     },{
-      logo: '/testImage2.jpeg',
+      logo: '/Midoin/MidoinLogo.jpeg',
       name: '미도인',
       description: '성수점',
       date: '생성일: 2024-03-20',
     },{
-      logo: '/testImage2.jpeg',
+      logo: '/Midoin/MidoinLogo.jpeg',
       name: '미도인',
       description: '국민대점',
       date: '생성일: 2024-03-20',
@@ -101,11 +101,9 @@ function Login(props) {
 
   // 매장 생성함수
   const handleOpen = () => {
-    // todo: 추가하기 모달 띄우기
     setOpen(true);
   }
   const handleClose = () => {
-    // todo : setNewItem => 빈 아이템으로 바꾸기
     setNewItem({ name: '', description: '', logo: '' })
     setCardImagePreview("")
     setOpen(false);

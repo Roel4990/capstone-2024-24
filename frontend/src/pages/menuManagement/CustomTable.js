@@ -362,7 +362,7 @@ const CustomTable = () => {
           <TextField
               margin="dense"
               name="aiDescription"
-              label="AI 설명"
+              label="주미에서 메뉴을 설명해주세요."
               type="text"
               multiline
               rows={6}
