@@ -1,13 +1,9 @@
 import React from "react";
 import {
     Typography,
-    Box,
-    Paper,
-    Button,
-    Card, CardHeader, Avatar, IconButton, CardMedia, CardContent, CardActions, Collapse,
-
+    Card, CardContent
 } from "@material-ui/core";
-import {ExpandMore, Favorite, MoreVert, Share} from "@material-ui/icons";
+// import {ExpandMore, Favorite, MoreVert, Share} from "@material-ui/icons";
 import { useHistory } from 'react-router-dom';
 import {useUserDispatch} from "../../context/UserContext"; // useHistory 훅 임포트
 import { makeStyles } from '@material-ui/core/styles';
@@ -50,15 +46,15 @@ function CustomCard({ id, logo, name, description, date, updateCard }) {
     var userDispatch = useUserDispatch();
     const classes = useStyles();
     // console.log(logo, title, description, date)
-    const handleUpdateTitle = () => {
-        const newTitle = "Updated Title"; // 새로운 제목
-        updateCard(id, { title: newTitle });
-    };
-    //수정 및 삭제를 위한 토글버튼
-    const handleExpandClick = (event) => {
-        event.stopPropagation()
-        alert("수정 및 삭제를 위한 토글버튼")
-    };
+    // const handleUpdateTitle = () => {
+    //     const newTitle = "Updated Title"; // 새로운 제목
+    //     updateCard(id, { title: newTitle });
+    // };
+    // //수정 및 삭제를 위한 토글버튼
+    // const handleExpandClick = (event) => {
+    //     event.stopPropagation()
+    //     alert("수정 및 삭제를 위한 토글버튼")
+    // };
     //
     const handleCompanyClick = () => {
         localStorage.setItem('company_id', 1)
