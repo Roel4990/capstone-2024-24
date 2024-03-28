@@ -25,6 +25,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }
     }
     private val cartList = mutableListOf<Cart>()
+    var clicked = false
 
     override fun initView() {
         initChatAdapter()
@@ -39,6 +40,15 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     private fun initSpeakBtnClickListener() {
         binding.btnMenuSpeak.setOnClickListener {
             // 여기에 음성 인식 추가
+            if (clicked) {
+                clicked = false
+                binding.btnMenuSpeak.setBackgroundResource(R.drawable.shape_secondary_fill_circle)
+                binding.btnMenuSpeak.text = "대화\n끄기"
+            } else {
+                clicked = true
+                binding.btnMenuSpeak.setBackgroundResource(R.drawable.shape_point_fill_circle)
+                binding.btnMenuSpeak.text = "대화\n켜기"
+            }
         }
     }
 
