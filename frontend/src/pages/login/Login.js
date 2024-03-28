@@ -18,27 +18,12 @@ import useStyles from "./styles";
 import {signOut, useUserDispatch} from "../../context/UserContext";
 // 예제 데이터
 const initialCardData = [
-    {
-      logo: '/testImage1.png',
-      name: '스타벅스',
-      description: '강남점',
-      date: '생성일: 2024-03-20',
-    },{
-      logo: '/Midoin/MidoinLogo.jpeg',
-      name: '미도인',
-      description: '삼성점',
-      date: '생성일: 2024-03-20',
-    },{
-      logo: '/Midoin/MidoinLogo.jpeg',
-      name: '미도인',
-      description: '성수점',
-      date: '생성일: 2024-03-20',
-    },{
-      logo: '/Midoin/MidoinLogo.jpeg',
-      name: '미도인',
-      description: '국민대점',
-      date: '생성일: 2024-03-20',
-    }
+    // {
+    //   logo: '/Midoin/MidoinLogo.jpeg',
+    //   name: '스타벅스',
+    //   description: '강남점',
+    //   date: '생성일: 2024-03-20',
+    // }
 ]
 
 function Login(props) {
@@ -51,7 +36,7 @@ function Login(props) {
   var [activeTabId, setActiveTabId] = useState(0);
   var [selectCompany, setSelectCompany] = useState(0)
   var [nameValue, setNameValue] = useState("");
-  var [loginValue, setLoginValue] = useState("admin@flatlogic.com");
+  var [loginValue, setLoginValue] = useState("admin@midoin.com");
   var [passwordValue, setPasswordValue] = useState("password");
   const [open, setOpen] = useState(false); // 모달 상태
   // 새로운 매장 추가하기
@@ -126,9 +111,10 @@ function Login(props) {
     }
   };
   return (
-    <Grid container className={classes.container}>
+    <div>
       {selectCompany === 0 ? (
-            // selectCompany가 0일 때 보여줄 컴포넌트나 JSX
+          <Grid container className={classes.container}>
+            {/*// selectCompany가 0일 때 보여줄 컴포넌트나 JSX*/}
             <div className={classes.formContainer}>
               <div className={classes.form}>
                 <Tabs
@@ -285,17 +271,20 @@ function Login(props) {
                 )}
               </div>
             </div>
+          </Grid>
         ) : (
-            // selectCompany가 0이 아닐 때 보여줄 컴포넌트나 JSX
+          <Grid container className={classes.selectStoreContainer}>
+            {/*// selectCompany가 0이 아닐 때 보여줄 컴포넌트나 JSX*/}
             <div
                 className={classes.customFormContainer}
                 style={{
-                    marginTop: 50
-                  }}
+                    marginTop: 50,
+                    width: "50%"
+                }}
             >
               <Grid container spacing={2} style={{ marginTop: 50 }}>
                 <Grid item xs={12} className={classes.addButtonContainer} >
-                  <Button onClick={() => signOut(userDispatch, props.history)} color="secondary">뒤로가기</Button>
+                  <Button onClick={() => signOut(userDispatch, props.history)} color="secondary">다시 로그인 하기</Button>
                   <Button onClick={handleOpen} color="primary">매장 추가하기</Button>
                 </Grid>
                 {/*<div className={classes.cardContainer}>*/}
@@ -382,10 +371,10 @@ function Login(props) {
                 </DialogActions>
               </Dialog>
             </div>
+          </Grid>
         )
       }
-
-    </Grid>
+    </div>
   );
 }
 

@@ -11,6 +11,15 @@ export default makeStyles(theme => ({
     top: 0,
     left: 0,
   },
+  selectStoreContainer: {
+    width: "100vw",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    left: 0,
+  },
   logotypeContainer: {
     backgroundColor: theme.palette.primary.main,
     width: "60%",
