@@ -1,11 +1,38 @@
 from uuid import uuid4
 
+import boto3
+from botocore.exceptions import NoCredentialsError
 from fastapi import APIRouter, UploadFile, File
+
+from app.core.config import get_app_settings
+from app.models.schemas.image import ImageResponse
 
 router = APIRouter()
 
 
 @router.post("/image-upload", name="image:upload-image")
-async def upload_image(file: UploadFile = File(...)):
-    file_name = f"{uuid4()}.jpeg"
-    return {"filename": file_name}
+async def upload_image(file: UploadFile = File(...)) -> ImageResponse:
+    file_id = f"{uuid4()}"
+    config = get_app_settings()
+
+    s3_client = boto3.client(
+        "s3",
+        aws_access_key_id=config.AWS_KEY_ID,
+        aws_secret_access_key=config.AWS_SECRET_KEY,
+    )
+
+    try:
+        s3_client.upload_fileobj(
+            file.file,
+            "reborn-image-test",
+            file_id + ".jpeg",
+            ExtraArgs={"ContentDisposition": "inline", "ContentType": "image/jpeg"},
+        )
+
+    except NoCredentialsError:
+        return {"message": "Credentials not available"}
+    return ImageResponse(
+        imageUrl="https://reborn-image-test.s3.ap-northeast-2.amazonaws.com/"
+        + file_id
+        + ".jpeg"
+    )
