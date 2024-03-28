@@ -49,6 +49,22 @@ export default makeStyles(theme => ({
       width: "50%",
     },
   },
+  customFormContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    [theme.breakpoints.down("md")]: {
+      width: "50%",
+    },
+    // maxHeight: '400px', // 적절한 높이 설정
+    // overflowY: 'auto',
+    '& > *': {
+      // mb: 2, // 카드 간 하단 마진 (MUI 시스템 스타일)
+      marginBottom: 50
+    },
+  },
   form: {
     width: 320,
   },
@@ -145,4 +161,13 @@ export default makeStyles(theme => ({
       bottom: theme.spacing(2),
     },
   },
+  dialogContent: {
+    width: "500px",
+  },
+  addButtonContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end', // 버튼을 오른쪽으로 정렬
+    // backgroundColor: '#f0f0f0', // 배경색 설정
+    padding: theme.spacing(1), // 상하좌우에 패딩 적용
+  }
 }));
