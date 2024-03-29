@@ -33,6 +33,7 @@ import Icons from "../../pages/icons";
 import Charts from "../../pages/charts";
 import StoreManagement from "../../pages/storeManagement"
 import MenuManagement from "../../pages/menuManagement"
+import UseCaseManagement from  "../../pages/useCaseMangement"
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -69,6 +70,7 @@ function Layout(props) {
               <Route path="/app/ui/charts" component={Charts} />
               <Route path="/app/storeManagement" component={StoreManagement} />
               <Route path="/app/menuManagement" component={MenuManagement} />
+              <Route path="/app/useCaseManagement" component={UseCaseManagement} />
             </Switch>
             <Box
               mt={5}

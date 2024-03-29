@@ -18,7 +18,7 @@ export default function Dashboard(props) {
   return (
     <>
       <PageTitle
-          title="Dashboard"
+          title="대쉬보드"
       />
       <Grid container spacing={4}>
         <Grid item xs={12}>

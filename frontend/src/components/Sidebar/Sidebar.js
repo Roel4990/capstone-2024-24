@@ -11,7 +11,7 @@ import {
   // HelpOutline as FAQIcon,
   ArrowBack as ArrowBackIcon,
   Store as StoreIcon,
-  RestaurantMenu as RestaurantMenuIcon
+  RestaurantMenu as RestaurantMenuIcon, Create
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -32,7 +32,7 @@ import {
 } from "../../context/LayoutContext";
 
 const structure = [
-  { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
+  { id: 0, label: "대쉬보드", link: "/app/dashboard", icon: <HomeIcon /> },
   // {
   //   id: 1,
   //   label: "Typography",
@@ -46,8 +46,9 @@ const structure = [
   //   link: "/app/notifications",
   //   icon: <NotificationsIcon />,
   // },
-  { id: 15, label: '매장', link: '/app/storeManagement', icon: <StoreIcon /> },
-  { id: 16, label: '메뉴', link: '/app/menuManagement', icon: <RestaurantMenuIcon /> },
+  { id: 15, label: '매장관리', link: '/app/storeManagement', icon: <StoreIcon /> },
+  { id: 16, label: '메뉴관리', link: '/app/menuManagement', icon: <RestaurantMenuIcon /> },
+  { id: 17, label: '주미학습', link: '/app/useCaseManagement', icon: <Create /> },
   // {
   //   id: 4,
   //   label: "UI Elements",

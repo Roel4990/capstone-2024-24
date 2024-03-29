@@ -284,7 +284,7 @@ function Login(props) {
             >
               <Grid container spacing={2} style={{ marginTop: 50 }}>
                 <Grid item xs={12} className={classes.addButtonContainer} >
-                  <Button onClick={() => signOut(userDispatch, props.history)} color="secondary">다시 로그인 하기</Button>
+                  <Button onClick={() => signOut(userDispatch, props.history)} color="secondary">다시 계정으로 로그인하기</Button>
                   <Button onClick={handleOpen} color="primary">매장 추가하기</Button>
                 </Grid>
                 {/*<div className={classes.cardContainer}>*/}
@@ -354,7 +354,7 @@ function Login(props) {
                   <TextField
                       margin="dense"
                       name="description"
-                      label="설명"
+                      label="지점"
                       type="text"
                       fullWidth
                       onChange={handleChange}
