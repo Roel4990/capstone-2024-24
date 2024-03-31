@@ -1,76 +1,114 @@
-# Welcome to GitHub
 
-캡스톤 팀 생성을 축하합니다.
+## 🤖 프로젝트 소개 
 
-## 팀소개 및 페이지를 꾸며주세요.
+- github pages : https://kookmin-sw.github.io/capstone-2024-24/
+- 국민대 2024년 캡스톤 24조 https://github.com/kookmin-sw/capstone-2024-24
 
-- 프로젝트 소개
-  - 프로젝트 설치방법 및 데모, 사용방법, 프리뷰등을 readme.md에 작성.
-  - Api나 사용방법등 내용이 많을경우 wiki에 꾸미고 링크 추가.
+## 🤖 AI 기반 대화형 키오스크, Jumi(주미)
 
-- 팀페이지 꾸미기
-  - 프로젝트 소개 및 팀원 소개
-  - index.md 예시보고 수정.
+당신의 주문 도우미 'Jumi(주미)'
 
-- GitHub Pages 리파지토리 Settings > Options > GitHub Pages 
-  - Source를 marster branch
-  - Theme Chooser에서 태마선택
-  - 수정후 팀페이지 확인하여 점검.
+키오스크 사용이 복잡하고 어렵지 않으신가요?
+AI와의 대화를 통해 더 간편하고, 쉽고, 자신있게 키오스크를 사용하실 수 있습니다. (Jumi)를 통해 매장에서의 불편함을 줄여보세요! 😆
 
-**팀페이지 주소** -> https://kookmin-sw.github.io/ '{{자신의 리파지토리 아이디}}'
+프로젝트 로고 이미지를 추가해주세요
 
-**예시)** 2023년 0조  https://kookmin-sw.github.io/capstone-2023-00/
+서울디지털재단이 발표한 ‘서울시민 디지털 역량 실태조사’에 따르면 55세 이상 고령층의 45.8%만 키오스크 이용 경험이 있다고 응답했습니다. 55세 미만에서 같은 답변이 94.1%였던 것에 비하면 절반에도 못 미치는 수준입니다. 실제로 고령 소비자층은 키오스크를 이용하며 불편한 점으로 ‘복잡한 단계 및 화면 조작’, ‘주문 상품에 대한 문의 불가’ 등을 꼽았습니다.(한국소비자원 설문조사)
 
+주미(Jumi)는 기존의 중노년층이나 가게에 처음오는 사람 등 해당 매장의 키오스크 사용에 미숙한 점이 많아 설명과 도움이 필요한 사람들을 대상으로 개발 중에 있습니다.
 
-## 내용에 아래와 같은 내용들을 추가하세요.
+대화를 통해 기존 점원들이 진행하던 주문뿐아니라 메뉴 설명, 매장설명 및 손님응대를 ai인 주미가 진행하므로써 손님은 자신만을 위한 작은 테이블위 담당 직원이 생기는 것이고 매장은 더 적은 비용으로 서비스 품질을 늘릴 수 있는 기회가 될 것입니다.
 
-### 1. 프로잭트 소개
+## 🤖 소개 영상
 
-프로젝트
+프로젝트 소개하는 영상을 추가해주세요
 
-### 2. 소개 영상
+## 🤖 프로젝트 기능
 
-프로젝트 소개하는 영상을 추가하세요
+### AI 기반 대화 기능
+AI와 매장에 관한 대화를 음성으로 자유롭게 나눌 수 있습니다. 대화 내역은 화면에서 확인 가능합니다. 대화 흐름과 매치되는 동작을 자동으로 수행하여 화면 터치 조작 없이 간편하게 키오스크를 사용할 수 있습니다.
 
-### 3. 팀 소개
+### 키오스크 기능
+기존 키오스크처럼 터치 조작으로 원하는 메뉴를 조회하고 주문할 수 있습니다.
 
-팀을 소개하세요.
+### 로그인 & 로그아웃 기능
+원하는 계정으로 로그인을 진행하여 매장을 추가, 수정, 조회, 삭제할 수 있으며 로그아웃도 가능합니다.
 
-팀원정보 및 담당이나 사진 및 SNS를 이용하여 소개하세요.
+## 🤖 사용법
 
-### 4. 사용법
+현재 테스트 파일로 각각의 폴더 내의 안내를 참고해 주세요.
 
-소스코드제출시 설치법이나 사용법을 작성하세요.
+구현 내역
+- (web) 관리자 페이지
+- (android) 키오스크 앱 동작 및 구성
+- (server) 데이터 및 LLM에 접근 가능한 서버 엔드포인트 (API) 구현
+- (ai) voice detecting 기능과 whisper를 연결하여, 말을 인식하여 음성파일을 만들어 text로 출력하는 테스트 파일
 
-### 5. 기타
+## 🤖 팀원 소개
+<table>
+    <tr align="center">
+        <td style="min-width: 150px;">
+            <a href="깃 링크">
+              <img src="사진 링크" width="100">
+              <br />
+              <b>안세홍</b>
+            </a> 
+            <br/>
+              20181640
+        </td>
+        <td style="min-width: 150px;">
+            <a href="https://github.com/Eonji-sw">
+              <img src="사진 링크" width="100">
+              <br />
+              <b>김언지</b>
+            </a>
+                       <br/>
+              20212979
+        </td>
+        <td style="min-width: 150px;">
+            <a href="https://github.com/devkaspee">
+              <img src="사진 링크" width="100">
+              <br />
+              <b>임호준</b>
+            </a> 
+                       <br/>
+              20181685
+        </td>
+        <td style="min-width: 150px;">
+            <a href="https://github.com/kwonbooyeon">
+              <img src="사진 링크" width="100">
+              <br />
+              <b>권부연</b>
+            </a> 
+                       <br/>
+              20203030
+        </td>
+    </tr>
+    <tr align="center">
+        <td>
+            Front-end(web), TL
+        </td>
+        <td>
+            Front-end(android)
+        </td>
+        <td>
+            Back-end
+        </td>
+        <td>
+            AI
+        </td>
+    </tr>
+</table>
 
-추가적인 내용은 자유롭게 작성하세요.
+## 🛠 기술 스택
 
+### 🖥 Frontend
 
-## Markdown을 사용하여 내용꾸미기
+### 🖥 Backend
 
-Markdown은 작문을 스타일링하기위한 가볍고 사용하기 쉬운 구문입니다. 여기에는 다음을위한 규칙이 포함됩니다.
+### 🖥 Common
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+## 📂 폴더 구조
 ```
-
-자세한 내용은 [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Support or Contact
-
-readme 파일 생성에 추가적인 도움이 필요하면 [도움말](https://help.github.com/articles/about-readmes/) 이나 [contact support](https://github.com/contact) 을 이용하세요.
+추후 업로드
+```
