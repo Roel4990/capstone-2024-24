@@ -43,7 +43,7 @@
 구현 내역
 - (web) 관리자 페이지
 - (android) 키오스크 앱 동작 및 구성
-- (server)
+- (server) 데이터 및 LLM에 접근 가능한 서버 엔드포인트 (API) 구현
 - (ai) voice detecting 기능과 whisper를 연결하여, 말을 인식하여 음성파일을 만들어 text로 출력하는 테스트 파일
   
 ---
