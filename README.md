@@ -149,8 +149,3 @@ AI와 매장에 관한 대화를 음성으로 자유롭게 나눌 수 있습니�
 |디자인|![figma](https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)|
 <br />
 
-
-## 📂 폴더 구조
-```
-추후 업로드
-```
