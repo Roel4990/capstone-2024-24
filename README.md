@@ -48,8 +48,8 @@ AI와 매장에 관한 대화를 음성으로 자유롭게 나눌 수 있습니�
 <table>
     <tr align="center">
         <td style="min-width: 150px;">
-            <a href="깃 링크">
-              <img src="사진 링크" width="100">
+            <a href="https://github.com/Roel4990">
+              <img src="https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/4977f984-0166-402e-923f-dc5329e0e310" width="100">
               <br />
               <b>안세홍</b>
             </a> 
@@ -58,7 +58,7 @@ AI와 매장에 관한 대화를 음성으로 자유롭게 나눌 수 있습니�
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/Eonji-sw">
-              <img src="사진 링크" width="100">
+              <img src="https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/6e8a928c-26eb-410e-ba9b-d3ae9870d2e2" width="100">
               <br />
               <b>김언지</b>
             </a>
@@ -67,7 +67,7 @@ AI와 매장에 관한 대화를 음성으로 자유롭게 나눌 수 있습니�
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/devkaspee">
-              <img src="사진 링크" width="100">
+              <img src="https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/4bdd5f86-21d5-4ee4-bc67-7602cb7bc99d" width="100">
               <br />
               <b>임호준</b>
             </a> 
@@ -76,7 +76,7 @@ AI와 매장에 관한 대화를 음성으로 자유롭게 나눌 수 있습니�
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/kwonbooyeon">
-              <img src="사진 링크" width="100">
+              <img src="https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/fbdded38-3b49-4268-8838-4f6294c63313" width="100">
               <br />
               <b>권부연</b>
             </a> 
