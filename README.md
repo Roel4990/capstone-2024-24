@@ -1,7 +1,7 @@
 
 ## 🤖 프로젝트 소개 
 
-- github pages : 추가해야 함
+- github pages : https://kookmin-sw.github.io/capstone-2024-24/
 - 국민대 2024년 캡스톤 24조 https://github.com/kookmin-sw/capstone-2024-24
 
 ## 🤖 AI 기반 대화형 키오스크, Jumi(주미)
