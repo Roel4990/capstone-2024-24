@@ -22,7 +22,7 @@ AI와의 대화를 통해 더 간편하고, 쉽고, 자신있게 키오스크를
 
 ## 🤖 소개 영상
 
-https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/36993f9d-da9d-41c4-b8c0-489f13e212bc
+[![Video Label](https://img.youtube.com/vi/aUr39A649iQ/0.jpg)](https://youtu.be/aUr39A649iQ) 
 
 ## 🤖 프로젝트 기능
 
