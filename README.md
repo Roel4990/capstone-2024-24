@@ -5,6 +5,7 @@
 - 국민대 2024년 캡스톤 24조 https://github.com/kookmin-sw/capstone-2024-24
 
 ## 🤖 AI 기반 대화형 키오스크, Jumi(주미)
+![Jumi_Logo](https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/19762b3a-6bf8-4d6f-bcbd-824c30cd62c6)
 
 당신의 주문 도우미 'Jumi(주미)'
 
