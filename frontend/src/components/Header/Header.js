@@ -139,7 +139,6 @@ export default function Header(props) {
         </IconButton>
         {/*<img src="/logo.webp" alt="image" style={{ height: "30px" }} />*/}
         <Typography variant="h6" weight="medium" className={classes.logotype} style={{ color: 'rgb(7, 53, 80)'}}>
-          {/*키우미*/}
           미도인
         </Typography>
         <div className={classes.grow} />
