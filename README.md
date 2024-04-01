@@ -76,7 +76,7 @@ AI와 매장에 관한 대화를 음성으로 자유롭게 나눌 수 있습니�
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/devkaspee">
-              <img src="https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/4bdd5f86-21d5-4ee4-bc67-7602cb7bc99d" width="100">
+              <img src="https://media.licdn.com/dms/image/D4D03AQGnXLN8XfT99A/profile-displayphoto-shrink_400_400/0/1709892878675?e=1717632000&v=beta&t=4P74nV3eJ6eIlBHz0JGjL104xmfzodYcDvd72GnUxEM" width="100">
               <br />
               <b>임호준</b>
             </a> 
