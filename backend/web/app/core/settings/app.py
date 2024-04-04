@@ -16,13 +16,13 @@ class AppSettings(BaseSettings):
     JWT_CREDENTIAL: str
     AWS_SECRET_KEY: str
     AWS_KEY_ID: str
+    WRITE_DB_URL: str
 
     class Config:
         env_file = ".env"
 
     @property
     def fastapi_kwargs(self) -> Dict[str, Any]:
-        print(self.JWT_CREDENTIAL)
         return {
             "debug": self.DEBUG,
             "docs_url": self.DOCS_URL,

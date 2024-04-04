@@ -1,22 +1,40 @@
+import hashlib
 from datetime import timedelta
 
 import arrow
 import jwt
-from fastapi import Depends
+from fastapi import Depends, HTTPException
+from starlette.status import HTTP_403_FORBIDDEN
 
 from app.core.config import get_app_settings
+from app.db.repositories.users import UserRepository
 from app.models.domain.auth import AuthToken, LoginInfo
 from app.resouces.numbers.auth import ACCESS_TOKEN_EXPIRE_MINUTES
 from app.resouces.strings.auth import JWT_ALGORITHMS
 
 
 class AuthService:
-    def __init__(self, settings=Depends(get_app_settings)):
+    def __init__(
+        self,
+        settings=Depends(get_app_settings),
+        user_repository=Depends(UserRepository),
+    ):
         self.jwt_credential = settings.JWT_CREDENTIAL
+        self.user_repository = user_repository
 
     def login_user(self, login_info: LoginInfo) -> AuthToken:
+        user = self.user_repository.get_user_by_email(email=login_info.username)
+
+        if (
+            not user
+            or user.password != hashlib.sha256(login_info.password.encode()).hexdigest()
+        ):
+            raise HTTPException(
+                status_code=HTTP_403_FORBIDDEN, detail="Invalid user or password"
+            )
+
         return self.create_auth_token(
-            user_id=1, user_email=login_info.username, status=1
+            user_id=user.id, user_email=login_info.username, status=1
         )
 
     def create_auth_token(

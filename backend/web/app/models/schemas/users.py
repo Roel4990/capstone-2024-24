@@ -14,6 +14,12 @@ class UserInLogin(BaseModel):
     status: int
 
 
+class UserInfoResponse(BaseModel):
+    email: str
+    name: str
+    createdDatetime: str
+
+
 class UserLoginResponse(BaseModel):
     class Token(BaseModel):
         accessToken: str
