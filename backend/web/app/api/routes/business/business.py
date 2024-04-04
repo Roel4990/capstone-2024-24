@@ -1,16 +1,20 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
+from app.api.dependencies.credential import get_user_info
 from app.models.schemas.business import (
     BusinessCreateRequest,
     BusinessListResponse,
     BusinessItem,
 )
+from app.models.schemas.users import UserInLogin
 
 router = APIRouter()
 
 
 @router.post("/business", name="business:create")
-def create_business(body: BusinessCreateRequest) -> BusinessListResponse:
+def create_business(
+    body: BusinessCreateRequest, user_info: UserInLogin = Depends(get_user_info)
+) -> BusinessListResponse:
     return BusinessListResponse(
         data=[
             BusinessItem(
@@ -26,7 +30,9 @@ def create_business(body: BusinessCreateRequest) -> BusinessListResponse:
 
 
 @router.get("/business", name="business:list")
-def get_business_list() -> BusinessListResponse:
+def get_business_list(
+    user_info: UserInLogin = Depends(get_user_info),
+) -> BusinessListResponse:
     return BusinessListResponse(
         data=[
             BusinessItem(

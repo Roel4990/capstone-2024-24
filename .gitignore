@@ -34,6 +34,7 @@ backend/web/node_modules
 backend/web/.serverless
 backend/web/package-lock.json
 backend/web/package.json
+backend/web/.env
 
 
 serverless.yml

@@ -8,6 +8,12 @@ class UserLoginRequest(BaseModel):
     password: constr(min_length=6, max_length=20)
 
 
+class UserInLogin(BaseModel):
+    userEmail: str
+    userId: int
+    status: int
+
+
 class UserLoginResponse(BaseModel):
     class Token(BaseModel):
         accessToken: str
