@@ -3,6 +3,8 @@
 
 - github pages : https://kookmin-sw.github.io/capstone-2024-24/
 - 국민대 2024년 캡스톤 24조 https://github.com/kookmin-sw/capstone-2024-24
+- 중간보고서 : https://drive.google.com/file/d/16NaXpkgVccnvjZIrgBijLE6NKX_uG9iI/view?usp=sharing
+- 중간발표자료 : https://drive.google.com/file/d/1uSfNx9Hp3RWLK9qVZHUtFuv0Xsn-snNT/view?usp=sharing
 
 ## 🤖 AI 기반 대화형 키오스크, Jumi(주미)
 
