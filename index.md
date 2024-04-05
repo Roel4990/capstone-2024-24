@@ -22,6 +22,18 @@ Jumi(주미)는 기존의 중노년층이나 가게에 처음오는 사람 등 �
 
 대화를 통해 기존 점원들이 진행하던 주문뿐아니라 메뉴 설명, 매장설명 및 손님응대를 ai인 주미가 진행하므로써 손님은 자신만을 위한 작은 테이블위 담당 직원이 생기는 것이고 매장은 더 적은 비용으로 서비스 품질을 늘릴 수 있는 기회가 될 것입니다.
 
+---
+
+Introducing 'Jumi', Your Order Assistant!
+
+Are you finding kiosk usage complex and challenging? With Jumi, you can interact more conveniently, easily, and confidently through AI conversation for smoother kiosk navigation. Let's reduce the inconvenience at your store! 😆
+
+According to the 'Seoul Citizen Digital Competency Survey' released by the Seoul Digital Foundation, only 45.8% of the elderly aged 55 and above responded that they have experience using kiosks. This figure is significantly lower than the 94.1% response from those under 55 years old. In fact, elderly consumers cited 'complex steps and screen manipulation' and 'inability to inquire about ordered items' as inconvenient aspects of using kiosks (Korea Consumer Agency survey).
+
+Jumi is being developed to assist those who are unfamiliar with using kiosks, such as the middle-aged and elderly, or those visiting a store for the first time, by providing explanations and assistance.
+
+Through conversation, Jumi not only handles orders like traditional staff but also provides menu explanations, store guidance, and customer service. This creates a personalized experience for the customer, akin to having a dedicated staff member at their service, while offering the store an opportunity to enhance service quality at lower costs.
+
 ## 🤖 소개 영상
 
 [![Video Label](https://img.youtube.com/vi/aUr39A649iQ/0.jpg)](https://youtu.be/aUr39A649iQ) 
