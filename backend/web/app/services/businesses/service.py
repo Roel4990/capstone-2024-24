@@ -4,7 +4,7 @@ import arrow
 from fastapi import Depends
 
 from app.db.repositories.businesses import BusinessRepository
-from app.models.domain.businesses import BusinessItem
+from app.models.domain.businesses import Business
 
 
 class BusinessService:
@@ -13,13 +13,13 @@ class BusinessService:
     ):
         self.business_repository = business_repository
 
-    def get_businesses(self, user_id: int) -> List[BusinessItem]:
+    def get_businesses(self, user_id: int) -> List[Business]:
         businesses = self.business_repository.get_businesses(user_id=user_id)
         result = []
 
         for business in businesses:
             result.append(
-                BusinessItem(
+                Business(
                     id=business.id,
                     name=business.name,
                     description=business.description,

@@ -2,24 +2,59 @@ from typing import List
 
 from fastapi import Depends
 from sqlalchemy.orm import Session
-from sqlalchemy.sql.operators import and_
 
 from app.db.dependencies import provide_db_session
 from app.db.models.items import Item as TblItem
+from app.models.domain.businesses import BusinessItem
 
 
 class ItemRepository:
     def __init__(self, session: Session = Depends(provide_db_session)):
         self._session = session
 
-    def get_items(self, user_id: int, business_id: int) -> List[TblItem]:
-        return (
+    def get_items(self, business_id: int) -> List[BusinessItem]:
+        entities = (
             self._session.query(TblItem)
-            .filter(
-                and_(
-                    TblItem.business_id == business_id,
-                    TblItem.user_id == user_id,
-                )
-            )
+            .filter(TblItem.business_id == business_id)
             .all()
         )
+
+        result: List[BusinessItem] = []
+
+        for entity in entities:
+            result.append(
+                BusinessItem(
+                    id=entity.id,
+                    category=entity.category,
+                    name=entity.name,
+                    description=entity.description,
+                    prompt=entity.prompt_text,
+                    imageUrl=entity.image_url,
+                    price=entity.price,
+                    isActive=bool(entity.status),
+                )
+            )
+
+        return result
+
+    def delete_items(self, business_id: int) -> None:
+        self._session.query(TblItem).filter(TblItem.business_id == business_id).delete()
+        self._session.commit()
+
+    def put_items(self, business_id: int, items: List[BusinessItem]) -> None:
+        entities: List[TblItem] = []
+        for item in items:
+            entity = TblItem(
+                business_id=business_id,
+                category=item.category,
+                name=item.name,
+                description=item.description,
+                prompt_text=item.prompt,
+                image_url=item.imageUrl,
+                price=item.price,
+                status=int(item.isActive),
+            )
+            entities.append(entity)
+
+        self._session.bulk_save_objects(entities)
+        self._session.commit()

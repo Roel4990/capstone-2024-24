@@ -23,7 +23,6 @@ class MenuResponse(BaseModel):
 
 
 class ItemRequest(BaseModel):
-    id: Optional[int]
     name: str
     description: str
     imageUrl: str
@@ -38,4 +37,4 @@ class CategoryRequest(BaseModel):
 
 
 class ItemCreateRequest(BaseModel):
-    items: list[CategoryRequest]
+    data: list[CategoryRequest]
