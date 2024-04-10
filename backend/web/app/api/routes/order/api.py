@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi import APIRouter, Depends
 
 from app.api.dependencies.credential import get_user_info
@@ -18,7 +20,7 @@ router = APIRouter()
 def get_new_session(
     business_id: int, user_info: UserInLogin = Depends(get_user_info)
 ) -> SessionResponse:
-    return SessionResponse(sessionId="TEMPORAL_SESSION_ID")
+    return SessionResponse(sessionId=str(uuid.uuid4()))
 
 
 @router.post("/orders/{business-id}/prompt/{session-id}", name="order:post-prompt")

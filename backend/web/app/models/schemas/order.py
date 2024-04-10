@@ -31,7 +31,7 @@ class OrderRequestInfo(BaseModel):
 class QueryResponse(BaseModel):
     query: str
     orderInfo: OrderInfo
-    pointerId: Optional[int]
+    pointerId: Optional[int] = None
     doBilling: bool = False
     showOrderList: bool = False
     totalPrice: int = 0

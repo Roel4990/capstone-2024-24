@@ -8,7 +8,7 @@ class BusinessItem(BaseModel):
     name: str
     category: str
     description: str
-    imageUrl: str
+    imageUrl: Optional[str] = None
     prompt: str
     price: int
     isActive: bool
