@@ -6,4 +6,5 @@ object KeyStorage {
     const val LOGIN = "login"
     const val BUSINESS = "business"
     const val ITEMS = "items"
+    const val BUSINESS_ID = "business_id"
 }
