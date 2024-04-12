@@ -1,11 +1,16 @@
 package com.kotlin.kiumee.presentation.menu
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
+import com.kotlin.kiumee.core.view.UiState
 import com.kotlin.kiumee.databinding.ActivityMenuBinding
 import com.kotlin.kiumee.presentation.menu.cart.Cart
 import com.kotlin.kiumee.presentation.menu.cart.CartAdapter
@@ -17,8 +22,11 @@ import com.kotlin.kiumee.presentation.menu.menuviewpager.MenuViewPagerAdapter
 import com.kotlin.kiumee.presentation.menu.tab.TabAdapter
 import com.kotlin.kiumee.presentation.menu.tab.TabItemDecorator
 import com.kotlin.kiumee.presentation.orderfinish.OrderFinishActivity
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu) {
+    private val menuViewModel by viewModels<MenuViewModel>()
     private val smoothScroller: RecyclerView.SmoothScroller by lazy {
         object : LinearSmoothScroller(this) {
             override fun getVerticalSnapPreference() = SNAP_TO_START
@@ -26,11 +34,12 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     }
     private val cartList = mutableListOf<Cart>()
     var clicked = false
+    private var lastClickedPosition: Int = 0
 
     override fun initView() {
         initChatAdapter()
         initLayoutState()
-        initTabAdapter()
+        initObserve()
 
         initMoveRvBtnClickListener()
         initOrderBtnClickListener()
@@ -52,15 +61,28 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }
     }
 
-    private fun initTabAdapter() {
-        val tabTitles = listOf("직원 호출", "스테이크류", "덮밥류", "면류", "사이드 메뉴", "음료 메뉴", "주류 메뉴")
-        with(binding) {
-            vpMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabTitles)
+    private fun initObserve() {
+        menuViewModel.getMenu.flowWithLifecycle(lifecycle).onEach {
+            when (it) {
+                is UiState.Success -> {
+                    Log.e("here", "${it.data}")
+                    initTabAdapter(it.data)
+                }
 
-            rvMenuTabContent.adapter = TabAdapter(click = { tab, position ->
+                is UiState.Failure -> Log.e("here", "실패 : $it")
+                is UiState.Loading -> Log.e("here", "로딩중")
+            }
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun initTabAdapter(tabData: List<CategoryEntity>) {
+        with(binding) {
+            rvMenuTabContent.adapter = TabAdapter(click = { _, position ->
+                lastClickedPosition = position
+                vpMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabData)
                 vpMenu.currentItem = position
             }).apply {
-                submitList(tabTitles)
+                submitList(tabData)
             }
 
             vpMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
@@ -160,5 +182,9 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }
 
         binding.rvMenuRvChat.addItemDecoration(ChatItemDecorator(this))
+    }
+
+    fun getLastClickedPosition(): Int {
+        return lastClickedPosition
     }
 }
