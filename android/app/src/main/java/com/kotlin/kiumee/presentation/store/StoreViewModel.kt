@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kotlin.kiumee.core.view.UiState
 import com.kotlin.kiumee.data.dto.ServicePool
+import com.kotlin.kiumee.presentation.MainApplication
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -24,4 +25,9 @@ class StoreViewModel : ViewModel() {
             { _getStore.value = UiState.Failure(it.message.toString()) }
         )
     }
+
+    fun getBusinessId(businessId: Int) =
+        viewModelScope.launch {
+            MainApplication.prefs.setBusinessId(businessId)
+        }
 }
