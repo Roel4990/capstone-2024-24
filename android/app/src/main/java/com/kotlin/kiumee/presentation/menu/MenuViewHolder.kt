@@ -6,11 +6,16 @@ import com.kotlin.kiumee.databinding.ItemMenuBinding
 
 class MenuViewHolder(
     private val binding: ItemMenuBinding,
-    private val click: (Menu, Int) -> Unit = { _, _ -> }
+    private val click: (MenuEntity, Int) -> Unit = { _, _ -> }
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(data: Menu) {
+    fun bind(data: MenuEntity) {
         with(binding) {
-            Glide.with(root.context).load(data.imageUrl).centerCrop().into(ivItemMenu)
+            data.imageUrl?.let { url ->
+                Glide.with(ivItemMenu.context)
+                    .load(url)
+                    .centerCrop()
+                    .into(ivItemMenu)
+            }
             tvItemMenuName.text = data.name
             tvItemMenuPrice.text = data.price.toString() + "원"
             tvItemMenuDescription.text = data.description
