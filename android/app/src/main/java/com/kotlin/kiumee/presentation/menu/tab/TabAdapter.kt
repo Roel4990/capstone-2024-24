@@ -10,11 +10,12 @@ import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.util.context.colorOf
 import com.kotlin.kiumee.core.view.ItemDiffCallback
 import com.kotlin.kiumee.databinding.ItemMenuTabBinding
+import com.kotlin.kiumee.presentation.menu.CategoryEntity
 
 class TabAdapter(
-    private val click: (String, Int) -> Unit = { _, _ -> }
+    private val click: (CategoryEntity, Int) -> Unit = { _, _ -> }
 ) :
-    ListAdapter<String, TabAdapter.TabViewHolder>(
+    ListAdapter<CategoryEntity, TabAdapter.TabViewHolder>(
         TabAdapterDiffCallback
     ) {
     private var selectedTabIndex: Int = 0 // 초기에는 첫 번째 탭을 선택
@@ -43,21 +44,20 @@ class TabAdapter(
 
     companion object {
         private val TabAdapterDiffCallback =
-            ItemDiffCallback<String>(
-                // 수정해야 함
-                onItemsTheSame = { old, new -> old == new },
+            ItemDiffCallback<CategoryEntity>(
+                onItemsTheSame = { old, new -> old.category == new.category },
                 onContentsTheSame = { old, new -> old == new }
             )
     }
 
     inner class TabViewHolder(
         private val binding: ItemMenuTabBinding,
-        private val click: (String, Int) -> Unit
+        private val click: (CategoryEntity, Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: String) {
+        fun bind(data: CategoryEntity) {
             with(binding) {
-                tvMenuTab.text = data
+                tvMenuTab.text = data.category
 
                 root.setOnClickListener {
                     click(data, adapterPosition)
