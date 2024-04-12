@@ -54,6 +54,7 @@ class StoreActivity : BindingActivity<ActivityStoreBinding>(R.layout.activity_st
             initEmptyLayout()
         } else {
             binding.rvStore.adapter = StoreAdapter(click = { storeData, position ->
+                storeViewModel.getBusinessId(storeData.id)
                 startActivity(Intent(this, HomeActivity::class.java))
             }).apply {
                 submitList(storeData)
