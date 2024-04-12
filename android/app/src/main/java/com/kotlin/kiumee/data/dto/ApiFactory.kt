@@ -5,6 +5,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.kotlin.kiumee.BuildConfig.BASE_URL
 import com.kotlin.kiumee.data.api.BusinessApiService
 import com.kotlin.kiumee.data.api.ExampleApiService
+import com.kotlin.kiumee.data.api.ItemsApiService
 import com.kotlin.kiumee.data.api.LoginApiService
 import com.kotlin.kiumee.presentation.MainApplication
 import kotlinx.serialization.json.Json
@@ -56,4 +57,5 @@ object ServicePool {
     val exampleService = ApiFactory.create<ExampleApiService>()
     val loginApiService = ApiFactory.create<LoginApiService>()
     val businessApiService = ApiFactory.create<BusinessApiService>()
+    val itemsApiService = ApiFactory.create<ItemsApiService>()
 }
