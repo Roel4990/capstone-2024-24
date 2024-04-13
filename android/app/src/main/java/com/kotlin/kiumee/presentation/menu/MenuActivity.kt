@@ -1,7 +1,6 @@
 package com.kotlin.kiumee.presentation.menu
 
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -24,6 +23,7 @@ import com.kotlin.kiumee.presentation.menu.tab.TabItemDecorator
 import com.kotlin.kiumee.presentation.orderfinish.OrderFinishActivity
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu) {
     private val menuViewModel by viewModels<MenuViewModel>()
@@ -65,18 +65,18 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         menuViewModel.getMenu.flowWithLifecycle(lifecycle).onEach {
             when (it) {
                 is UiState.Success -> {
-                    Log.e("here", "${it.data}")
                     initTabAdapter(it.data)
                 }
 
-                is UiState.Failure -> Log.e("here", "실패 : $it")
-                is UiState.Loading -> Log.e("here", "로딩중")
+                is UiState.Failure -> Timber.d("실패 : $it")
+                is UiState.Loading -> Timber.d("로딩중")
             }
         }.launchIn(lifecycleScope)
     }
 
     private fun initTabAdapter(tabData: List<CategoryEntity>) {
         with(binding) {
+            vpMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabData)
             rvMenuTabContent.adapter = TabAdapter(click = { _, position ->
                 lastClickedPosition = position
                 vpMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabData)
