@@ -1,7 +1,6 @@
 package com.kotlin.kiumee.presentation.menu.menuviewpager
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -21,19 +20,10 @@ import timber.log.Timber
 
 class MenuViewPagerFragment : BindingFragment<FragmentTabBinding>(R.layout.fragment_tab) {
     private val menuViewModel by viewModels<MenuViewModel>()
-    private var tabPosition: Int = 0
-    private lateinit var menuAdapter: MenuAdapter
 
     override fun initView() {
-        // initFragmentInstance()
         initObserve()
     }
-
-//    private fun initFragmentInstance() {
-//        arguments?.getInt(ARG_TAB_POSITION)?.let {
-//            tabPosition = it
-//        }
-//    }
 
     private fun initObserve() {
         menuViewModel.getMenu.flowWithLifecycle(lifecycle).onEach {
@@ -49,20 +39,16 @@ class MenuViewPagerFragment : BindingFragment<FragmentTabBinding>(R.layout.fragm
     }
 
     private fun initMenuViewPagerAdapter(menuData: List<CategoryEntity>) {
-        menuAdapter = MenuAdapter(click = { menu, position ->
+        binding.rvTab.adapter = MenuAdapter(click = { menu, position ->
             val newCartItem = Cart(menu.name, 1, menu.price)
             (activity as? MenuActivity)?.addCartItem(newCartItem)
-        })
-        menuAdapter.apply {
-            // Log.e("hhere", tabPosition.toString())
-            Log.e("hhhere", (activity as? MenuActivity)?.getLastClickedPosition().toString())
+        }).apply {
             submitList(
                 menuData.getOrNull(
                     (activity as? MenuActivity)?.getLastClickedPosition() ?: 0
                 )?.items
             )
         }
-        binding.rvTab.adapter = menuAdapter
         binding.rvTab.addItemDecoration(MenuItemDecorator(requireContext()))
     }
 
