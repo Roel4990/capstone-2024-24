@@ -7,4 +7,4 @@ claude 3 sonnet에 매장정보와 질의를 주어 답을 얻는 함수
 
 ---
 # llm 비교 보고서
-- https://www.notion.so/LLM-f6dc4789e8bc4abe834fef99358d5f89
+- https://drive.google.com/file/d/11AdhRi685q_vCWszQ5zkrh94liu-hf2a/view?usp=sharing
