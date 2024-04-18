@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.kiumee.R
@@ -41,9 +42,9 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         initLayoutState()
         initObserve()
 
-        initMoveRvBtnClickListener()
         initOrderBtnClickListener()
         initSpeakBtnClickListener()
+        initCloseBtnClickListener()
     }
 
     private fun initSpeakBtnClickListener() {
@@ -76,27 +77,27 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
     private fun initTabAdapter(tabData: List<CategoryEntity>) {
         with(binding) {
-            vpMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabData)
+            vpMenuMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabData)
             rvMenuTabContent.adapter = TabAdapter(click = { _, position ->
+                layoutMenuMenu.visibility = View.VISIBLE
+                rvMenuChat.visibility = View.GONE
                 lastClickedPosition = position
-                vpMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabData)
-                vpMenu.currentItem = position
+                vpMenuMenu.adapter =
+                    MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabData)
+                vpMenuMenu.currentItem = position
             }).apply {
                 submitList(tabData)
             }
 
-            vpMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
+            vpMenuMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
             rvMenuTabContent.addItemDecoration(TabItemDecorator(this@MenuActivity))
         }
     }
 
-    private fun initMoveRvBtnClickListener() {
-        binding.btnMenuRvChat.setOnClickListener {
-            binding.rvMenuRvChat?.layoutManager?.startSmoothScroll(
-                smoothScroller.apply {
-                    targetPosition = 2
-                }
-            )
+    private fun initCloseBtnClickListener() {
+        binding.btnMenuCloseTest.setOnClickListener {
+            binding.layoutMenuMenu.visibility = View.GONE
+            binding.rvMenuChat.visibility = View.VISIBLE
         }
     }
 
@@ -168,7 +169,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     }
 
     private fun initChatAdapter() {
-        binding.rvMenuRvChat.adapter = ChatAdapter().apply {
+        binding.rvMenuChat.adapter = ChatAdapter().apply {
             submitList(
                 listOf(
                     Chat(1, "키우미에게 대화를 시작해주세요!"),
@@ -176,12 +177,19 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                     Chat(1, "안녕하세요!"),
                     Chat(0, "나는 배가 고파."),
                     Chat(0, "여기에서 가장 잘 나가는 메뉴가 뭐야?"),
-                    Chat(1, "저희 매장에서 제일 잘 나가는 메뉴는 아이스 아메리카노입니다.")
+                    Chat(1, "저희 매장의 대표 메뉴입니다.", listOf("아이스 아메리카노", "아이스 돌체라떼", "티라미수 케익")),
+                    Chat(0, "화장실 가고싶어."),
+                    Chat(1, "저희 매장에서 화장실은 안쪽 계단 맞은 편에 있습니다."),
+                    Chat(0, "알려줘서 고마워."),
+                    Chat(0, "오늘 날씨 좋다."),
+                    Chat(1, "무슨 말인지 모르겠어요."),
+                    Chat(0, "떡볶이가 있니?"),
+                    Chat(1, "네. 저희 매장에서는 미도인 우실장 떡볶이를 제공하고 있습니다.")
                 )
             )
         }
-
-        binding.rvMenuRvChat.addItemDecoration(ChatItemDecorator(this))
+        binding.rvMenuChat.layoutManager = LinearLayoutManager(binding.rvMenuChat.context, LinearLayoutManager.VERTICAL, false)
+        binding.rvMenuChat.addItemDecoration(ChatItemDecorator(this))
     }
 
     fun getLastClickedPosition(): Int {
