@@ -23,7 +23,7 @@ class CartAdapter(private val onDeleteClickListener: (Cart) -> Unit) :
     ) {
         val cartItem = currentList[position]
         holder.bind(cartItem)
-        holder.binding.ibMenuCartTrash.setOnClickListener {
+        holder.binding.ibItemMenuCartTrash.setOnClickListener {
             onDeleteClickListener.invoke(cartItem)
         }
     }
