@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="chat"
+            type="com.kotlin.kiumee.presentation.menu.chat.Chat" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="240dp"
+        android:layout_height="260dp"
+        android:background="@drawable/shape_gray7_line_20_rect"
+        android:clickable="true"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/iv_item_chat_btn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_no_sign"
+            app:layout_constraintBottom_toTopOf="@id/tv_item_chat_btn_name"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_item_chat_btn_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textAppearance="@style/TextAppearance.Kiumee.cap1_regular_36"
+            app:layout_constraintBottom_toTopOf="@id/tv_item_chat_btn_price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_item_chat_btn"
+            tools:text="상품명" />
+
+        <TextView
+            android:id="@+id/tv_item_chat_btn_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAppearance="@style/TextAppearance.Kiumee.cap2_regular_32"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_chat_btn_name"
+            tools:text="가격" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
