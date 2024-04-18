@@ -57,7 +57,7 @@ class TabAdapter(
 
         fun bind(data: CategoryEntity) {
             with(binding) {
-                tvMenuTab.text = data.category
+                tvItemMenuTab.text = data.category
 
                 root.setOnClickListener {
                     click(data, adapterPosition)
@@ -65,13 +65,13 @@ class TabAdapter(
                 }
 
                 if (adapterPosition == selectedTabIndex) {
-                    tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body1_medium_48)
-                    viewMenuTab.visibility = View.VISIBLE
-                    tvMenuTab.setTextColor(root.context.colorOf(R.color.primary))
+                    tvItemMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body1_medium_48)
+                    viewItemMenuTab.visibility = View.VISIBLE
+                    tvItemMenuTab.setTextColor(root.context.colorOf(R.color.primary))
                 } else {
-                    tvMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body2_regular_48)
-                    viewMenuTab.visibility = View.INVISIBLE
-                    tvMenuTab.setTextColor(root.context.colorOf(R.color.black))
+                    tvItemMenuTab.setTextAppearance(R.style.TextAppearance_Kiumee_body2_regular_48)
+                    viewItemMenuTab.visibility = View.INVISIBLE
+                    tvItemMenuTab.setTextColor(root.context.colorOf(R.color.black))
                 }
             }
         }
