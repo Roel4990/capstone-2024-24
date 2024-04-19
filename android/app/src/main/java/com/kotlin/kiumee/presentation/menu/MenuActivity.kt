@@ -80,7 +80,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             vpMenuMenu.adapter = MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabData)
             rvMenuTabContent.adapter = TabAdapter(click = { _, position ->
                 layoutMenuMenu.visibility = View.VISIBLE
-                rvMenuChat.visibility = View.GONE
+                layoutMenuChat.visibility = View.GONE
                 lastClickedPosition = position
                 vpMenuMenu.adapter =
                     MenuViewPagerAdapter(supportFragmentManager, lifecycle, tabData)
@@ -97,7 +97,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     private fun initCloseBtnClickListener() {
         binding.btnMenuCloseTest.setOnClickListener {
             binding.layoutMenuMenu.visibility = View.GONE
-            binding.rvMenuChat.visibility = View.VISIBLE
+            binding.layoutMenuChat.visibility = View.VISIBLE
         }
     }
 
@@ -188,7 +188,8 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                 )
             )
         }
-        binding.rvMenuChat.layoutManager = LinearLayoutManager(binding.rvMenuChat.context, LinearLayoutManager.VERTICAL, false)
+        binding.rvMenuChat.layoutManager =
+            LinearLayoutManager(binding.rvMenuChat.context, LinearLayoutManager.VERTICAL, false)
         binding.rvMenuChat.addItemDecoration(ChatItemDecorator(this))
     }
 
