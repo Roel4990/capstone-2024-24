@@ -15,6 +15,6 @@ class MenuItemDecorator(val context: Context) : RecyclerView.ItemDecoration() {
     ) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        outRect.bottom = context.pxToDp(30)
+        outRect.bottom = context.pxToDp(20)
     }
 }
