@@ -9,7 +9,6 @@ import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.util.context.colorOf
 import com.kotlin.kiumee.databinding.ItemChatBinding
 import com.kotlin.kiumee.presentation.menu.chat.menubtn.MenuBtnAdapter
-import com.kotlin.kiumee.presentation.menu.chat.menubtn.MenuBtnItemDecorator
 
 class ChatViewHolder(private val binding: ItemChatBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -41,7 +40,6 @@ class ChatViewHolder(private val binding: ItemChatBinding) :
                         LinearLayoutManager.HORIZONTAL,
                         false
                     )
-                    addItemDecoration(MenuBtnItemDecorator(context))
                 }
             } else {
                 rvItemChatBtn.visibility = View.GONE
