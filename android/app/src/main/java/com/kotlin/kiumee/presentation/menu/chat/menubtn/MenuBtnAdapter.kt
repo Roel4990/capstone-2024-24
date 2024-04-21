@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.kotlin.kiumee.core.view.ItemDiffCallback
 import com.kotlin.kiumee.databinding.ItemChatBtnBinding
-import com.kotlin.kiumee.presentation.menu.chat.Chat
 
 class MenuBtnAdapter() : ListAdapter<String, MenuBtnViewHolder>(MenuBtnAdapterDiffCallback) {
     override fun onCreateViewHolder(
