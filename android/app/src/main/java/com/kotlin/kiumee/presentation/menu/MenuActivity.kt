@@ -36,7 +36,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }
     }
     private val cartList = mutableListOf<Cart>()
-    var clicked = false
+    var clicked = true
     private var lastClickedPosition: Int = 0
 
     override fun initView() {
