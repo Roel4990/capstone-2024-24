@@ -7,6 +7,7 @@ class MenuBtnViewHolder(private val binding: ItemChatBtnBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(data: String) {
         with(binding) {
+            ivItemChatBtn.clipToOutline = true
             tvItemChatBtnName.text = data
             tvItemChatBtnPrice.text = data
         }
