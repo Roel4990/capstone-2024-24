@@ -18,6 +18,8 @@ import com.kotlin.kiumee.presentation.menu.cart.CartItemDecorator
 import com.kotlin.kiumee.presentation.menu.chat.Chat
 import com.kotlin.kiumee.presentation.menu.chat.ChatAdapter
 import com.kotlin.kiumee.presentation.menu.chat.ChatItemDecorator
+import com.kotlin.kiumee.presentation.menu.chat.guidebtn.GuideBtnAdapter
+import com.kotlin.kiumee.presentation.menu.chat.guidebtn.GuideBtnItemDecorator
 import com.kotlin.kiumee.presentation.menu.menuviewpager.MenuViewPagerAdapter
 import com.kotlin.kiumee.presentation.menu.tab.TabAdapter
 import com.kotlin.kiumee.presentation.menu.tab.TabItemDecorator
@@ -39,6 +41,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
     override fun initView() {
         initChatAdapter()
+        initGuideAdapter()
         initLayoutState()
         initObserve()
 
@@ -95,7 +98,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     }
 
     private fun initCloseBtnClickListener() {
-        binding.btnMenuCloseTest.setOnClickListener {
+        binding.tvMenuMenuClose.setOnClickListener {
             binding.layoutMenuMenu.visibility = View.GONE
             binding.layoutMenuChat.visibility = View.VISIBLE
         }
@@ -166,6 +169,19 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         // 카트 목록의 가격 합계 계산
         val totalPrice = cartList.sumOf { it.price }
         binding.tvMenuCartTotalPrice.text = totalPrice.toString() + "원"
+    }
+
+    private fun initGuideAdapter() {
+        binding.rvMenuChatGuide.adapter = GuideBtnAdapter().apply {
+            submitList(listOf("대표 메뉴가 뭐야?", "화장실 어디에 있어?", "직원 호출해 줘."))
+        }
+        binding.rvMenuChatGuide.layoutManager =
+            LinearLayoutManager(
+                binding.rvMenuChatGuide.context,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        binding.rvMenuChatGuide.addItemDecoration(GuideBtnItemDecorator(this))
     }
 
     private fun initChatAdapter() {
