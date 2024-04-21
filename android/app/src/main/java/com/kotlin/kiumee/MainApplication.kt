@@ -1,4 +1,4 @@
-package com.kotlin.kiumee.presentation
+package com.kotlin.kiumee
 
 import android.app.Application
 import com.kotlin.kiumee.data.dto.PreferenceUtil
