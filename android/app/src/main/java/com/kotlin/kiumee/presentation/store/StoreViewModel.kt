@@ -2,9 +2,9 @@ package com.kotlin.kiumee.presentation.store
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kotlin.kiumee.MainApplication
 import com.kotlin.kiumee.core.view.UiState
 import com.kotlin.kiumee.data.dto.ServicePool
-import com.kotlin.kiumee.presentation.MainApplication
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

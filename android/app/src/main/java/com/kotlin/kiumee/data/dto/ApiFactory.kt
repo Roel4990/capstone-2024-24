@@ -3,11 +3,11 @@ package com.kotlin.kiumee.data.dto
 import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.kotlin.kiumee.BuildConfig.BASE_URL
+import com.kotlin.kiumee.MainApplication
 import com.kotlin.kiumee.data.api.BusinessApiService
 import com.kotlin.kiumee.data.api.ExampleApiService
 import com.kotlin.kiumee.data.api.ItemsApiService
 import com.kotlin.kiumee.data.api.LoginApiService
-import com.kotlin.kiumee.presentation.MainApplication
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
