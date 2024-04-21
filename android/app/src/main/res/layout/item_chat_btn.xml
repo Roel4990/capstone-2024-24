@@ -13,15 +13,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="240dp"
-        android:layout_height="260dp"
-        android:background="@drawable/shape_gray7_line_20_rect"
+        android:layout_height="280dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_white_fill_25_rect"
         android:clickable="true"
+        android:elevation="8dp"
         android:padding="20dp">
 
         <ImageView
             android:id="@+id/iv_item_chat_btn"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="@drawable/shape_line_35_rect"
             android:src="@drawable/ic_no_sign"
             app:layout_constraintBottom_toTopOf="@id/tv_item_chat_btn_name"
             app:layout_constraintDimensionRatio="1:1"
@@ -35,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:textAppearance="@style/TextAppearance.Kiumee.cap1_regular_36"
+            android:textColor="@color/gray_12"
             app:layout_constraintBottom_toTopOf="@id/tv_item_chat_btn_price"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_item_chat_btn"
@@ -44,8 +48,8 @@
             android:id="@+id/tv_item_chat_btn_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:textAppearance="@style/TextAppearance.Kiumee.cap2_regular_32"
+            android:textColor="@color/gray_12"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_item_chat_btn_name"
