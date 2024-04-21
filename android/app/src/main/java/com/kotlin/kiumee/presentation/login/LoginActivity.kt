@@ -47,7 +47,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         with(binding) {
             if (etLoginId.text.isNotEmpty() and etLoginPw.text.isNotEmpty()) {
                 btnLogin.setTextColor(resources.getColor(R.color.white))
-                btnLogin.setBackgroundResource(R.drawable.shape_primary_fill_10_rect)
+                btnLogin.setBackgroundResource(R.drawable.shape_primary_fill_15_rect)
                 btnLogin.isEnabled = true
             } else {
                 btnLogin.setTextColor(resources.getColor(R.color.black))
