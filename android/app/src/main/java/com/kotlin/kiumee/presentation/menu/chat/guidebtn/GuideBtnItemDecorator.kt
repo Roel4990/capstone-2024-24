@@ -1,4 +1,4 @@
-package com.kotlin.kiumee.presentation.menu.chat.menubtn
+package com.kotlin.kiumee.presentation.menu.chat.guidebtn
 
 import android.content.Context
 import android.graphics.Rect
@@ -6,7 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.kiumee.core.util.context.pxToDp
 
-class MenuBtnItemDecorator(val context: Context) : RecyclerView.ItemDecoration() {
+class GuideBtnItemDecorator(val context: Context) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -17,7 +17,7 @@ class MenuBtnItemDecorator(val context: Context) : RecyclerView.ItemDecoration()
         val position = parent.getChildAdapterPosition(view)
 
         if (position != 0) {
-            outRect.left = context.pxToDp(10)
+            outRect.left = context.pxToDp(5)
         }
     }
 }
