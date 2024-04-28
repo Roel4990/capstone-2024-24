@@ -1,8 +1,6 @@
 package com.kotlin.kiumee.presentation.login
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -19,9 +17,6 @@ import timber.log.Timber
 
 class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_login) {
     private val loginViewModel by viewModels<LoginViewModel>()
-    private val sharedPreferences: SharedPreferences by lazy {
-        getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-    }
 
     override fun initView() {
         initAppbarHomeBtn()
