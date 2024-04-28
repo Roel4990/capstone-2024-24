@@ -7,9 +7,9 @@ import com.kotlin.kiumee.core.view.ItemDiffCallback
 import com.kotlin.kiumee.databinding.ItemMenuBinding
 
 class MenuAdapter(
-    private val click: (Menu, Int) -> Unit = { _, _ -> }
+    private val click: (MenuEntity, Int) -> Unit = { _, _ -> }
 ) :
-    ListAdapter<Menu, MenuViewHolder>(
+    ListAdapter<MenuEntity, MenuViewHolder>(
         MenuAdapterDiffCallback
     ) {
     override fun onCreateViewHolder(
@@ -30,9 +30,8 @@ class MenuAdapter(
 
     companion object {
         private val MenuAdapterDiffCallback =
-            ItemDiffCallback<Menu>(
-                // 수정해야 함
-                onItemsTheSame = { old, new -> old == new },
+            ItemDiffCallback<MenuEntity>(
+                onItemsTheSame = { old, new -> old.id == new.id },
                 onContentsTheSame = { old, new -> old == new }
             )
     }

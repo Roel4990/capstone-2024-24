@@ -6,9 +6,9 @@ import com.kotlin.kiumee.databinding.ItemStoreBinding
 
 class StoreViewHolder(
     private val binding: ItemStoreBinding,
-    private val click: (Store, Int) -> Unit = { _, _ -> }
+    private val click: (StoreEntity, Int) -> Unit = { _, _ -> }
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(data: Store) {
+    fun bind(data: StoreEntity) {
         with(binding) {
             Glide.with(root.context).load(data.imageUrl).centerCrop().into(ivItemStore)
             tvItemStoreName.text = data.name
