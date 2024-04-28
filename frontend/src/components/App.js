@@ -1,5 +1,5 @@
-import React from "react";
-import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import React, {useEffect} from "react";
+import {HashRouter, Route, Switch, Redirect, useHistory} from "react-router-dom";
 
 // components
 import Layout from "./Layout";
@@ -10,14 +10,13 @@ import Login from "../pages/login";
 import SelectCompany from "../pages/selectCompany";
 
 // context
-import { useUserState } from "../context/UserContext";
+import {useUserDispatch, useUserState} from "../context/UserContext";
 import {QueryClient, QueryClientProvider} from "react-query";
 const queryClient = new QueryClient();
 
 export default function App() {
   // global
   var { isAuthenticated } = useUserState();
-
   return (
       <QueryClientProvider client={queryClient}> {/* QueryClientProvider 추가 */}
         <HashRouter>
@@ -40,6 +39,15 @@ export default function App() {
   // #######################################################################
 
   function PrivateRoute({ component, ...rest }) {
+      const userDispatch = useUserDispatch();
+      const history = useHistory();
+      const company_id = localStorage.getItem("company_id")
+      useEffect(() => {
+          if (!company_id) {
+              userDispatch({ type: "SIGN_OUT_SUCCESS" });
+              history.push("/login"); // 렌더링 후 리디렉션
+          }
+      }, [userDispatch, history]); // `userDispatch`와 `history`를 의존성 배열에 추가
     return (
       <Route
         {...rest}
