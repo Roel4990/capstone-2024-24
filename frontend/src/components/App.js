@@ -7,6 +7,7 @@ import Layout from "./Layout";
 // pages
 import Error from "../pages/error";
 import Login from "../pages/login";
+import SelectCompany from "../pages/selectCompany";
 
 // context
 import { useUserState } from "../context/UserContext";
@@ -25,6 +26,7 @@ export default function App() {
           render={() => <Redirect to="/app/dashboard" />}
         />
         <PrivateRoute path="/app" component={Layout} />
+        {/*<PrivateRoute path="/selectCompany" component={SelectCompany} />*/}
         <PublicRoute path="/login" component={Login} />
         <Route component={Error} />
       </Switch>

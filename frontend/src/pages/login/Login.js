@@ -199,21 +199,21 @@ function Login(props) {
                           Something is wrong with your login or password :(
                         </Typography>
                       </Fade>
-                      <TextField
-                          id="name"
-                          InputProps={{
-                            classes: {
-                              underline: classes.textFieldUnderline,
-                              input: classes.textField,
-                            },
-                          }}
-                          value={nameValue}
-                          onChange={e => setNameValue(e.target.value)}
-                          margin="normal"
-                          placeholder="Full Name"
-                          type="text"
-                          fullWidth
-                      />
+                      {/*<TextField*/}
+                      {/*    id="name"*/}
+                      {/*    InputProps={{*/}
+                      {/*      classes: {*/}
+                      {/*        underline: classes.textFieldUnderline,*/}
+                      {/*        input: classes.textField,*/}
+                      {/*      },*/}
+                      {/*    }}*/}
+                      {/*    value={nameValue}*/}
+                      {/*    onChange={e => setNameValue(e.target.value)}*/}
+                      {/*    margin="normal"*/}
+                      {/*    placeholder="Full Name"*/}
+                      {/*    type="text"*/}
+                      {/*    fullWidth*/}
+                      {/*/>*/}
                       <TextField
                           id="email"
                           InputProps={{
@@ -254,8 +254,8 @@ function Login(props) {
                                 }
                                 disabled={
                                     loginValue.length === 0 ||
-                                    passwordValue.length === 0 ||
-                                    nameValue.length === 0
+                                    passwordValue.length === 0
+                                    // nameValue.length === 0
                                 }
                                 size="large"
                                 variant="contained"
