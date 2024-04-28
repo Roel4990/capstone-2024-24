@@ -8,6 +8,7 @@ import com.kotlin.kiumee.data.api.BusinessApiService
 import com.kotlin.kiumee.data.api.ExampleApiService
 import com.kotlin.kiumee.data.api.ItemsApiService
 import com.kotlin.kiumee.data.api.LoginApiService
+import com.kotlin.kiumee.data.api.SessionApiService
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -58,4 +59,5 @@ object ServicePool {
     val loginApiService = ApiFactory.create<LoginApiService>()
     val businessApiService = ApiFactory.create<BusinessApiService>()
     val itemsApiService = ApiFactory.create<ItemsApiService>()
+    val sessionApiService = ApiFactory.create<SessionApiService>()
 }
