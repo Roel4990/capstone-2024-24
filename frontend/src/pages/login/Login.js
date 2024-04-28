@@ -16,6 +16,8 @@ import CollectionsIcon from "@material-ui/icons/Collections";
 import useStyles from "./styles";
 // context
 import {signOut, useUserDispatch} from "../../context/UserContext";
+import axios from "axios";
+import {useMutation} from "react-query";
 // 예제 데이터
 const initialCardData = [
     // {
@@ -26,23 +28,44 @@ const initialCardData = [
     // }
 ]
 
-function Login(props) {
+const loginUser = async (userData) => {
+  const response = await axios.post('https://jumi-api.youchu.io/v1/login', userData);
+  return response.data;
+};
 
-  var classes = useStyles();
+function Login(props) {
+  const classes = useStyles();
   const [cardData, setCardData] = useState(initialCardData);
   // local
-  var [isLoading, setIsLoading] = useState(false);
-  var [error, setError] = useState(null);
-  var [activeTabId, setActiveTabId] = useState(0);
-  var [selectCompany, setSelectCompany] = useState(0)
-  var [nameValue, setNameValue] = useState("");
-  var [loginValue, setLoginValue] = useState("admin@midoin.com");
-  var [passwordValue, setPasswordValue] = useState("password");
+  const [isLoading, setIsLoading] = useState(false);
+  // var [error, setError] = useState(null);
+  const [activeTabId, setActiveTabId] = useState(0);
+  const [selectCompany, setSelectCompany] = useState(0)
+  const [nameValue, setNameValue] = useState("");
+  const [loginValue, setLoginValue] = useState("testUserName");
+  const [passwordValue, setPasswordValue] = useState("123456");
   const [open, setOpen] = useState(false); // 모달 상태
   // 새로운 매장 추가하기
   const [newItem, setNewItem] = useState({ name: '', description: '', logo: ''}); // 새 항목의 상태
   const [cardImagePreview, setCardImagePreview] = useState(null); // 이미지 미리보기 URL 상태
-  var userDispatch = useUserDispatch();
+  const userDispatch = useUserDispatch();
+  const { mutate, data, error } = useMutation(loginUser, {
+    onMutate: () => {
+      setIsLoading(true);
+    },
+    onSuccess: (data) => {
+      setIsLoading(false);
+      // 로그인 성공 시 필요한 작업을 수행
+      localStorage.setItem('id_token', data.token.accessToken)
+      setSelectCompany(1)
+    },
+    onError: (error) => {
+      setIsLoading(false);
+      console.error('Login failed:', error);
+      // 로그인 실패 시 필요한 작업을 수행
+    },
+  });
+
   // 회원가입 함수
   const createUser = () => {
     // todo : 회원가입 API 및 로그인 API
@@ -51,22 +74,24 @@ function Login(props) {
     setTimeout(() => {
       localStorage.setItem('id_token', 1)
       setIsLoading(false)
-      setError(null)
+      // setError(null)
       setSelectCompany(1)
     }, 2000);
   };
   // 로그인 함수
   const customLoginUser = () => {
     setIsLoading(true)
-    if (!!loginValue && !!passwordValue) {
-      setTimeout(() => {
-        localStorage.setItem('id_token', 1)
-        setSelectCompany(1)
-        setError(null)
-        setIsLoading(false)
-        // history.push('/app/dashboard')
-      }, 2000);
-    }
+    mutate({ username: loginValue, password: passwordValue });
+
+    // if (!!loginValue && !!passwordValue) {
+    //   setTimeout(() => {
+    //     localStorage.setItem('id_token', 1)
+    //     setSelectCompany(1)
+    //     setError(null)
+    //     setIsLoading(false)
+    //     // history.push('/app/dashboard')
+    //   }, 2000);
+    // }
   }
   // 카드 데이터 업데이트 함수
   const updateCard = (id, updatedData) => {
@@ -129,11 +154,11 @@ function Login(props) {
                 </Tabs>
                 {activeTabId === 0 && (
                     <React.Fragment>
-                      <Fade in={error}>
-                        <Typography color="secondary" className={classes.errorMessage}>
-                          Something is wrong with your login or password :(
-                        </Typography>
-                      </Fade>
+                      {/*<Fade in={error}>*/}
+                      {/*  <Typography color="secondary" className={classes.errorMessage}>*/}
+                      {/*    Something is wrong with your login or password :(*/}
+                      {/*  </Typography>*/}
+                      {/*</Fade>*/}
                       <TextField
                           id="email"
                           InputProps={{
@@ -194,11 +219,11 @@ function Login(props) {
                 )}
                 {activeTabId === 1 && (
                     <React.Fragment>
-                      <Fade in={error}>
-                        <Typography color="secondary" className={classes.errorMessage}>
-                          Something is wrong with your login or password :(
-                        </Typography>
-                      </Fade>
+                      {/*<Fade in={error}>*/}
+                      {/*  <Typography color="secondary" className={classes.errorMessage}>*/}
+                      {/*    Something is wrong with your login or password :(*/}
+                      {/*  </Typography>*/}
+                      {/*</Fade>*/}
                       {/*<TextField*/}
                       {/*    id="name"*/}
                       {/*    InputProps={{*/}

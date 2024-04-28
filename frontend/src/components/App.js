@@ -11,26 +11,30 @@ import SelectCompany from "../pages/selectCompany";
 
 // context
 import { useUserState } from "../context/UserContext";
+import {QueryClient, QueryClientProvider} from "react-query";
+const queryClient = new QueryClient();
 
 export default function App() {
   // global
   var { isAuthenticated } = useUserState();
 
   return (
-    <HashRouter>
-      <Switch>
-        <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
-        <Route
-          exact
-          path="/app"
-          render={() => <Redirect to="/app/dashboard" />}
-        />
-        <PrivateRoute path="/app" component={Layout} />
-        {/*<PrivateRoute path="/selectCompany" component={SelectCompany} />*/}
-        <PublicRoute path="/login" component={Login} />
-        <Route component={Error} />
-      </Switch>
-    </HashRouter>
+      <QueryClientProvider client={queryClient}> {/* QueryClientProvider 추가 */}
+        <HashRouter>
+          <Switch>
+            <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
+            <Route
+              exact
+              path="/app"
+              render={() => <Redirect to="/app/dashboard" />}
+            />
+            <PrivateRoute path="/app" component={Layout} />
+            {/*<PrivateRoute path="/selectCompany" component={SelectCompany} />*/}
+            <PublicRoute path="/login" component={Login} />
+            <Route component={Error} />
+          </Switch>
+        </HashRouter>
+      </QueryClientProvider>
   );
 
   // #######################################################################
