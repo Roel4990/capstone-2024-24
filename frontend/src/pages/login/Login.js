@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   Grid,
   CircularProgress,
@@ -16,8 +16,6 @@ import CollectionsIcon from "@material-ui/icons/Collections";
 import useStyles from "./styles";
 // context
 import {signOut, useUserDispatch} from "../../context/UserContext";
-import axios from "axios";
-import {useMutation} from "react-query";
 import {
   useSignupMutation,
   useLoginMutation,
@@ -25,24 +23,23 @@ import {
   useBusinessCreateMutation,
   useBusinessListMutation
 } from '../../api/mutations.js';
-// 예제 데이터
-const initialCardData = [
-    // {
-    //   imageUrl: '/Midoin/MidoinLogo.jpeg',
-    //   name: '스타벅스',
-    //   description: '강남점',
-    //   date: '생성일: 2024-03-20',
-    // }
-]
 
 function Login(props) {
   const classes = useStyles();
-  const [cardData, setCardData] = useState(initialCardData);
+  const id_token = localStorage.getItem("id_token")
+  useEffect(() => {
+    // `setTimeout`이 한 번만 실행되도록
+    const timer = setTimeout(() => {
+      businessListMutation(); // `businessListMutation` 호출
+    }, 1000);
+    return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 `clearTimeout`
+  }, []); // 빈 배열로 설정하여 반복 실행 방지
+  const [cardData, setCardData] = useState([]);
   // local
   const [isLoading, setIsLoading] = useState(false);
   // var [error, setError] = useState(null);
   const [activeTabId, setActiveTabId] = useState(0);
-  const [selectCompany, setSelectCompany] = useState(localStorage.getItem("id_token") ? 1 : 0)
+  const [selectCompany, setSelectCompany] = useState(id_token ? 1 : 0)
   const [nameValue, setNameValue] = useState("");
   const [loginValue, setLoginValue] = useState("testUserName");
   const [passwordValue, setPasswordValue] = useState("123456");
@@ -147,11 +144,10 @@ function Login(props) {
       handleBusinessCreateSuccess,
       handleBusinessCreateError
   );
-
-  const handleBusinessListSuccess = (uploadImageData) => {
+  const handleBusinessListSuccess = (businessListData) => {
     // 로그인 성공 후 처리할 로직
-    console.log('businessList successful:', uploadImageData);
-    setCardData(uploadImageData.data)
+    console.log('businessList successful:', businessListData);
+    setCardData(businessListData.data)
   };
   const handleBusinessListError = (error) => {
     console.error('businessList failed:', error);
