@@ -116,6 +116,9 @@ export default function StoreManagement() {
             setOpen(false)
         }
         // todo : API 호출을 통해 서버에 데이터를 저장
+        businessItemsUpdateMutation({
+            data: updateCategories
+        })
     };
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -129,17 +132,20 @@ export default function StoreManagement() {
     };
     // 카테고리 추가
     const addCategory = () => {
-        if (newCategory && !updateCategories.includes(newCategory)) {
+        const newCategoryData =  {
+            category: newCategory,
+            items: []
+        }
+        if (newCategory && !updateCategories.some(category => category.category === newCategory)) {
             setUpdateCategories([...updateCategories,
-                newCategory
-
+                newCategoryData
             ]);
             setNewCategory('');
         }
     };
     // 카테고리 삭제
-    const deleteCategory = (id) => {
-        setUpdateCategories(updateCategories.filter(category => category.id !== id));
+    const deleteCategory = (categoryName) => {
+        setUpdateCategories(updateCategories.filter(category => category.category !== categoryName));
     };
     // 모달 닫기
     const handleModalOpen = () => {
@@ -218,7 +224,7 @@ export default function StoreManagement() {
                                                 {categories.map((category, index) => (
                                                     <Chip
                                                         key={index}
-                                                        label={category}
+                                                        label={category.category}
                                                         color="primary"
                                                         style={{margin: '5px'}}
                                                     />
@@ -278,7 +284,6 @@ export default function StoreManagement() {
                             </label>
                         </div>
                     </div>
-
                     <TextField
                         margin="dense"
                         name="name"
@@ -327,11 +332,11 @@ export default function StoreManagement() {
                     </Button>
                     <div>
                         {updateCategories.length > 0 ? (
-                            updateCategories.map((category) => (
+                            updateCategories.map((category, index) => (
                                 <Chip
-                                    key={category.id}
+                                    key={index}
                                     label={category.category}
-                                    onDelete={() => deleteCategory(category.id)}
+                                    onDelete={() => deleteCategory(category.category)}
                                     color="primary"
                                     style={{margin: '5px'}}
                                 />
