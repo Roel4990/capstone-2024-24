@@ -4,11 +4,11 @@ import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.kotlin.kiumee.BuildConfig.BASE_URL
 import com.kotlin.kiumee.MainApplication
-import com.kotlin.kiumee.data.api.BusinessApiService
+import com.kotlin.kiumee.data.api.StoreApiService
 import com.kotlin.kiumee.data.api.ExampleApiService
-import com.kotlin.kiumee.data.api.ItemsApiService
+import com.kotlin.kiumee.data.api.MenuApiService
 import com.kotlin.kiumee.data.api.LoginApiService
-import com.kotlin.kiumee.data.api.SessionApiService
+import com.kotlin.kiumee.data.api.HomeApiService
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -57,7 +57,7 @@ object ApiFactory {
 object ServicePool {
     val exampleService = ApiFactory.create<ExampleApiService>()
     val loginApiService = ApiFactory.create<LoginApiService>()
-    val businessApiService = ApiFactory.create<BusinessApiService>()
-    val itemsApiService = ApiFactory.create<ItemsApiService>()
-    val sessionApiService = ApiFactory.create<SessionApiService>()
+    val storeApiService = ApiFactory.create<StoreApiService>()
+    val menuApiService = ApiFactory.create<MenuApiService>()
+    val homeApiService = ApiFactory.create<HomeApiService>()
 }
