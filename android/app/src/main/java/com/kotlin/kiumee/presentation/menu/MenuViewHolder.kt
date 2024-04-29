@@ -18,7 +18,7 @@ class MenuViewHolder(
             }
             ivItemMenu.clipToOutline = true
             tvItemMenuName.text = data.name
-            tvItemMenuPrice.text = data.price.toString() + "원"
+            tvItemMenuPrice.text = "${data.price}원"
             tvItemMenuDescription.text = data.description
 
             root.setOnClickListener {
