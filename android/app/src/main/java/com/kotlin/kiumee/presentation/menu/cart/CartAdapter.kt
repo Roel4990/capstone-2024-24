@@ -31,8 +31,7 @@ class CartAdapter(private val onDeleteClickListener: (CartEntity) -> Unit) :
     companion object {
         private val CartAdapterDiffCallback =
             ItemDiffCallback<CartEntity>(
-                // 추후 수정해야 함
-                onItemsTheSame = { old, new -> old == new },
+                onItemsTheSame = { old, new -> old.id == new.id },
                 onContentsTheSame = { old, new -> old == new }
             )
     }
