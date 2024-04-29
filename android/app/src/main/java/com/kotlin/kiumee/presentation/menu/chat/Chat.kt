@@ -1,7 +1,12 @@
 package com.kotlin.kiumee.presentation.menu.chat
 
 data class Chat(
-    val type: Int,
+    val viewType: Int,
     val content: String,
     val button: List<String>? = null
-)
+) {
+    companion object {
+        const val VIEW_TYPE_JUMI = 0
+        const val VIEW_TYPE_USER = 1
+    }
+}
