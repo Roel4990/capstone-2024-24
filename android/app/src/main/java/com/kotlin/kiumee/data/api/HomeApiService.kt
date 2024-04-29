@@ -9,7 +9,7 @@ import com.kotlin.kiumee.data.dto.response.ResponseSessionDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface SessionApiService {
+interface HomeApiService {
     @GET("$V1/$ORDERS/{$BUSINESS_ID}/$PROMPT/$NEW_SESSION")
     suspend fun getSession(
         @Path(value = BUSINESS_ID) businessId: Int
