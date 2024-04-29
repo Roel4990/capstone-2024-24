@@ -11,4 +11,5 @@ object KeyStorage {
     const val ORDERS = "orders"
     const val PROMPT = "prompt"
     const val NEW_SESSION = "new-session"
+    const val BILLING = "billing"
 }
