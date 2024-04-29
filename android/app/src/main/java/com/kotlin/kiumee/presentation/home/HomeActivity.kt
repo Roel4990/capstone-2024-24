@@ -26,6 +26,7 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>(R.layout.activity_home
                 is UiState.Success -> initScreenClickListener()
                 is UiState.Failure -> Timber.d("실패 : $it")
                 is UiState.Loading -> Timber.d("로딩중")
+                is UiState.Empty -> Timber.d("empty")
             }
         }.launchIn(lifecycleScope)
     }

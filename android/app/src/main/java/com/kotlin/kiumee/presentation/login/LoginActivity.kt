@@ -58,6 +58,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                 is UiState.Success -> startActivity(Intent(this, StoreActivity::class.java))
                 is UiState.Failure -> Timber.d("실패 : $it")
                 is UiState.Loading -> Timber.d("로딩중")
+                is UiState.Empty -> Timber.d("empty")
             }
         }.launchIn(lifecycleScope)
     }
