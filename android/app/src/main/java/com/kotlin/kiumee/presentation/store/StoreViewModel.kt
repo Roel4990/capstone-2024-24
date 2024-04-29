@@ -19,7 +19,7 @@ class StoreViewModel : ViewModel() {
 
     private fun getStore() = viewModelScope.launch {
         runCatching {
-            ServicePool.businessApiService.getBusiness().data.map { it.toStoreEntity() }
+            ServicePool.storeApiService.getBusiness().data.map { it.toStoreEntity() }
         }.fold(
             { _getStore.value = UiState.Success(it) },
             { _getStore.value = UiState.Failure(it.message.toString()) }
