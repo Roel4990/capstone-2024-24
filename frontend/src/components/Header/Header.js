@@ -38,7 +38,8 @@ import {
 import { useUserDispatch, signOut } from "../../context/UserContext";
 import {useHistory} from "react-router-dom";
 import {
-  fetchUserInfo
+  fetchUserInfo,
+  fetchBusinessInfo
 } from '../../api/mutations.js'
 import {useQuery} from "react-query";
 
@@ -98,7 +99,8 @@ const notifications = [
 
 export default function Header(props) {
   var classes = useStyles();
-  const { data: userInfo, isLoading, isError, error } = useQuery('userInfo', fetchUserInfo);
+  const { data: userInfo } = useQuery('userInfo', fetchUserInfo);
+  const { data: businessInfo } = useQuery('businessInfo', fetchBusinessInfo);
   // global
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
@@ -147,7 +149,8 @@ export default function Header(props) {
         </IconButton>
         {/*<img src="/logo.webp" alt="image" style={{ height: "30px" }} />*/}
         <Typography variant="h6" weight="medium" className={classes.logotype} style={{ color: 'rgb(7, 53, 80)'}}>
-          미도인
+          {/*미도인*/}
+          {businessInfo?.data?.name}
         </Typography>
         <div className={classes.grow} />
         <IconButton

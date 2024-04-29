@@ -104,3 +104,52 @@ export const fetchBusinessInfo = async () => {
     const response = await axios.get(`https://jumi-api.youchu.io/v1/business/${company_id}`, { headers });
     return response.data;
 }
+
+export const fetchBusinessItemsInfo = async () => {
+    const token = localStorage.getItem('id_token')
+    const company_id = localStorage.getItem('company_id')
+    const headers = {
+        'Authorization' : `Bearer ${token}`
+    };
+    const response = await axios.get(`https://jumi-api.youchu.io/v1/business/${company_id}/items`, { headers });
+    return response.data;
+}
+
+// 매장 업데이트
+const businessUpdate = async (businessData) => {
+    const token = localStorage.getItem('id_token');
+    const company_id = localStorage.getItem('company_id')
+    const headers = {
+        'Authorization': `Bearer ${token}`,
+        'accept': 'application/json',
+    };
+    const response = await axios.post('https://jumi-api.youchu.io/v1/business', businessData, { headers });
+    return response.data;
+};
+
+
+export function useBusinessUpdateMutation(onSuccess, onError){
+    return useMutation(businessUpdate, {
+        onSuccess,
+        onError
+    });
+}
+
+const businessItemsUpdate = async (businessItemsData) => {
+    const token = localStorage.getItem('id_token');
+    const company_id = localStorage.getItem('company_id')
+    const headers = {
+        'Authorization': `Bearer ${token}`,
+        'accept': 'application/json',
+    };
+    const response = await axios.post(`https://jumi-api.youchu.io/v1/business/${company_id}/items`, businessItemsData, { headers });
+    return response.data;
+};
+
+
+export function useBusinessItemsUpdateMutation(onSuccess, onError){
+    return useMutation(businessItemsUpdate, {
+        onSuccess,
+        onError
+    });
+}

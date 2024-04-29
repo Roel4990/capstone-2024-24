@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     Grid,
     TextField,
@@ -18,12 +18,17 @@ import PageTitle from "../../components/PageTitle";
 import Widget from "../../components/Widget";
 import useStyles from "./styles";
 import CollectionsIcon from "@material-ui/icons/Collections";
-
+import {
+    fetchBusinessInfo,
+    fetchBusinessItemsInfo,
+    useBusinessItemsUpdateMutation
+} from '../../api/mutations.js'
+import {useQuery} from "react-query";
 const initialStore = {
-    logo: '/Midoin/MidoinLogo.jpeg',
+    imageUrl: '/Midoin/MidoinLogo.jpeg',
     name: '미도인',
     description: '강남점',
-    aiDescription:"먹는 즐거움과 보는 즐거움, 머무는 즐거움으로 만족을 드리는 ‘미도인’ 인간적이면서도 더할 나위 없이 행복한 사람들과 함께 하고자, 런칭한 브랜드로 오래도록 고객들에게 사랑받고, 점주 또한 오랜 기간을 운영할 수 있는 장수브랜드의 모범이 되고자 합니다.\n" +
+    prompt:"먹는 즐거움과 보는 즐거움, 머무는 즐거움으로 만족을 드리는 ‘미도인’ 인간적이면서도 더할 나위 없이 행복한 사람들과 함께 하고자, 런칭한 브랜드로 오래도록 고객들에게 사랑받고, 점주 또한 오랜 기간을 운영할 수 있는 장수브랜드의 모범이 되고자 합니다.\n" +
         "\n" +
         "\n" +
         "과거와 현재, 동양과 서양이 공존하는 공간으로 젋은 연인들의 데이트 장소나 친구들과의 모임, 특별한 날에 찾아볼 만한 공간으로 자리매김하고 있는 ‘미도인’은 공간의 비일상성과 비정형, 입체감이 있는 특유의 콘셉트로 젋은이들의 ‘사진맛집’으로 자리잡고 있습니다.\n" +
@@ -35,23 +40,73 @@ const initialStore = {
         "온갖 정성이 들어간 한정 스페셜 메뉴인 ‘미도인 구첩 반상’과 ‘400 스테이크 덮밥’과 미도인 스테이크, 가정식 등심 스테이크, 트리플 스테이크, 대창 부채 스테이크, 곱창등심 스테이크, 미도인 스테이크 덮밥, 대창 덮밥, 곱창대창 덮밥, 곱창대창큐브 스테이크 덮밥은 맛을 기본으로 가격대가 비싸지 않고 양이 푸짐해 고객분들의 만족도를 높이고 있습니다.",
     date: '2024-03-20',
     categories: ["직원 호출", "스테이크류", "덮밥류", "면류", "사이드 메뉴", "음료 메뉴", "주류 메뉴"]
-
 }
-const initialCategories = initialStore.categories
+
+// const initialCategories = initialStore.categories
 
 export default function StoreManagement() {
     const classes = useStyles();
+    const { data: businessInfo, isLoading : businessInfoIsLoading, isError: businessInfoIsError } = useQuery('businessInfo', fetchBusinessInfo);
+    const { data: businessItemsInfo, isLoading : businessItemsInfoIsLoading, isError: businessItemsInfoIsError } = useQuery('businessItemsInfo', fetchBusinessItemsInfo);
     // useState 훅을 사용하여 매장데이터 상태를 관리합니다.
-    const [storeData, setStoreData] = useState(initialStore)
+    const [storeData, setStoreData] = useState({
+        imageUrl:'',
+        name:'',
+        description:'',
+        prompt:'',
+        categories:[]
+    })
     // 업데이트할 storeData 내용
-    const [storeUpdateData, setStoreUpdateData] = useState(initialStore)
+    const [storeUpdateData, setStoreUpdateData] = useState({
+        imageUrl:'',
+        name:'',
+        description:'',
+        prompt:'',
+        categories:[]
+    })
+
+    const handleBusinessItemsUpdateSuccess = (businessData) => {
+        // 매장 아이템 리스트 업데이트 성공시
+        console.log('BusinessItemsUpdate successful:', businessData);
+        // 업로드 성공 시 처리 로직
+
+    };
+    const handleBusinessItemsUpdateError = (error) => {
+        console.error('BusinessItemsUpdate failed:', error);
+        // 업로드 실패 시 처리 로직
+    };
+    // 매장 생성
+    const {
+        mutate: businessItemsUpdateMutation,
+        isLoading: businessItemsUpdateIsLoading,
+        error: businessItemsUpdateError
+    } = useBusinessItemsUpdateMutation(
+        handleBusinessItemsUpdateSuccess,
+        handleBusinessItemsUpdateError
+    );
+
+    useEffect(() => {
+        if (!businessInfoIsLoading && !businessInfoIsError && businessInfo) {
+            // 데이터가 로드되었고, 에러가 없을 경우 상태 업데이트
+            setStoreData(businessInfo.data);
+            setStoreUpdateData(businessInfo.data);
+        }
+    }, [businessInfo, businessInfoIsLoading, businessInfoIsError]); // 의존성 배열에 businessInfo, isLoading, isError를 추가
     // 카테고리 관리를 위한 상태
-    const [categories, setCategories] = useState(initialCategories);
+    const [categories, setCategories] = useState([]);
     // 업데이트할 categories 내용
-    const [updateCategories, setUpdateCategories] = useState(initialCategories);
+    const [updateCategories, setUpdateCategories] = useState([]);
+    useEffect(() => {
+        if (!businessItemsInfoIsLoading && !businessItemsInfoIsError && businessItemsInfo) {
+            // 데이터가 로드되었고, 에러가 없을 경우 상태 업데이트
+            setCategories(businessItemsInfo.data)
+            setUpdateCategories(businessItemsInfo.data)
+        }
+    }, [businessItemsInfo, businessItemsInfoIsLoading, businessItemsInfoIsError]); // 의존성 배열에 businessInfo, isLoading, isError를 추가
+
     const [newCategory, setNewCategory] = useState('');
     const [open, setOpen] = useState(false); // 모달 상태
-    const [newImage, setNewImage] = useState(initialStore.logo)
+    const [newImage, setNewImage] = useState(initialStore.imageUrl)
     // 저장 버튼을 눌렀을 때 실행될 함수입니다.
     const handleSave = () => {
         if(window.confirm("저장하시겠습니까?")) {
@@ -75,13 +130,16 @@ export default function StoreManagement() {
     // 카테고리 추가
     const addCategory = () => {
         if (newCategory && !updateCategories.includes(newCategory)) {
-            setUpdateCategories([...updateCategories, newCategory]);
+            setUpdateCategories([...updateCategories,
+                newCategory
+
+            ]);
             setNewCategory('');
         }
     };
     // 카테고리 삭제
-    const deleteCategory = (categoryToDelete) => {
-        setUpdateCategories(updateCategories.filter(category => category !== categoryToDelete));
+    const deleteCategory = (id) => {
+        setUpdateCategories(updateCategories.filter(category => category.id !== id));
     };
     // 모달 닫기
     const handleModalOpen = () => {
@@ -108,7 +166,7 @@ export default function StoreManagement() {
                             accept="image/*"
                             style={{display: 'none'}}
                             id="raised-button-file"
-                            name="logo"
+                            name="imageUrl"
                             type="file"
                             onChange={handleImageChange}
                         />
@@ -117,10 +175,10 @@ export default function StoreManagement() {
                                 {/* 이미지 미리보기 */}
                                 <div className={classes.image}
                                      style={{
-                                         backgroundImage: `url(${storeData.logo})`,
+                                         backgroundImage: `url(${storeData.imageUrl})`,
                                      }}
                                 >
-                                    {!storeData.logo && '이미지 업로드'}
+                                    {!storeData.imageUrl && '이미지 업로드'}
                                 </div>
                             </div>
                             <Paper className={classes.tableContainer}>
@@ -139,7 +197,7 @@ export default function StoreManagement() {
                                     </Table>
                                 </div>
                                 <div className={classes.aiTextSection}>
-                                    {storeData.aiDescription}
+                                    {storeData.prompt}
                                 </div>
                             </Paper>
                         </div>
@@ -198,7 +256,7 @@ export default function StoreManagement() {
                             accept="image/*"
                             style={{display: 'none'}}
                             id="raised-button-file"
-                            name="logo"
+                            name="imageUrl"
                             type="file"
                             onChange={handleImageChange}
                         />
@@ -250,8 +308,8 @@ export default function StoreManagement() {
                         multiline
                         rows={6}
                         variant="outlined"
-                        name="aiDescription"
-                        value={storeUpdateData.aiDescription}
+                        name="prompt"
+                        value={storeUpdateData.prompt || ""}
                         onChange={handleUpdateChange}
                         fullWidth
                         className={classes.textFieldCustom}
@@ -268,15 +326,20 @@ export default function StoreManagement() {
                         카테고리 추가
                     </Button>
                     <div>
-                        {updateCategories.map((category, index) => (
-                            <Chip
-                                key={index}
-                                label={category}
-                                onDelete={() => deleteCategory(category)}
-                                color="primary"
-                                style={{margin: '5px'}}
-                            />
-                        ))}
+                        {updateCategories.length > 0 ? (
+                            updateCategories.map((category) => (
+                                <Chip
+                                    key={category.id}
+                                    label={category.category}
+                                    onDelete={() => deleteCategory(category.id)}
+                                    color="primary"
+                                    style={{margin: '5px'}}
+                                />
+                            ))
+                        ) : (
+                            <div style={{ margin: '5px' }}>카테고리가 없습니다.</div>
+                        )}
+
                     </div>
                 </DialogContent>
                 <DialogActions>
