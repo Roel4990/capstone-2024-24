@@ -37,6 +37,7 @@ class StoreActivity : BindingActivity<ActivityStoreBinding>(R.layout.activity_st
                 is UiState.Success -> initFormAdapter(it.data)
                 is UiState.Failure -> Timber.d("실패 : $it")
                 is UiState.Loading -> Timber.d("로딩중")
+                is UiState.Empty -> Timber.d("empty")
             }
         }.launchIn(lifecycleScope)
     }
