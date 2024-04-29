@@ -20,7 +20,7 @@ class SessionViewModel : ViewModel() {
 
     private fun getSession() = viewModelScope.launch {
         runCatching {
-            ServicePool.sessionApiService.getSession(MainApplication.prefs.getBusinessId())
+            ServicePool.homeApiService.getSession(MainApplication.prefs.getBusinessId())
         }.fold(
             {
                 _getSession.value = UiState.Success(it).apply {
