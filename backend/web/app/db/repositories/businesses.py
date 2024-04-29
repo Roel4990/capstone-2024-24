@@ -33,11 +33,12 @@ class BusinessRepository:
         )
 
     def add_business(
-        self, user_id: int, name: str, description: str, image_url: str
+        self, user_id: int, name: str, description: str, image_url: str, prompt: str
     ) -> TblBusiness:
         business = TblBusiness(
             owner_user_id=user_id,
             name=name,
+            prompt=prompt,
             description=description,
             image_url=image_url,
         )

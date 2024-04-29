@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 import arrow
 from fastapi import Depends
@@ -22,6 +22,7 @@ class BusinessService:
                 Business(
                     id=business.id,
                     name=business.name,
+                    prompt=business.prompt,
                     description=business.description,
                     imageUrl=business.image_url,
                     createdDatetime=arrow.get(business.created_datetime).isoformat(),
@@ -31,16 +32,27 @@ class BusinessService:
 
         return result
 
+    def get_business(self, user_id: int, business_id: int) -> Optional[Business]:
+        businesses = self.get_businesses(user_id=user_id)
+
+        for business in businesses:
+            if business.id == business_id:
+                return business
+
+        return None
+
     def add_business(
         self,
         user_id: int,
         name: str,
         description: str,
+        prompt: str,
         image_url: str,
     ) -> None:
         self.business_repository.add_business(
             user_id=user_id,
             name=name,
+            prompt=prompt,
             description=description,
             image_url=image_url,
         )
