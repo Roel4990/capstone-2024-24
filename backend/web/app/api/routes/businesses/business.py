@@ -5,6 +5,7 @@ from app.models.schemas.business import (
     BusinessCreateRequest,
     BusinessListResponse,
     BusinessItem,
+    BusinessResponse,
 )
 from app.models.schemas.users import UserInLogin
 from app.services.businesses.service import BusinessService
@@ -22,6 +23,7 @@ def create_business(
         user_id=user_info.userId,
         name=body.name,
         description=body.description,
+        prompt=body.prompt,
         image_url=body.imageUrl,
     )
 
@@ -40,7 +42,18 @@ def get_businesses(
     return BusinessListResponse(data=[BusinessItem(**item.dict()) for item in result])
 
 
-@router.delete("/business/{business_id}", name="businesses:delete")
+@router.get("/business/{business_id}", name="business:get")
+def get_business(
+    business_id: int,
+    user_info: UserInLogin = Depends(get_user_info),
+    service: BusinessService = Depends(BusinessService),
+) -> BusinessResponse:
+    result = service.get_business(user_id=user_info.userId, business_id=business_id)
+
+    return BusinessResponse(data=BusinessItem(**result.dict()) if result else None)
+
+
+@router.delete("/business/{business_id}", name="business:delete")
 def delete_business(
     business_id: int,
     user_info: UserInLogin = Depends(get_user_info),

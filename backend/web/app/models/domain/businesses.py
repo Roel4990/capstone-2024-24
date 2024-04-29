@@ -9,7 +9,7 @@ class BusinessItem(BaseModel):
     category: str
     description: str
     imageUrl: Optional[str] = None
-    prompt: str
+    prompt: Optional[str] = None
     price: int
     isActive: bool
 
@@ -17,6 +17,7 @@ class BusinessItem(BaseModel):
 class Business(BaseModel):
     id: Optional[int] = None
     name: str
+    prompt: Optional[str] = None
     description: str
     imageUrl: str
     createdDatetime: str
