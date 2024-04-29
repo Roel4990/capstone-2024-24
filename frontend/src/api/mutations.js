@@ -84,5 +84,23 @@ export function useBusinessListMutation(onSuccess, onError){
     });
 }
 
+export const fetchUserInfo = async () => {
+    const token = localStorage.getItem('id_token');
+    const headers = {
+        'Authorization': `Bearer ${token}`,
+    };
+    const response = await axios.get('https://jumi-api.youchu.io/v1/me', { headers });
+    return response.data;
+};
 
 
+//회사 정보 가져오기
+export const fetchBusinessInfo = async () => {
+    const token = localStorage.getItem('id_token')
+    const company_id = localStorage.getItem('company_id')
+    const headers = {
+        'Authorization' : `Bearer ${token}`
+    };
+    const response = await axios.get(`https://jumi-api.youchu.io/v1/business/${company_id}`, { headers });
+    return response.data;
+}

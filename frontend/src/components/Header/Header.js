@@ -37,6 +37,11 @@ import {
 } from "../../context/LayoutContext";
 import { useUserDispatch, signOut } from "../../context/UserContext";
 import {useHistory} from "react-router-dom";
+import {
+  fetchUserInfo
+} from '../../api/mutations.js'
+import {useQuery} from "react-query";
+
 
 const messages = [
   {
@@ -93,7 +98,7 @@ const notifications = [
 
 export default function Header(props) {
   var classes = useStyles();
-
+  const { data: userInfo, isLoading, isError, error } = useQuery('userInfo', fetchUserInfo);
   // global
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
@@ -106,6 +111,8 @@ export default function Header(props) {
   // var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
   // var [isSearchOpen, setSearchOpen] = useState(false);
+
+
 
   return (
     <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: 'rgb(190, 224, 235)' }}>
@@ -236,7 +243,8 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              미도인 관리자
+              {/*미도인 관리자*/}
+              {userInfo?.name}
               {/*계정이름 넣어야됩니다.*/}
             </Typography>
             <Typography
