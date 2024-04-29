@@ -12,8 +12,8 @@ import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
 import com.kotlin.kiumee.core.view.UiState
 import com.kotlin.kiumee.databinding.ActivityMenuBinding
-import com.kotlin.kiumee.presentation.menu.cart.Cart
 import com.kotlin.kiumee.presentation.menu.cart.CartAdapter
+import com.kotlin.kiumee.presentation.menu.cart.CartEntity
 import com.kotlin.kiumee.presentation.menu.cart.CartItemDecorator
 import com.kotlin.kiumee.presentation.menu.chat.Chat
 import com.kotlin.kiumee.presentation.menu.chat.ChatAdapter
@@ -35,7 +35,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             override fun getVerticalSnapPreference() = SNAP_TO_START
         }
     }
-    private val cartList = mutableListOf<Cart>()
+    private val cartList = mutableListOf<CartEntity>()
     var clicked = true
     private var lastClickedPosition: Int = 0
 
@@ -43,7 +43,9 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         initChatAdapter()
         initGuideAdapter()
         initLayoutState()
-        initObserve()
+
+        initObserveGetMenu()
+        initObservePutBilling()
 
         initOrderBtnClickListener()
         initSpeakBtnClickListener()
@@ -65,15 +67,13 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }
     }
 
-    private fun initObserve() {
+    private fun initObserveGetMenu() {
         menuViewModel.getMenu.flowWithLifecycle(lifecycle).onEach {
             when (it) {
-                is UiState.Success -> {
-                    initTabAdapter(it.data)
-                }
-
+                is UiState.Success -> initTabAdapter(it.data)
                 is UiState.Failure -> Timber.d("실패 : $it")
                 is UiState.Loading -> Timber.d("로딩중")
+                is UiState.Empty -> Timber.d("empty")
             }
         }.launchIn(lifecycleScope)
     }
@@ -107,9 +107,20 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     private fun initOrderBtnClickListener() {
         binding.btnMenuCartOrder.setOnClickListener {
             if (cartList.isNotEmpty()) {
-                startActivity(Intent(this, OrderFinishActivity::class.java))
+                cartList.map { it.toRequestBillingItemsDto() }.let { menuViewModel.putBilling(it) }
             }
         }
+    }
+
+    private fun initObservePutBilling() {
+        menuViewModel.putBilling.flowWithLifecycle(lifecycle).onEach {
+            when (it) {
+                is UiState.Success -> startActivity(Intent(this, OrderFinishActivity::class.java))
+                is UiState.Failure -> Unit
+                is UiState.Empty -> Unit
+                is UiState.Loading -> Unit
+            }
+        }.launchIn(lifecycleScope)
     }
 
     private fun initLayoutState() {
@@ -133,7 +144,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }
     }
 
-    fun addCartItem(cartItem: Cart) {
+    fun addCartItem(cartItem: CartEntity) {
         // 기존 cartList에 새로운 항목 추가
         cartList.add(cartItem)
         initLayoutState()
@@ -168,7 +179,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     private fun initCartTotalPrice() {
         // 카트 목록의 가격 합계 계산
         val totalPrice = cartList.sumOf { it.price }
-        binding.tvMenuCartTotalPrice.text = totalPrice.toString() + "원"
+        binding.tvMenuCartTotalPrice.text = "${totalPrice}원"
     }
 
     private fun initGuideAdapter() {
