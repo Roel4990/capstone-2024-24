@@ -123,7 +123,7 @@ const businessUpdate = async (businessData) => {
         'Authorization': `Bearer ${token}`,
         'accept': 'application/json',
     };
-    const response = await axios.post('https://jumi-api.youchu.io/v1/business', businessData, { headers });
+    const response = await axios.put(`https://jumi-api.youchu.io/v1/business/${company_id}`, businessData, { headers });
     return response.data;
 };
 
