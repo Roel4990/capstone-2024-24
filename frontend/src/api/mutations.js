@@ -153,3 +153,17 @@ export function useBusinessItemsUpdateMutation(onSuccess, onError){
         onError
     });
 }
+
+// gpt 사용해보기
+const GPTChat = async (prompt) => {
+    const response = await axios.post('http://127.0.0.1:5002/prompt', prompt);
+    return response.data;
+};
+
+
+export function useGPTChatMutation(onSuccess, onError){
+    return useMutation(GPTChat, {
+        onSuccess,
+        onError
+    });
+}

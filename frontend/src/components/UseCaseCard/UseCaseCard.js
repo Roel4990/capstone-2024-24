@@ -1,4 +1,5 @@
 import React, {
+    useEffect,
     useState
 } from "react";
 import {
@@ -8,8 +9,27 @@ import {
 // import { useTheme } from "@material-ui/styles";
 // styles
 import useStyles from "./styles";
+import {fetchBusinessItemsInfo, useGPTChatMutation} from "../../api/mutations";
+import {useQuery} from "react-query";
 export default function UseCaseCard(props) {
     const classes = useStyles();
+    const [totalMenuList, setTotalMenuList] = useState([])
+    const handleGPTChatSuccess = (data) => {
+        // 로그인 성공 후 처리할 로직
+        console.log('GPTChat 성공:', data);
+        // alert(data)
+    };
+    const handleGPTChatError = (error) => {
+        // 로그인 실패 후 처리할 로직
+        console.error('GPTChat 실패:', error);
+    };
+    // 로그인
+    const {
+        mutate: GPTChatMutation
+    } = useGPTChatMutation(
+        handleGPTChatSuccess,
+        handleGPTChatError
+    )
     const [useCase, setUseCase] = useState(props); // 새 항목의 상태
     const [answerChange, setAnswerChange] = useState(props.answer)
     const [isUpdateMode, setIsUpdateMode] = useState(false)
@@ -20,13 +40,25 @@ export default function UseCaseCard(props) {
     const handleUpdateMode = (e) => {
         if(isUpdateMode) {
             if(window.confirm("저장하시겠습니까?")) {
+                GPTChatMutation({
+                    prompt: answerChange,
+                    items: totalMenuList
+                })
                 setUseCase({...useCase, "answer": answerChange})
             } else {
                 setAnswerChange(useCase.answer)
             }
         }
+
         setIsUpdateMode(!isUpdateMode);
     }
+    const { data: businessItemsInfo, isLoading : businessItemsInfoIsLoading, isError: businessItemsInfoIsError } = useQuery('businessItemsInfo', fetchBusinessItemsInfo);
+    useEffect(() => {
+        if (!businessItemsInfoIsLoading && !businessItemsInfoIsError && businessItemsInfo) {
+            // 데이터가 로드되었고, 에러가 없을 경우 상태 업데이트
+            setTotalMenuList(businessItemsInfo.data)
+        }
+    }, [businessItemsInfo, businessItemsInfoIsLoading, businessItemsInfoIsError]); // 의존성 배열에 businessInfo, isLoading, isError를 추가
     return (
         <>
             <Paper
