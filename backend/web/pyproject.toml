@@ -21,6 +21,7 @@ mangum = "0.11"
 PyJWT = "^2.3.0"
 sqlalchemy = "^2.0.29"
 psycopg2-binary = "^2.9.9"
+anthropic = "^0.25.7"
 
 
 [build-system]

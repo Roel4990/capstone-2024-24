@@ -32,7 +32,7 @@ class SuggestItem(BaseModel):
     id: int
     name: str
     price: int
-    imageUrl: str
+    imageUrl: Optional[str]
 
 
 class QueryResponse(BaseModel):

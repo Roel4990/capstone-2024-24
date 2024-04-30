@@ -17,8 +17,38 @@ class BusinessRepository:
         return (
             self._session.query(TblBusiness)
             .filter(eq(TblBusiness.owner_user_id, user_id))
+            .order_by(TblBusiness.id)
             .all()
         )
+
+    def update_business(
+        self,
+        user_id: int,
+        business_id: int,
+        name: str,
+        description: str,
+        prompt: str,
+        image_url: str,
+    ) -> None:
+        business = (
+            self._session.query(TblBusiness)
+            .filter(
+                and_(
+                    TblBusiness.owner_user_id == user_id, TblBusiness.id == business_id
+                )
+            )
+            .first()
+        )
+
+        if business:
+            business.name = name
+            business.description = description
+            business.prompt = prompt
+            business.image_url = image_url
+
+            self._session.commit()
+
+        return None
 
     def is_exist_business(self, user_id: int, business_id: int) -> bool:
         return (

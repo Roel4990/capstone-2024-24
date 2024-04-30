@@ -26,7 +26,7 @@ class BusinessService:
                     description=business.description,
                     imageUrl=business.image_url,
                     createdDatetime=arrow.get(business.created_datetime).isoformat(),
-                    updatedDatetime=arrow.get(business.created_datetime).isoformat(),
+                    updatedDatetime=arrow.get(business.updated_datetime).isoformat(),
                 )
             )
 
@@ -38,6 +38,26 @@ class BusinessService:
         for business in businesses:
             if business.id == business_id:
                 return business
+
+        return None
+
+    def update_business(
+        self,
+        user_id: int,
+        business_id: int,
+        name: str,
+        description: str,
+        prompt: str,
+        image_url: str,
+    ) -> None:
+        self.business_repository.update_business(
+            user_id=user_id,
+            business_id=business_id,
+            name=name,
+            prompt=prompt,
+            description=description,
+            image_url=image_url,
+        )
 
         return None
 
