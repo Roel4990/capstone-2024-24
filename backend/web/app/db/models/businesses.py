@@ -1,5 +1,5 @@
 import arrow
-from sqlalchemy import Column, Integer, String, DateTime, func
+from sqlalchemy import Column, Integer, String, DateTime
 
 from app.db.dependencies import Base
 

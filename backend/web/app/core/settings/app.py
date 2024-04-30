@@ -17,6 +17,7 @@ class AppSettings(BaseSettings):
     AWS_SECRET_KEY: str
     AWS_KEY_ID: str
     WRITE_DB_URL: str
+    ANTHROPIC_KEY: str
 
     class Config:
         env_file = ".env"
