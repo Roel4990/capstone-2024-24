@@ -14,4 +14,10 @@ class Business(Base):
     image_url = Column(String(1024), nullable=True)
     owner_user_id = Column(Integer, nullable=False)
     created_datetime = Column(DateTime, nullable=False, default=arrow.utcnow().datetime)
+    updated_datetime = Column(
+        DateTime,
+        nullable=False,
+        default=arrow.utcnow().datetime,
+        onupdate=arrow.utcnow().datetime,
+    )
     status = Column(Integer, nullable=False, default=1)

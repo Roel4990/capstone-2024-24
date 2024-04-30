@@ -53,6 +53,27 @@ def get_business(
     return BusinessResponse(data=BusinessItem(**result.dict()) if result else None)
 
 
+@router.put("/business/{business_id}", name="business:update")
+def update_business(
+    business_id: int,
+    body: BusinessCreateRequest,
+    user_info: UserInLogin = Depends(get_user_info),
+    service: BusinessService = Depends(BusinessService),
+) -> BusinessResponse:
+    service.update_business(
+        user_id=user_info.userId,
+        business_id=business_id,
+        name=body.name,
+        description=body.description,
+        prompt=body.prompt,
+        image_url=body.imageUrl,
+    )
+
+    result = service.get_business(user_id=user_info.userId, business_id=business_id)
+
+    return BusinessResponse(data=BusinessItem(**result.dict()) if result else None)
+
+
 @router.delete("/business/{business_id}", name="business:delete")
 def delete_business(
     business_id: int,
