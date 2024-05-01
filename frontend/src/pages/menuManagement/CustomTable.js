@@ -64,6 +64,7 @@ const CustomTable = () => {
   const handleBusinessItemsUpdateSuccess = (businessData) => {
     // 매장 아이템 리스트 업데이트 성공시
     console.log('BusinessItemsUpdate successful:', businessData);
+    alert("성공적으로 저장했습니다.")
   };
   const handleBusinessItemsUpdateError = (error) => {
     console.error('BusinessItemsUpdate failed:', error);
@@ -120,24 +121,26 @@ const CustomTable = () => {
     console.log('카테고리:', selectedCategory);
     console.log('저장된 데이터:', menuList);
     console.log("전체 데이터:", totalMenuList)
-    let isCheck = true
-    let categoryName = ""
-    totalMenuList.forEach((categoryList) => {
-      if(categoryList.items?.length <= 0) {
-        isCheck = false
-        categoryName = categoryList.category
-      }
-      categoryList.items = categoryList.items.map(item => ({
-        ...item,  // 기존 객체의 모든 속성을 복사
-        id: parseInt(item.id, 10)  // id 속성을 숫자로 변환
-      }));
+    if(window.confirm("저장하시겠습니까?")) {
+      let isCheck = true
+      let categoryName = ""
+      totalMenuList.forEach((categoryList) => {
+        if(categoryList.items?.length <= 0) {
+          isCheck = false
+          categoryName = categoryList.category
+        }
+        categoryList.items = categoryList.items.map(item => ({
+          ...item,  // 기존 객체의 모든 속성을 복사
+          id: parseInt(item.id, 10)  // id 속성을 숫자로 변환
+        }));
 
-    });
-    // 아이템없으면 안된다고해야됩니다.
-    if(!isCheck) return alert(`${categoryName} 카테고리 안에 메뉴가 없습니다. 메뉴에 추가하시거나 해당 카테고리를 삭제해주세요.`)
-    businessItemsUpdateMutation({
-      data:totalMenuList
-    })
+      });
+      // 아이템없으면 안된다고해야됩니다.
+      if(!isCheck) return alert(`${categoryName} 카테고리 안에 메뉴가 없습니다. 메뉴에 추가하시거나 해당 카테고리를 삭제해주세요.`)
+      businessItemsUpdateMutation({
+        data:totalMenuList
+      })
+    }
   };
   const handleAdd = () => {
     setOpen(true);
