@@ -8,6 +8,11 @@ export default makeStyles(theme => ({
         paddingTop : "70px",
         position: 'relative', // 버튼의 절대 위치를 위해 relative 설정
     },
+    categoryManageButton: {
+        position: 'absolute', // 컨테이너 기준 절대 위치
+        top: theme.spacing(2), // 상단에서 16px (theme.spacing(2)의 기본값은 8)
+        right: theme.spacing(2) + 200, // 왼쪽에서 16px
+    },
     addButton: {
         position: 'absolute', // 컨테이너 기준 절대 위치
         top: theme.spacing(2), // 상단에서 16px (theme.spacing(2)의 기본값은 8)

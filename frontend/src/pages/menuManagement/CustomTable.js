@@ -15,7 +15,7 @@ import {
   FormControl,
   Select,
   MenuItem,
-  InputLabel
+  InputLabel, Chip
 } from '@material-ui/core';
 import useStyles from "./styles";
 import CollectionsIcon from "@material-ui/icons/Collections";
@@ -31,33 +31,31 @@ const reorder = (list, startIndex, endIndex) => {
 
 const CustomTable = () => {
   const [totalMenuList, setTotalMenuList] = useState([])
-  const [open, setOpen] = useState(false); // 모달 상태
+
   const [updateMode, setUpdateMode] = useState(false)
-  const [newItem, setNewItem] = useState({ name: '', price: 0, description: '', category: '',  prompt: "", isActive: true }); // 새 항목의 상태
+  const [newItem, setNewItem] = useState({ name: '', price: '', description: '', category: '',  prompt: "", isActive: true }); // 새 항목의 상태
   const [imagePreview, setImagePreview] = useState(null); // 이미지 미리보기 URL 상태
   const [selectedCategory, setSelectedCategory] = useState('');
-  const filteredMenuList = totalMenuList.filter(menu => menu.category === selectedCategory);
-  const [menuList, setMenuList] = useState(filteredMenuList);
+  // const filteredMenuList = totalMenuList.filter(menu => menu.category === selectedCategory);
+  const [menuList, setMenuList] = useState([]);
   const [selectedMenu, setSelectedMenu] = useState({})
+  const [open, setOpen] = useState(false); // 모달 상태
   const [detailOpen, setDetailOpen] = useState(false)
-
+  const [categoryManageModalOpen, setCategoryManageModalOpen] = useState(false)
+  const [newCategory, setNewCategory] = useState('');
+  const [updateCategories, setUpdateCategories] = useState([]);
   const { data: businessItemsInfo, isLoading : businessItemsInfoIsLoading, isError: businessItemsInfoIsError } = useQuery('businessItemsInfo', fetchBusinessItemsInfo);
 
   const handleImageUploadSuccess = (uploadImageData) => {
-    // 로그인 성공 후 처리할 로직
-    console.log('이미지업로드 성공:', uploadImageData);
     setNewItem({ ...newItem, imageUrl:uploadImageData.imageUrl });
     setImagePreview(uploadImageData.imageUrl);
   };
   const handleImageUploadError = (error) => {
-    // 로그인 실패 후 처리할 로직
     console.error('Upload failed:', error);
   };
   // 이미지 업로드
   const {
     mutate: uploadImageMutation,
-    isLoading: uploadImageIsLoading,
-    error: uploadImageError
   } = useImageUploadMutation(
       handleImageUploadSuccess,
       handleImageUploadError
@@ -66,12 +64,9 @@ const CustomTable = () => {
   const handleBusinessItemsUpdateSuccess = (businessData) => {
     // 매장 아이템 리스트 업데이트 성공시
     console.log('BusinessItemsUpdate successful:', businessData);
-    // 업로드 성공 시 처리 로직
-
   };
   const handleBusinessItemsUpdateError = (error) => {
     console.error('BusinessItemsUpdate failed:', error);
-    // 업로드 실패 시 처리 로직
   };
   // 매장 생성
   const {
@@ -88,7 +83,12 @@ const CustomTable = () => {
       setTotalMenuList(businessItemsInfo.data)
       if(businessItemsInfo.data.length > 0) {
         setSelectedCategory(businessItemsInfo.data[0].category)
-        setMenuList(businessItemsInfo.data[0].items)
+        // 숫자 => 문자열 안바뀌면 드래그가 안된다, ㅠㅠ
+        const stringIdArray = businessItemsInfo.data[0].items.map(item => ({
+          ...item,  // 기존 객체의 모든 속성을 복사
+          id: item.id.toString()  // 숫자를 문자열로 변환
+        }));
+        setMenuList(stringIdArray)
       }
     }
   }, [businessItemsInfo, businessItemsInfoIsLoading, businessItemsInfoIsError]); // 의존성 배열에 businessInfo, isLoading, isError를 추가
@@ -120,13 +120,26 @@ const CustomTable = () => {
     console.log('카테고리:', selectedCategory);
     console.log('저장된 데이터:', menuList);
     console.log("전체 데이터:", totalMenuList)
+    let isCheck = true
+    let categoryName = ""
+    totalMenuList.forEach((categoryList) => {
+      if(categoryList.items?.length <= 0) {
+        isCheck = false
+        categoryName = categoryList.category
+      }
+      categoryList.items = categoryList.items.map(item => ({
+        ...item,  // 기존 객체의 모든 속성을 복사
+        id: parseInt(item.id, 10)  // id 속성을 숫자로 변환
+      }));
+
+    });
+    // 아이템없으면 안된다고해야됩니다.
+    if(!isCheck) return alert(`${categoryName} 카테고리 안에 메뉴가 없습니다. 메뉴에 추가하시거나 해당 카테고리를 삭제해주세요.`)
     businessItemsUpdateMutation({
       data:totalMenuList
     })
-    // todo: 서버로 데이터 리스트 보내기(items) 자체를 보내면 됩니다. ( post )
   };
   const handleAdd = () => {
-    // todo: 추가하기 모달 띄우기
     setOpen(true);
   };
   // 모달 닫기
@@ -144,7 +157,12 @@ const CustomTable = () => {
     const {value} = e.target
     setSelectedCategory(value);
     const filteredItems = totalMenuList.find(item => item.category === value);
-    setMenuList(filteredItems.items)
+    const stringIdArray = filteredItems.items.map(item => ({
+      ...item,  // 기존 객체의 모든 속성을 복사
+      id: item.id.toString()  // 숫자를 문자열로 변환
+    }));
+    setMenuList(stringIdArray)
+    // setMenuList(filteredItems.items)
   };
   // 새 항목 추가
   const handleAddItem = () => {
@@ -189,14 +207,14 @@ const CustomTable = () => {
     uploadImageMutation(formData)
   };
 
-  const toggleStatus = (id) => {
-    setMenuList(menuList.map(item => {
-      if (item.id === id) {
-        return { ...item, isActive: item.isActive === '입고' ? '품절' : '입고' };
-      }
-      return item;
-    }));
-  };
+  // const toggleStatus = (id) => {
+  //   setMenuList(menuList.map(item => {
+  //     if (item.id === id) {
+  //       return { ...item, isActive: item.isActive === '입고' ? '품절' : '입고' };
+  //     }
+  //     return item;
+  //   }));
+  // };
 
   const handleDelete = (id) => {
     // id를 사용하여 menuList에서 해당 항목을 찾아 삭제하는 로직
@@ -237,6 +255,7 @@ const CustomTable = () => {
     setNewItem(selectedMenu)
     if(selectedMenu.imageUrl) setImagePreview(selectedMenu.imageUrl)
   }
+
   const handleUpdateComplete = () => {
     if(window.confirm("해당 메뉴를 수정하시겠습니까?")) {
       const targetIndex = totalMenuList.findIndex(item => item.category === selectedCategory);
@@ -263,8 +282,43 @@ const CustomTable = () => {
       setUpdateMode(false)
       handleClose()
     }
-
   }
+  // 카테고리 추가
+  const addCategory = () => {
+      const newCategoryData =  {
+          category: newCategory,
+          items: []
+      }
+      if (newCategory && !updateCategories.some(category => category.category === newCategory)) {
+          setUpdateCategories([...updateCategories,
+              newCategoryData
+          ]);
+          setNewCategory('');
+      }
+  };
+  // 카테고리 삭제
+  const deleteCategory = (categoryName) => {
+      setUpdateCategories(updateCategories.filter(category => category.category !== categoryName));
+  };
+  const handleCategoryOpen = () => {
+    console.log("카테고리 관리 모달 열기")
+    setUpdateCategories(totalMenuList)
+    setCategoryManageModalOpen(true)
+  }
+
+  const handleCategoryClose = () => {
+    console.log("카테고리 관리 모달 닫기")
+    setUpdateCategories(totalMenuList)
+    setNewCategory('')
+    setCategoryManageModalOpen(false)
+  }
+
+  const handleCategorySave = () => {
+    console.log("카테고리 저장하기")
+    setTotalMenuList(updateCategories)
+    setCategoryManageModalOpen(false)
+  }
+
   const classes = useStyles();
   return (
     <>
@@ -282,6 +336,9 @@ const CustomTable = () => {
           ))}
         </Select>
       </FormControl>
+      <Button variant="contained" color="primary" className={classes.categoryManageButton} onClick={handleCategoryOpen}>
+        카테고리 관리
+      </Button>
       <Button variant="contained" color="primary" className={classes.addButton} onClick={handleAdd}>
         추가하기
       </Button>
@@ -304,7 +361,6 @@ const CustomTable = () => {
                       <TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>가격</TableCell>
                       <TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>설명</TableCell>
                       <TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>카테고리</TableCell>
-                      {/*<TableCell className={`${classes.textCenter} ${classes.textNowrap}`}>입고상태</TableCell>*/}
                       <TableCell></TableCell>
                       <TableCell></TableCell>
                     </TableRow>
@@ -350,18 +406,6 @@ const CustomTable = () => {
                                     {selectedCategory}
                                   </Button>
                                 </TableCell>
-                                {/*<TableCell>{item.isActive}</TableCell>*/}
-                                {/*<TableCell>*/}
-                                {/*  <Button*/}
-                                {/*      onClick={() => toggleStatus(item.id)}*/}
-                                {/*      style={{*/}
-                                {/*        cursor: 'pointer', // 마우스 오버 시 커서 변경*/}
-                                {/*        backgroundColor: item.isActive === '입고' ? '#90EE90' : '#FFB6C1', // 상태에 따른 배경색*/}
-                                {/*      }}*/}
-                                {/*  >*/}
-                                {/*    {item.isActive}*/}
-                                {/*  </Button>*/}
-                                {/*</TableCell>*/}
                                 <TableCell>
                                   <Button onClick={() => handleViewDetails(item.id)} style={{
                                     backgroundColor: '#a3e9f3',
@@ -387,11 +431,9 @@ const CustomTable = () => {
       </div>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
-          {/*메뉴 추가*/}
           {!updateMode ? "메뉴 추가" : "메뉴 수정"}
         </DialogTitle>
         <DialogContent>
-          {/* 이미지 업로드 필드 */}
           <div style={{
             width: "100%",
             display: "flex",
@@ -406,7 +448,6 @@ const CustomTable = () => {
                 onChange={handleImageChange}
             />
             <div className={classes.newImageContainer}>
-              {/* 이미지 미리보기 */}
               <div
                   className={classes.newImage}
                   style={{
@@ -415,7 +456,6 @@ const CustomTable = () => {
               >
                 {!imagePreview && '이미지 업로드'}
               </div>
-              {/* 이미지 업로드 버튼 */}
               <label htmlFor="raised-button-file" className={classes.uploadBtn}>
                 <Button variant="contained" component="span" style={{padding: 0, minWidth: 0}}>
                   <CollectionsIcon/>
@@ -470,7 +510,6 @@ const CustomTable = () => {
               value={newItem.prompt}
               className={classes.textFieldCustom}
           />
-          {/* 상태는 기본적으로 '활성화'로 설정 */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">
@@ -573,6 +612,47 @@ const CustomTable = () => {
           </Button>
           <Button onClick={handleUpdateMenu} color="primary">
             수정하기
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={categoryManageModalOpen} onClose={handleCategoryClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">카테고리 관리</DialogTitle>
+        <DialogContent>
+          <TextField
+              label="새 카테고리"
+              variant="outlined"
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
+              style={{marginBottom: 16, marginTop: 20}}
+          />
+          <Button onClick={addCategory} variant="contained" color="primary"
+                  style={{marginBottom: 16, marginTop: 30, marginLeft: 10}}>
+              카테고리 추가
+          </Button>
+          <div>
+              {updateCategories.length > 0 ? (
+                  updateCategories.map((category, index) => (
+                      <Chip
+                          key={index}
+                          label={category.category}
+                          onDelete={() => deleteCategory(category.category)}
+                          color="primary"
+                          style={{margin: '5px'}}
+                      />
+                  ))
+              ) : (
+                  <div style={{ margin: '5px' }}>카테고리가 없습니다.</div>
+              )}
+
+          </div>
+          {/* 상태는 기본적으로 '활성화'로 설정 */}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCategoryClose} color="secondary">
+            닫기
+          </Button>
+          <Button onClick={handleCategorySave} color="primary">
+            저장하기
           </Button>
         </DialogActions>
       </Dialog>

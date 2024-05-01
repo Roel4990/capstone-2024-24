@@ -168,13 +168,6 @@ export default function StoreManagement() {
         const formData = new FormData();
         formData.append('file', file);
         uploadImageMutation(formData)
-        // if (file) {
-        //     const reader = new FileReader();
-        //     reader.onloadend = () => {
-        //         setNewImage(reader.result);
-        //     };
-        //     reader.readAsDataURL(file);
-        // }
     };
     // 카테고리 추가
     // const addCategory = () => {
