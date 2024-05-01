@@ -7,7 +7,7 @@ class ItemResponse(BaseModel):
     id: int
     name: str
     description: str
-    imageUrl: str
+    imageUrl: Optional[str] = None
     prompt: str
     price: int
     isActive: bool = True
@@ -23,10 +23,9 @@ class MenuResponse(BaseModel):
 
 
 class ItemRequest(BaseModel):
-    id: Optional[int]
     name: str
     description: str
-    imageUrl: str
+    imageUrl: Optional[str] = None
     prompt: str
     price: int
     isActive: bool = True
@@ -38,4 +37,4 @@ class CategoryRequest(BaseModel):
 
 
 class ItemCreateRequest(BaseModel):
-    items: list[CategoryRequest]
+    data: list[CategoryRequest]

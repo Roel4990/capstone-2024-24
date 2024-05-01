@@ -18,6 +18,10 @@ pydantic-settings = "^2.2.1"
 python-multipart = "^0.0.9"
 pydantic = {version = "^2.6.4", platform = "manylinux2014_aarch64"}
 mangum = "0.11"
+PyJWT = "^2.3.0"
+sqlalchemy = "^2.0.29"
+psycopg2-binary = "^2.9.9"
+anthropic = "^0.25.7"
 
 
 [build-system]

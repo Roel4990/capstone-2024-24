@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Literal, List
 
 from pydantic import BaseModel
 
@@ -28,10 +28,18 @@ class OrderRequestInfo(BaseModel):
     items: list[RequestItem]
 
 
+class SuggestItem(BaseModel):
+    id: int
+    name: str
+    price: int
+    imageUrl: Optional[str]
+
+
 class QueryResponse(BaseModel):
-    query: str
+    result: str
+    suggestItems: List[SuggestItem] = []
     orderInfo: OrderInfo
-    pointerId: Optional[int]
+    pointerId: Optional[int] = None
     doBilling: bool = False
     showOrderList: bool = False
     totalPrice: int = 0

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   Grid,
   CircularProgress,
@@ -16,57 +16,160 @@ import CollectionsIcon from "@material-ui/icons/Collections";
 import useStyles from "./styles";
 // context
 import {signOut, useUserDispatch} from "../../context/UserContext";
-// 예제 데이터
-const initialCardData = [
-    // {
-    //   logo: '/Midoin/MidoinLogo.jpeg',
-    //   name: '스타벅스',
-    //   description: '강남점',
-    //   date: '생성일: 2024-03-20',
-    // }
-]
+import {
+  useSignupMutation,
+  useLoginMutation,
+  useImageUploadMutation,
+  useBusinessCreateMutation,
+  useBusinessListMutation
+} from '../../api/mutations.js';
 
 function Login(props) {
-
-  var classes = useStyles();
-  const [cardData, setCardData] = useState(initialCardData);
+  const classes = useStyles();
+  const id_token = localStorage.getItem("id_token")
+  useEffect(() => {
+    // `setTimeout`이 한 번만 실행되도록
+    const timer = setTimeout(() => {
+      businessListMutation(); // `businessListMutation` 호출
+    }, 1000);
+    return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 `clearTimeout`
+  }, []); // 빈 배열로 설정하여 반복 실행 방지
+  const [cardData, setCardData] = useState([]);
   // local
-  var [isLoading, setIsLoading] = useState(false);
-  var [error, setError] = useState(null);
-  var [activeTabId, setActiveTabId] = useState(0);
-  var [selectCompany, setSelectCompany] = useState(0)
-  var [nameValue, setNameValue] = useState("");
-  var [loginValue, setLoginValue] = useState("admin@midoin.com");
-  var [passwordValue, setPasswordValue] = useState("password");
+  const [isLoading, setIsLoading] = useState(false);
+  // var [error, setError] = useState(null);
+  const [activeTabId, setActiveTabId] = useState(0);
+  const [selectCompany, setSelectCompany] = useState(id_token ? 1 : 0)
+  const [nameValue, setNameValue] = useState("");
+  const [loginValue, setLoginValue] = useState("testUserName");
+  const [passwordValue, setPasswordValue] = useState("123456");
   const [open, setOpen] = useState(false); // 모달 상태
   // 새로운 매장 추가하기
-  const [newItem, setNewItem] = useState({ name: '', description: '', logo: ''}); // 새 항목의 상태
+  const [newItem, setNewItem] = useState({ id: '', name: '', description: '', imageUrl: ''}); // 새 항목의 상태
   const [cardImagePreview, setCardImagePreview] = useState(null); // 이미지 미리보기 URL 상태
-  var userDispatch = useUserDispatch();
+  const userDispatch = useUserDispatch();
+  const handleLoginMutate = (data) => {
+    // 로그인 성공 후 처리할 로직
+    console.log('진행중');
+  };
+  const handleSignupSuccess = (data) => {
+    // 로그인 성공 후 처리할 로직
+    console.log('회원가입 성공:', data);
+    setIsLoading(false);
+    // 로그인 성공 시 필요한 작업을 수행
+    localStorage.setItem('id_token', data.token.accessToken)
+    setSelectCompany(1)
+    businessListMutation()
+  };
+  const handleSignupError = (error) => {
+    // 로그인 실패 후 처리할 로직
+    console.error('회원가입 실패:', error);
+    setIsLoading(false);
+    console.error('Login failed:', error);
+  };
+  // 로그인
+  const {
+    mutate: signupMutation,
+    isLoading: signupIsLoading,
+    error: signupError
+  } = useSignupMutation(
+      handleSignupSuccess,
+      handleSignupError
+  )
+  const handleLoginSuccess = (data) => {
+    // 로그인 성공 후 처리할 로직
+    console.log('로그인 성공:', data);
+    setIsLoading(false);
+    // 로그인 성공 시 필요한 작업을 수행
+    localStorage.setItem('id_token', data.token.accessToken)
+    setSelectCompany(1)
+    businessListMutation()
+  };
+  const handleLoginError = (error) => {
+    // 로그인 실패 후 처리할 로직
+    console.error('로그인 실패:', error);
+    setIsLoading(false);
+    console.error('Login failed:', error);
+    alert("아이디 및 비밀번호를 확인해 주세요.")
+  };
+  // 로그인
+  const {
+    mutate: loginMutation,
+    isLoading: loginIsLoading,
+    error: loginError
+  } = useLoginMutation(
+      handleLoginMutate,
+      handleLoginSuccess,
+      handleLoginError
+  )
+
+  const handleImageUploadSuccess = (uploadImageData) => {
+    // 로그인 성공 후 처리할 로직
+    console.log('이미지업로드 성공:', uploadImageData);
+    setNewItem({ ...newItem, imageUrl:uploadImageData.imageUrl });
+    setCardImagePreview(uploadImageData.imageUrl);
+  };
+  const handleImageUploadError = (error) => {
+    // 로그인 실패 후 처리할 로직
+    console.error('Upload failed:', error);
+  };
+  // 이미지 업로드
+  const {
+    mutate: uploadImageMutation,
+    isLoading: uploadImageIsLoading,
+    error: uploadImageError
+  } = useImageUploadMutation(
+      handleImageUploadSuccess,
+      handleImageUploadError
+  );
+
+  const handleBusinessCreateSuccess = (businessData) => {
+    // 로그인 성공 후 처리할 로직
+    console.log('businessCreate successful:', businessData);
+    // 업로드 성공 시 처리 로직
+    setCardData([...cardData, newItem]); // 기존 cardData에 새 카드 추가
+    // 모달 닫기
+    handleClose()
+  };
+  const handleBusinessCreateError = (error) => {
+    console.error('businessCreate failed:', error);
+    // 업로드 실패 시 처리 로직
+  };
+  // 매장 생성
+  const {
+    mutate: businessCreateMutation,
+    isLoading: businessCreateIsLoading,
+    error: businessCreateError
+  } = useBusinessCreateMutation(
+      handleBusinessCreateSuccess,
+      handleBusinessCreateError
+  );
+  const handleBusinessListSuccess = (businessListData) => {
+    // 로그인 성공 후 처리할 로직
+    console.log('businessList successful:', businessListData);
+    setCardData(businessListData.data)
+  };
+  const handleBusinessListError = (error) => {
+    console.error('businessList failed:', error);
+    // 업로드 실패 시 처리 로직
+  };
+  // 매장 생성
+  const {
+    mutate: businessListMutation,
+    isLoading: businessListIsLoading,
+    error: businessListError
+  } = useBusinessListMutation(
+      handleBusinessListSuccess,
+      handleBusinessListError
+  );
   // 회원가입 함수
   const createUser = () => {
-    // todo : 회원가입 API 및 로그인 API
-    setIsLoading(true)
-    // 매장 선택하기로 수정
-    setTimeout(() => {
-      localStorage.setItem('id_token', 1)
-      setIsLoading(false)
-      setError(null)
-      setSelectCompany(1)
-    }, 2000);
+    signupMutation({username: loginValue, password: passwordValue});
   };
   // 로그인 함수
   const customLoginUser = () => {
     setIsLoading(true)
-    if (!!loginValue && !!passwordValue) {
-      setTimeout(() => {
-        localStorage.setItem('id_token', 1)
-        setSelectCompany(1)
-        setError(null)
-        setIsLoading(false)
-        // history.push('/app/dashboard')
-      }, 2000);
-    }
+    loginMutation({ username: loginValue, password: passwordValue });
   }
   // 카드 데이터 업데이트 함수
   const updateCard = (id, updatedData) => {
@@ -79,9 +182,8 @@ function Login(props) {
     setCardData(updatedCards);
   };
   const handleAddCard = () => {
-    setCardData([...cardData, newItem]); // 기존 cardData에 새 카드 추가
-    // 모달 닫기
-    handleClose()
+    console.log(newItem)
+    businessCreateMutation(newItem)
   };
 
   // 매장 생성함수
@@ -89,7 +191,7 @@ function Login(props) {
     setOpen(true);
   }
   const handleClose = () => {
-    setNewItem({ name: '', description: '', logo: '' })
+    setNewItem({ id: '', name: '', description: '', imageUrl: '' })
     setCardImagePreview("")
     setOpen(false);
   };
@@ -100,15 +202,9 @@ function Login(props) {
   const handleCardImageChange = (e) => {
     const file = e.target.files[0];
     const { name } = e.target;
-    // todo : image 보내서 링크로 받기
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewItem({ ...newItem, [name]:reader.result ,"imageFile": file });
-        setCardImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    const formData = new FormData();
+    formData.append('file', file);
+    uploadImageMutation(formData)
   };
   return (
     <div>
@@ -129,11 +225,11 @@ function Login(props) {
                 </Tabs>
                 {activeTabId === 0 && (
                     <React.Fragment>
-                      <Fade in={error}>
-                        <Typography color="secondary" className={classes.errorMessage}>
-                          Something is wrong with your login or password :(
-                        </Typography>
-                      </Fade>
+                      {/*<Fade in={error}>*/}
+                      {/*  <Typography color="secondary" className={classes.errorMessage}>*/}
+                      {/*    Something is wrong with your login or password :(*/}
+                      {/*  </Typography>*/}
+                      {/*</Fade>*/}
                       <TextField
                           id="email"
                           InputProps={{
@@ -194,26 +290,26 @@ function Login(props) {
                 )}
                 {activeTabId === 1 && (
                     <React.Fragment>
-                      <Fade in={error}>
-                        <Typography color="secondary" className={classes.errorMessage}>
-                          Something is wrong with your login or password :(
-                        </Typography>
-                      </Fade>
-                      <TextField
-                          id="name"
-                          InputProps={{
-                            classes: {
-                              underline: classes.textFieldUnderline,
-                              input: classes.textField,
-                            },
-                          }}
-                          value={nameValue}
-                          onChange={e => setNameValue(e.target.value)}
-                          margin="normal"
-                          placeholder="Full Name"
-                          type="text"
-                          fullWidth
-                      />
+                      {/*<Fade in={error}>*/}
+                      {/*  <Typography color="secondary" className={classes.errorMessage}>*/}
+                      {/*    Something is wrong with your login or password :(*/}
+                      {/*  </Typography>*/}
+                      {/*</Fade>*/}
+                      {/*<TextField*/}
+                      {/*    id="name"*/}
+                      {/*    InputProps={{*/}
+                      {/*      classes: {*/}
+                      {/*        underline: classes.textFieldUnderline,*/}
+                      {/*        input: classes.textField,*/}
+                      {/*      },*/}
+                      {/*    }}*/}
+                      {/*    value={nameValue}*/}
+                      {/*    onChange={e => setNameValue(e.target.value)}*/}
+                      {/*    margin="normal"*/}
+                      {/*    placeholder="Full Name"*/}
+                      {/*    type="text"*/}
+                      {/*    fullWidth*/}
+                      {/*/>*/}
                       <TextField
                           id="email"
                           InputProps={{
@@ -254,8 +350,8 @@ function Login(props) {
                                 }
                                 disabled={
                                     loginValue.length === 0 ||
-                                    passwordValue.length === 0 ||
-                                    nameValue.length === 0
+                                    passwordValue.length === 0
+                                    // nameValue.length === 0
                                 }
                                 size="large"
                                 variant="contained"
@@ -288,9 +384,9 @@ function Login(props) {
                   <Button onClick={handleOpen} color="primary">매장 추가하기</Button>
                 </Grid>
                 {/*<div className={classes.cardContainer}>*/}
-                {cardData.map((data, index) => (
-                    <Grid item xs={12} md={6} key={index}>
-                      <CustomCard key={index} {...data} updateCard={updateCard} className={classes.marginTop}/>
+                {cardData.map((data) => (
+                    <Grid item xs={12} md={6} key={data.id}>
+                      <CustomCard key={data.id} {...data} updateCard={updateCard} className={classes.marginTop}/>
                     </Grid>
                 ))}
               </Grid>
@@ -303,7 +399,7 @@ function Login(props) {
                       accept="image/*"
                       style={{display: 'none'}}
                       id="raised-button-file"
-                      name="logo"
+                      name="imageUrl"
                       type="file"
                       onChange={handleCardImageChange}
                   />

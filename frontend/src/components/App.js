@@ -1,5 +1,5 @@
-import React from "react";
-import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import React, {useEffect} from "react";
+import {HashRouter, Route, Switch, Redirect, useHistory} from "react-router-dom";
 
 // components
 import Layout from "./Layout";
@@ -7,33 +7,47 @@ import Layout from "./Layout";
 // pages
 import Error from "../pages/error";
 import Login from "../pages/login";
+import SelectCompany from "../pages/selectCompany";
 
 // context
-import { useUserState } from "../context/UserContext";
+import {useUserDispatch, useUserState} from "../context/UserContext";
+import {QueryClient, QueryClientProvider} from "react-query";
+const queryClient = new QueryClient();
 
 export default function App() {
   // global
   var { isAuthenticated } = useUserState();
-
   return (
-    <HashRouter>
-      <Switch>
-        <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
-        <Route
-          exact
-          path="/app"
-          render={() => <Redirect to="/app/dashboard" />}
-        />
-        <PrivateRoute path="/app" component={Layout} />
-        <PublicRoute path="/login" component={Login} />
-        <Route component={Error} />
-      </Switch>
-    </HashRouter>
+      <QueryClientProvider client={queryClient}> {/* QueryClientProvider 추가 */}
+        <HashRouter>
+          <Switch>
+            <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
+            <Route
+              exact
+              path="/app"
+              render={() => <Redirect to="/app/dashboard" />}
+            />
+            <PrivateRoute path="/app" component={Layout} />
+            {/*<PrivateRoute path="/selectCompany" component={SelectCompany} />*/}
+            <PublicRoute path="/login" component={Login} />
+            <Route component={Error} />
+          </Switch>
+        </HashRouter>
+      </QueryClientProvider>
   );
 
   // #######################################################################
 
   function PrivateRoute({ component, ...rest }) {
+      const userDispatch = useUserDispatch();
+      const history = useHistory();
+      const company_id = localStorage.getItem("company_id")
+      useEffect(() => {
+          if (!company_id) {
+              userDispatch({ type: "SIGN_OUT_SUCCESS" });
+              history.push("/login"); // 렌더링 후 리디렉션
+          }
+      }, [userDispatch, history]); // `userDispatch`와 `history`를 의존성 배열에 추가
     return (
       <Route
         {...rest}

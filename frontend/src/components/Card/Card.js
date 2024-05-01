@@ -41,7 +41,7 @@ const useStyles = makeStyles({
         padding: '32px', // 내부 여백
     }
 });
-function CustomCard({ id, logo, name, description, date, updateCard }) {
+function CustomCard({ id, imageUrl, name, description, date, updateCard }) {
     const history = useHistory(); // useHistory 훅을 사용하여 history 객체 얻기
     var userDispatch = useUserDispatch();
     const classes = useStyles();
@@ -57,7 +57,7 @@ function CustomCard({ id, logo, name, description, date, updateCard }) {
     // };
     //
     const handleCompanyClick = () => {
-        localStorage.setItem('company_id', 1)
+        localStorage.setItem('company_id', id)
         userDispatch({ type: 'LOGIN_SUCCESS' })
         history.push('/app/dashboard')
     };
@@ -67,7 +67,7 @@ function CustomCard({ id, logo, name, description, date, updateCard }) {
                 {/* 이미지 컨테이너 */}
                 <div className={classes.imageContainer}>
                     {/* 이미지를 여기에 넣으세요. 아래는 예시 이미지입니다. */}
-                    <img className={classes.image} src={logo} alt="미도인" />
+                    <img className={classes.image} src={imageUrl} alt="미도인" />
                 </div>
                 {/* 카드 제목 */}
                 <Typography className={classes.title} gutterBottom>

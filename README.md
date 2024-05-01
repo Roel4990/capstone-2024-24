@@ -3,6 +3,8 @@
 
 - github pages : https://kookmin-sw.github.io/capstone-2024-24/
 - 국민대 2024년 캡스톤 24조 https://github.com/kookmin-sw/capstone-2024-24
+- 중간보고서 : https://drive.google.com/file/d/16NaXpkgVccnvjZIrgBijLE6NKX_uG9iI/view?usp=sharing
+- 중간발표자료 : https://drive.google.com/file/d/1uSfNx9Hp3RWLK9qVZHUtFuv0Xsn-snNT/view?usp=sharing
 
 ## 🤖 AI 기반 대화형 키오스크, Jumi(주미)
 
@@ -18,6 +20,18 @@ AI와의 대화를 통해 더 간편하고, 쉽고, 자신있게 키오스크를
 주미(Jumi)는 기존의 중노년층이나 가게에 처음오는 사람 등 해당 매장의 키오스크 사용에 미숙한 점이 많아 설명과 도움이 필요한 사람들을 대상으로 개발 중에 있습니다.
 
 대화를 통해 기존 점원들이 진행하던 주문뿐아니라 메뉴 설명, 매장설명 및 손님응대를 ai인 주미가 진행하므로써 손님은 자신만을 위한 작은 테이블위 담당 직원이 생기는 것이고 매장은 더 적은 비용으로 서비스 품질을 늘릴 수 있는 기회가 될 것입니다.
+
+---
+
+Introducing 'Jumi', Your Order Assistant!
+
+Are you finding kiosk usage complex and challenging? With Jumi, you can interact more conveniently, easily, and confidently through AI conversation for smoother kiosk navigation. Let's reduce the inconvenience at your store! 😆
+
+According to the 'Seoul Citizen Digital Competency Survey' released by the Seoul Digital Foundation, only 45.8% of the elderly aged 55 and above responded that they have experience using kiosks. This figure is significantly lower than the 94.1% response from those under 55 years old. In fact, elderly consumers cited 'complex steps and screen manipulation' and 'inability to inquire about ordered items' as inconvenient aspects of using kiosks (Korea Consumer Agency survey).
+
+Jumi is being developed to assist those who are unfamiliar with using kiosks, such as the middle-aged and elderly, or those visiting a store for the first time, by providing explanations and assistance.
+
+Through conversation, Jumi not only handles orders like traditional staff but also provides menu explanations, store guidance, and customer service. This creates a personalized experience for the customer, akin to having a dedicated staff member at their service, while offering the store an opportunity to enhance service quality at lower costs.
 
 ## 🤖 소개 영상
 
@@ -114,9 +128,9 @@ AI와 매장에 관한 대화를 음성으로 자유롭게 나눌 수 있습니�
 |역할|종류|
 |-|-|
 |Library|<img alt="RED" src ="https://img.shields.io/badge/REACT-61DAFB.svg?&style=for-the-badge&logo=React&logoColor=white"/>|
+|UI Framework|![mui](https://img.shields.io/badge/mui-007FFF?style=for-the-badge&logo=mui&logoColor=white)|
 |Programming Language|![JavaScript](https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white)|
 |Package Manager|![Npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)|                                         
-|Version Control|![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) |
 |CI/CD|![Vercel](https://img.shields.io/badge/vercel-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)|
 <br />
 
@@ -126,7 +140,6 @@ AI와 매장에 관한 대화를 음성으로 자유롭게 나눌 수 있습니�
 |Development Environment and Tools|![Androidstudio](https://img.shields.io/badge/androidstudio-3DDC84?style=for-the-badge&logo=androidstudio&logoColor=white)|
 |Platform|![Android](https://img.shields.io/badge/android-34A853?style=for-the-badge&logo=android&logoColor=white)|    
 |Programming Language|![Kotlin](https://img.shields.io/badge/kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)|     
-|Version Control|![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)|
 <br />
 
 ### 🖥 Backend
@@ -136,7 +149,6 @@ AI와 매장에 관한 대화를 음성으로 자유롭게 나눌 수 있습니�
 |Database|![MySQL](https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white)|    
 |Database Service|![amazonrds](https://img.shields.io/badge/amazonrds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white) ![amazons3](https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white)|
 |Programming Language|![Python](https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white)|
-|Version Control|![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)|
 |CI/CD|![githubactions](https://img.shields.io/badge/githubactions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)|
 <br />
 
@@ -145,7 +157,6 @@ AI와 매장에 관한 대화를 음성으로 자유롭게 나눌 수 있습니�
 |-|-|
 |Framework|![pytorch](https://img.shields.io/badge/pytorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)| 
 |Programming Language|![Python](https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white)|
-|Version Control|![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)|
 <br />
 
 
@@ -154,5 +165,6 @@ AI와 매장에 관한 대화를 음성으로 자유롭게 나눌 수 있습니�
 |-|-|
 |협업 관리|![notion](https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white) ![discord](https://img.shields.io/badge/discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)| 
 |디자인|![figma](https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)|
-<br />
+|Version Control|![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)|
 
+<br />

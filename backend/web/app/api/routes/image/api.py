@@ -2,16 +2,20 @@ from uuid import uuid4
 
 import boto3
 from botocore.exceptions import NoCredentialsError
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, Depends
 
+from app.api.dependencies.credential import get_user_info
 from app.core.config import get_app_settings
 from app.models.schemas.image import ImageResponse
+from app.models.schemas.users import UserInLogin
 
 router = APIRouter()
 
 
 @router.post("/image-upload", name="image:upload-image")
-async def upload_image(file: UploadFile = File(...)) -> ImageResponse:
+async def upload_image(
+    file: UploadFile = File(...), user_info: UserInLogin = Depends(get_user_info)
+) -> ImageResponse:
     file_id = f"{uuid4()}"
     config = get_app_settings()
 

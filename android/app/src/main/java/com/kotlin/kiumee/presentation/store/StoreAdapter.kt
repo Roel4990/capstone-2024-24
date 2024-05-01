@@ -7,9 +7,9 @@ import com.kotlin.kiumee.core.view.ItemDiffCallback
 import com.kotlin.kiumee.databinding.ItemStoreBinding
 
 class StoreAdapter(
-    private val click: (Store, Int) -> Unit = { _, _ -> }
+    private val click: (StoreEntity, Int) -> Unit = { _, _ -> }
 ) :
-    ListAdapter<Store, StoreViewHolder>(
+    ListAdapter<StoreEntity, StoreViewHolder>(
         StoreAdapterDiffCallback
     ) {
     override fun onCreateViewHolder(
@@ -30,9 +30,8 @@ class StoreAdapter(
 
     companion object {
         private val StoreAdapterDiffCallback =
-            ItemDiffCallback<Store>(
-                // 수정해야 함
-                onItemsTheSame = { old, new -> old == new },
+            ItemDiffCallback<StoreEntity>(
+                onItemsTheSame = { old, new -> old.id == new.id },
                 onContentsTheSame = { old, new -> old == new }
             )
     }
