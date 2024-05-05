@@ -24,14 +24,11 @@ def create_items(
     service: ItemService = Depends(ItemService),
 ) -> MenuResponse:
     items = []
-
-    # class ItemCreateRequest(BaseModel):
-    #     data: list[CategoryRequest]
-
     for category in body.data:
         for item in category.items:
             items.append(
                 BusinessItem(
+                    id=item.id,
                     category=category.category,
                     name=item.name,
                     description=item.description,

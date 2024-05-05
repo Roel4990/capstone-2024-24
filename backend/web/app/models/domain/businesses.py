@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class BusinessItem(BaseModel):
-    id: Optional[int] = None  # defined by the database
+    id: int  # defined by the user
     name: str
     category: str
     description: str
