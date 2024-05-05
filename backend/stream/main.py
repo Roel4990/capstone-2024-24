@@ -6,7 +6,7 @@ from flask import Flask
 from flask_socketio import SocketIO
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio_server = SocketIO(app)
 
 global frame_queue  # 프레임을 저장할 큐. 글로벌 선언이므로, 어느 함수에서든 접근 가능
 frame_queue = []
@@ -31,7 +31,7 @@ def queueing_process(audio, sample_rate, frame_duration):
         frame_queue.append(frame.tobytes())
 
 
-@socketio.on("audio")
+@socketio_server.on("audio")
 def handle_audio(data):
     audio = data["audio"]
     sample_rate = data["sample_rate"]
@@ -48,9 +48,9 @@ def handle_audio(data):
         # 프레임을 큐에서 소비함. 파일을 저장하려면 주석 제거
         # write_wave(f'{filename}.wav', b''.join(frame_queue), sample_rate)
         print(f"File {filename}.wav saved")
-        socketio.emit("response", {"text": "추천 메뉴 하나 줘."})
+        socketio_server.emit("response", {"text": "추천 메뉴 하나 줘."})
         frame_queue.clear()
 
 
 if __name__ == "__main__":
-    socketio.run(app, allow_unsafe_werkzeug=True)
+    socketio_server.run(app, allow_unsafe_werkzeug=True)
