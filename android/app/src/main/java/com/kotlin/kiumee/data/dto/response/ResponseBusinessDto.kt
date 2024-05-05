@@ -18,6 +18,8 @@ data class ResponseBusinessDataDto(
     val name: String,
     @SerialName("description")
     val description: String,
+    @SerialName("prompt")
+    val prompt: String?,
     @SerialName("imageUrl")
     val imageUrl: String,
     @SerialName("createdDatetime")
