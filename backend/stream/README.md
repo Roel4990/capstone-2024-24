@@ -2,7 +2,7 @@
 # 음성 처리 소켓 서버
 Proof of Concept을 위한 소켓 서버
 
-ubuntu 22.04 LTS, python 3.9 에서 테스트 됨.
+ubuntu 22.04 LTS, python 3.9, virtualenv 에서 테스트 됨.
 
 ### 의존성 설치
 의존성이 맞지 않을 경우, requirements.txt 를 수정해서 설치할 수 있음. 
@@ -17,7 +17,7 @@ python main.py
 
 ### 엔드포인트
 ```
-https://{hostname}/audio
+http://{hostname}
 
 송신 (지속적으로 음성을 전송해야 함)
 {'audio', {'audio': {bytesteam, eg. audio.tobytes()}, 'sample_rate': 44100}}
