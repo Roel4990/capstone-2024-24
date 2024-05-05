@@ -22,3 +22,9 @@ class Business(BaseModel):
     imageUrl: str
     createdDatetime: str
     updatedDatetime: str
+
+
+class BusinessPrompt(BaseModel):
+    question: str
+    answer: str
+    items: Optional[list[int]] = None
