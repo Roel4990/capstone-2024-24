@@ -6,7 +6,7 @@ from starlette.status import HTTP_404_NOT_FOUND
 
 from app.db.repositories.businesses import BusinessRepository
 from app.models.domain.businesses import Business, BusinessPrompt
-from app.resouces.strings.businesses import BUSINESS_NOT_FOUNT
+from app.resouces.strings.businesses import BUSINESS_NOT_FOUNT, PROMPT_NOT_FOUNT
 
 
 class BusinessService:
@@ -87,7 +87,7 @@ class BusinessService:
         )
         return None
 
-    def get_business_prompt(
+    def get_business_prompts(
         self, user_id: int, business_id: int
     ) -> List[BusinessPrompt]:
         if not self.business_repository.is_exist_business(
@@ -97,7 +97,18 @@ class BusinessService:
                 status_code=HTTP_404_NOT_FOUND, detail=BUSINESS_NOT_FOUNT
             )
 
-        return self.business_repository.get_business_prompt(business_id=business_id)
+        return self.business_repository.get_business_prompts(business_id=business_id)
+
+    def get_business_prompt(
+        self, user_id: int, business_id: int, prompt_id: int
+    ) -> BusinessPrompt:
+        item = self.get_business_prompts(user_id=user_id, business_id=business_id)
+
+        for prompt in item:
+            if prompt.id == prompt_id:
+                return prompt
+
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=PROMPT_NOT_FOUNT)
 
     def add_business_prompt(
         self, user_id: int, business_id: int, prompts: List[BusinessPrompt]
@@ -113,4 +124,48 @@ class BusinessService:
             business_id=business_id, prompts=prompts
         )
 
-        return prompts
+        return self.get_business_prompts(user_id=user_id, business_id=business_id)
+
+    def modify_business_prompt(
+        self, user_id: int, business_id: int, prompt_id: int, prompt: BusinessPrompt
+    ) -> BusinessPrompt:
+        if not self.business_repository.is_exist_business(
+            user_id=user_id, business_id=business_id
+        ):
+            raise HTTPException(
+                status_code=HTTP_404_NOT_FOUND, detail=BUSINESS_NOT_FOUNT
+            )
+
+        if not self.business_repository.is_exist_business_prompt(
+            business_id=business_id, prompt_id=prompt_id
+        ):
+            raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=PROMPT_NOT_FOUNT)
+
+        self.business_repository.modify_business_prompt(
+            business_id=business_id, prompt_id=prompt_id, prompt=prompt
+        )
+
+        return self.get_business_prompt(
+            user_id=user_id, business_id=business_id, prompt_id=prompt_id
+        )
+
+    def delete_business_prompt(
+        self, user_id: int, business_id: int, prompt_id: int
+    ) -> None:
+        if not self.business_repository.is_exist_business(
+            user_id=user_id, business_id=business_id
+        ):
+            raise HTTPException(
+                status_code=HTTP_404_NOT_FOUND, detail=BUSINESS_NOT_FOUNT
+            )
+
+        if not self.business_repository.is_exist_business_prompt(
+            business_id=business_id, prompt_id=prompt_id
+        ):
+            raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=PROMPT_NOT_FOUNT)
+
+        self.business_repository.delete_business_prompt(
+            business_id=business_id, prompt_id=prompt_id
+        )
+
+        return None

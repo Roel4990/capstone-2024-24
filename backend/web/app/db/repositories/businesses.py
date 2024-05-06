@@ -67,6 +67,57 @@ class BusinessRepository:
             is not None
         )
 
+    def is_exist_business_prompt(self, business_id: int, prompt_id: int) -> bool:
+        return (
+            self._session.query(TblBusinessPrompt)
+            .filter(
+                and_(
+                    TblBusinessPrompt.business_id == business_id,
+                    TblBusinessPrompt.id == prompt_id,
+                )
+            )
+            .first()
+            is not None
+        )
+
+    def modify_business_prompt(
+        self, business_id: int, prompt_id: int, prompt: BusinessPrompt
+    ) -> BusinessPrompt:
+        entity = (
+            self._session.query(TblBusinessPrompt)
+            .filter(
+                and_(
+                    TblBusinessPrompt.business_id == business_id,
+                    TblBusinessPrompt.id == prompt_id,
+                )
+            )
+            .first()
+        )
+
+        if entity:
+            entity.prompt_text = json.dumps(prompt.dict(exclude={"id"}))
+            self._session.commit()
+
+        return prompt
+
+    def delete_business_prompt(self, business_id: int, prompt_id: int) -> None:
+        prompt = (
+            self._session.query(TblBusinessPrompt)
+            .filter(
+                and_(
+                    TblBusinessPrompt.business_id == business_id,
+                    TblBusinessPrompt.id == prompt_id,
+                )
+            )
+            .first()
+        )
+
+        if prompt:
+            self._session.delete(prompt)
+            self._session.commit()
+
+        return None
+
     def add_business(
         self, user_id: int, name: str, description: str, image_url: str, prompt: str
     ) -> TblBusiness:
@@ -100,7 +151,7 @@ class BusinessRepository:
 
         return None
 
-    def get_business_prompt(self, business_id: int) -> List[BusinessPrompt]:
+    def get_business_prompts(self, business_id: int) -> List[BusinessPrompt]:
         items = (
             self._session.query(TblBusinessPrompt)
             .filter(eq(TblBusinessPrompt.business_id, business_id))
@@ -108,22 +159,18 @@ class BusinessRepository:
         )
         result = []
         for item in items:
-            item = json.loads(item.prompt_text)
-            result.append(BusinessPrompt(**item))
+            prompt = json.loads(item.prompt_text)
+            result.append(BusinessPrompt(id=item.id, **prompt))
 
         return result
 
     def add_business_prompt(
         self, business_id: int, prompts: List[BusinessPrompt]
     ) -> None:
-        # delete all prompts
-        self._session.query(TblBusinessPrompt).filter(
-            eq(TblBusinessPrompt.business_id, business_id)
-        ).delete()
-
         for prompt in prompts:
             prompt = TblBusinessPrompt(
-                business_id=business_id, prompt_text=json.dumps(prompt.dict())
+                business_id=business_id,
+                prompt_text=json.dumps(prompt.dict(exclude={"id"})),
             )
             self._session.add(prompt)
 
