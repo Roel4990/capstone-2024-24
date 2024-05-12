@@ -156,7 +156,7 @@ export function useBusinessItemsUpdateMutation(onSuccess, onError){
 
 // gpt 사용해보기
 const GPTChat = async (prompt) => {
-    const response = await axios.post('http://127.0.0.1:5002/prompt', prompt);
+    const response = await axios.post('http://127.0.0.1:5003/prompt', prompt);
     return response.data;
 };
 
@@ -167,3 +167,49 @@ export function useGPTChatMutation(onSuccess, onError){
         onError
     });
 }
+
+export const fetchBusinessPromptInfo = async () => {
+    const token = localStorage.getItem('id_token')
+    const company_id = localStorage.getItem('company_id')
+    const headers = {
+        'Authorization' : `Bearer ${token}`
+    };
+    const response = await axios.get(`https://jumi-api.youchu.io/v1/business/${company_id}/prompt`, { headers });
+    return response.data;
+}
+
+
+const promptCreate = async (promptData) => {
+    const token = localStorage.getItem('id_token');
+    const company_id = localStorage.getItem('company_id')
+    const headers = {
+        'Authorization': `Bearer ${token}`
+    };
+    const response = await axios.post(`https://jumi-api.youchu.io/v1/business/${company_id}/prompt`, promptData, { headers });
+    return response.data;
+};
+
+export function usePromptCreateMutation(onSuccess, onError){
+    return useMutation(promptCreate, {
+        onSuccess,
+        onError
+    });
+}
+
+const promptUpdate = async (prompt_id, promptData) => {
+    const token = localStorage.getItem('id_token');
+    const company_id = localStorage.getItem('company_id')
+    const headers = {
+        'Authorization': `Bearer ${token}`
+    };
+    const response = await axios.put(`https://jumi-api.youchu.io/v1/business/${company_id}/prompt/${prompt_id}`, promptData, { headers });
+    return response.data;
+};
+
+export function usePromptUpdateMutation(onSuccess, onError){
+    return useMutation(promptUpdate, {
+        onSuccess,
+        onError
+    });
+}
+

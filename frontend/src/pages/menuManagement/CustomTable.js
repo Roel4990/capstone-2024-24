@@ -648,7 +648,6 @@ const CustomTable = () => {
               )}
 
           </div>
-          {/* 상태는 기본적으로 '활성화'로 설정 */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCategoryClose} color="secondary">
