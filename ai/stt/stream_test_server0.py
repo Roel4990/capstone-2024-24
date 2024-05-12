@@ -8,9 +8,6 @@ from flask_socketio import SocketIO
 app = Flask(__name__)
 socketio_server = SocketIO(app)
 
-global frame_queue  # 프레임을 저장할 큐. 글로벌 선언이므로, 어느 함수에서든 접근 가능
-frame_queue = []
-
 stt = au.VADAudio(input_rate=16000)
 
 
