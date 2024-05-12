@@ -16,6 +16,7 @@ class ItemRepository:
         entities = (
             self._session.query(TblItem)
             .filter(TblItem.business_id == business_id)
+            .order_by(TblItem.id)
             .all()
         )
 
@@ -24,7 +25,7 @@ class ItemRepository:
         for entity in entities:
             result.append(
                 BusinessItem(
-                    id=entity.id,
+                    id=entity.custom_id,
                     category=entity.category,
                     name=entity.name,
                     description=entity.description,
@@ -53,6 +54,7 @@ class ItemRepository:
                 image_url=item.imageUrl,
                 price=item.price,
                 status=int(item.isActive),
+                custom_id=item.id,
             )
             entities.append(entity)
 

@@ -1,10 +1,12 @@
 from typing import List, Optional
 
 import arrow
-from fastapi import Depends
+from fastapi import Depends, HTTPException
+from starlette.status import HTTP_404_NOT_FOUND
 
 from app.db.repositories.businesses import BusinessRepository
-from app.models.domain.businesses import Business
+from app.models.domain.businesses import Business, BusinessPrompt
+from app.resouces.strings.businesses import BUSINESS_NOT_FOUNT
 
 
 class BusinessService:
@@ -84,3 +86,31 @@ class BusinessService:
             business_id=business_id, user_id=user_id
         )
         return None
+
+    def get_business_prompt(
+        self, user_id: int, business_id: int
+    ) -> List[BusinessPrompt]:
+        if not self.business_repository.is_exist_business(
+            user_id=user_id, business_id=business_id
+        ):
+            raise HTTPException(
+                status_code=HTTP_404_NOT_FOUND, detail=BUSINESS_NOT_FOUNT
+            )
+
+        return self.business_repository.get_business_prompt(business_id=business_id)
+
+    def add_business_prompt(
+        self, user_id: int, business_id: int, prompts: List[BusinessPrompt]
+    ) -> List[BusinessPrompt]:
+        if not self.business_repository.is_exist_business(
+            user_id=user_id, business_id=business_id
+        ):
+            raise HTTPException(
+                status_code=HTTP_404_NOT_FOUND, detail=BUSINESS_NOT_FOUNT
+            )
+
+        self.business_repository.add_business_prompt(
+            business_id=business_id, prompts=prompts
+        )
+
+        return prompts

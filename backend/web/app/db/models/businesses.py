@@ -21,3 +21,13 @@ class Business(Base):
         onupdate=arrow.utcnow().datetime,
     )
     status = Column(Integer, nullable=False, default=1)
+
+
+class BusinessPrompt(Base):
+    __tablename__ = "business_prompts"
+
+    id = Column(Integer, primary_key=True)
+    business_id = Column(Integer, nullable=False)
+    prompt_text = Column(String, nullable=False)
+    created_datetime = Column(DateTime, nullable=False, default=arrow.utcnow().datetime)
+    status = Column(Integer, nullable=False, default=1)

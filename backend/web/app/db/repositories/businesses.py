@@ -1,3 +1,4 @@
+import json
 from typing import List
 
 from fastapi import Depends
@@ -6,7 +7,11 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql.operators import eq
 
 from app.db.dependencies import provide_db_session
-from app.db.models.businesses import Business as TblBusiness
+from app.db.models.businesses import (
+    Business as TblBusiness,
+    BusinessPrompt as TblBusinessPrompt,
+)
+from app.models.domain.businesses import BusinessPrompt
 
 
 class BusinessRepository:
@@ -92,5 +97,36 @@ class BusinessRepository:
         if business:
             self._session.delete(business)
             self._session.commit()
+
+        return None
+
+    def get_business_prompt(self, business_id: int) -> List[BusinessPrompt]:
+        items = (
+            self._session.query(TblBusinessPrompt)
+            .filter(eq(TblBusinessPrompt.business_id, business_id))
+            .all()
+        )
+        result = []
+        for item in items:
+            item = json.loads(item.prompt_text)
+            result.append(BusinessPrompt(**item))
+
+        return result
+
+    def add_business_prompt(
+        self, business_id: int, prompts: List[BusinessPrompt]
+    ) -> None:
+        # delete all prompts
+        self._session.query(TblBusinessPrompt).filter(
+            eq(TblBusinessPrompt.business_id, business_id)
+        ).delete()
+
+        for prompt in prompts:
+            prompt = TblBusinessPrompt(
+                business_id=business_id, prompt_text=json.dumps(prompt.dict())
+            )
+            self._session.add(prompt)
+
+        self._session.commit()
 
         return None

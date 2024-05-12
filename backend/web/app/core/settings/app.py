@@ -6,10 +6,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class AppSettings(BaseSettings):
 
     DEBUG: bool = False
-    REDOC_URL: Optional[str] = "/redoc"
-    DOCS_URL: Optional[str] = "/docs"
-    TITLE: str = "Nonamed API"
-    DESCRIPTION: str = "Nonamed API Open API Docs"
+    REDOC_URL: Optional[str] = None
+    DOCS_URL: Optional[str] = None
+    TITLE: str = "Jumi API"
+    DESCRIPTION: str = "Jumi API Open API Docs"
     VERSION: str = "1.0.0"
 
     # prod

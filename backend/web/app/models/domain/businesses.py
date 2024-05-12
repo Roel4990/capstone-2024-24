@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class BusinessItem(BaseModel):
-    id: Optional[int] = None  # defined by the database
+    id: int  # defined by the user
     name: str
     category: str
     description: str
@@ -22,3 +22,9 @@ class Business(BaseModel):
     imageUrl: str
     createdDatetime: str
     updatedDatetime: str
+
+
+class BusinessPrompt(BaseModel):
+    question: str
+    answer: str
+    items: Optional[list[int]] = None
