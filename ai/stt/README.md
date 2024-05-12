@@ -13,3 +13,6 @@ conda install pyaudio
 
 conda install whisper
 ```
+
+
+- py_webrtcvad : https://github.com/snakers4/silero-vad?tab=readme-ov-file
