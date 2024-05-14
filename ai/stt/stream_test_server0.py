@@ -16,8 +16,8 @@ stt = au.VADAudio(input_rate=16000)
 def handle_audio(data):
     audio = data["audio"]
     text = stt.vad_collector(audio)
-
     socketio_server.emit("response", {"text": text})
+
 
 
 

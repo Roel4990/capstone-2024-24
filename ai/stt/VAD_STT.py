@@ -5,6 +5,7 @@ import webrtcvad
 import torch
 import torchaudio
 import whisper
+import copy
 
 class Audio(object):
     """Streams raw audio from microphone. Data is received in a separate thread, and stored in a buffer, to be read from."""
@@ -42,7 +43,6 @@ class Audio(object):
 
     def read(self):
         """Return a block of audio data, blocking if necessary."""
-        print(self.block_size_input)
         return self.stream.read(self.block_size_input)
 
     def destroy(self):
@@ -60,8 +60,6 @@ class VADAudio():
     """Filter & segment audio with voice activity detection."""
 
     def __init__(self, padding_ms=300, aggressiveness=3, device=None, input_rate=16000, block_size = 800):
-        '''self.audio = Audio(device=device,
-                    input_rate=input_rate)'''
         self.sample_rate = input_rate
         frame_duration_ms = 1000 * block_size // self.sample_rate
         
@@ -72,12 +70,14 @@ class VADAudio():
                                             force_reload=True)
         (self.get_speech_ts, _, _, _, _) = utils
         print("silero-vad model loaded")
-    
+        self.vadW = webrtcvad.Vad(aggressiveness)
+        print("webRTC-vad model loaded")
+
         # whisper
-        self.whisper_model = whisper.load_model("medium")
+        self.whisper_model = whisper.load_model("small")
         print("Whisper model loaded")
 
-        self.vadW = webrtcvad.Vad(aggressiveness)
+        
 
         num_padding_frames = padding_ms // frame_duration_ms
         self.ring_buffer = collections.deque(maxlen=num_padding_frames)
@@ -85,13 +85,6 @@ class VADAudio():
 
         self.wav_data = bytearray()
 
-    '''def frame_generator(self):
-        """Generator that yields all audio frames from microphone."""
-        if self.audio.input_rate == self.audio.RATE_PROCESS:
-            while True:
-                self.vad_collector(self.audio.read())
-        else:
-            raise Exception("Resampling required")'''
 
     def vad_collector(self, frame, ratio=0.75):
         """
@@ -139,8 +132,10 @@ class VADAudio():
                 self.wav_data.extend(frame)
         else:
                 print("webRTC has detected a possible speech")
-
-                newsound= np.frombuffer(self.wav_data, np.int16)
+                tmp_wav_data = self.wav_data[:]# copy.deepcopy(self.wav_data)
+                self.wav_data = bytearray()
+                # print(tmp_wav_data[0],type(tmp_wav_data[0]))
+                newsound= np.frombuffer(tmp_wav_data, np.int16)
                 audio_float32= self.Int2Float(newsound)
                 time_stamps =self.get_speech_ts(audio_float32, self.vadS)
 
@@ -156,7 +151,6 @@ class VADAudio():
                     print("silero VAD has detected a noise")
 
                 print()
-                self.wav_data = bytearray()
 
         return result
 
