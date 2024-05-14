@@ -63,17 +63,15 @@ const CustomTable = () => {
 
   const handleBusinessItemsUpdateSuccess = (businessData) => {
     // 매장 아이템 리스트 업데이트 성공시
-    console.log('BusinessItemsUpdate successful:', businessData);
+    //console.log('BusinessItemsUpdate successful:', businessData);
     alert("성공적으로 저장했습니다.")
   };
   const handleBusinessItemsUpdateError = (error) => {
-    console.error('BusinessItemsUpdate failed:', error);
+    //console.error('BusinessItemsUpdate failed:', error);
   };
   // 매장 생성
   const {
     mutate: businessItemsUpdateMutation,
-    isLoading: businessItemsUpdateIsLoading,
-    error: businessItemsUpdateError
   } = useBusinessItemsUpdateMutation(
       handleBusinessItemsUpdateSuccess,
       handleBusinessItemsUpdateError
@@ -204,7 +202,6 @@ const CustomTable = () => {
   // 이미지 변경 핸들러
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    const { name } = e.target;
     const formData = new FormData();
     formData.append('file', file);
     uploadImageMutation(formData)

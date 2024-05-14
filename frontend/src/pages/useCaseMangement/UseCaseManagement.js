@@ -30,7 +30,6 @@ export default function UseCaseManagement(props) {
     const { data: businessItemsInfo, isLoading : businessItemsInfoIsLoading, isError: businessItemsInfoIsError } = useQuery('businessItemsInfo', fetchBusinessItemsInfo);
     useEffect(() => {
         if (!businessItemsInfoIsLoading && !businessItemsInfoIsError && businessItemsInfo) {
-            console.log(businessItemsInfo.data)
             const allItems = businessItemsInfo.data
                 .map(category => category.items)
                 .reduce((acc, curr) => acc.concat(curr), []);

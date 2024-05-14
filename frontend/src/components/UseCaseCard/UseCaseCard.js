@@ -8,21 +8,18 @@ import {
     Paper, Table, TableBody, TableCell, TableRow, TextField, Typography
 } from "@material-ui/core";
 import useStyles from "./styles";
-import {usePromptCreateMutation, useGPTChatMutation, usePromptUpdateMutation} from "../../api/mutations";
+import {useGPTChatMutation, usePromptUpdateMutation} from "../../api/mutations";
 
 export default function UseCaseCard(props) {
     const classes = useStyles();
 
     const handleGPTChatSuccess = (data) => {
-        console.log('GPTChat 성공:', data);
-        // alert(data)
         setResult1(`${promptText}`);
         setResult2(`${data.answer}`);
-        // setSelectedResult(`${data.answer}`);
         setVisible(true);
     };
     const handleGPTChatError = (error) => {
-        console.error('GPTChat 실패:', error);
+        //console.error('GPTChat 실패:', error);
     };
     // 로그인
     const {
@@ -32,11 +29,11 @@ export default function UseCaseCard(props) {
         handleGPTChatError
     )
     const handlePromptUpdateSuccess = (data) => {
-        console.log('프롬프트 업데이트 성공:', data);
+        //console.log('프롬프트 업데이트 성공:', data);
         setUseCase({...useCase, answer: data.data.answer})
     };
     const handlePromptUpdateError = (error) => {
-        console.error('프롬프트 업데이트 실패:', error);
+        //console.error('프롬프트 업데이트 실패:', error);
     };
     const {
         mutate: promptUpdateMutation,
@@ -104,18 +101,13 @@ export default function UseCaseCard(props) {
     };
 
     const handleResultSelection = (event) => {
-        console.log(event)
-        // setSelectedResult(event.target.value);
-        // setSelectedResult(event);
         setSelectedResult(event)
     };
     const handleMenuToggle = (menu) => {
         const isAlreadySelected = selectedMenus.some(selectedMenu => selectedMenu.id === menu.id);
         if (isAlreadySelected) {
-            // setMenuList(prev => [...prev, menu])
             setSelectedMenus(prev => prev.filter(item => item.id !== menu.id));
         } else {
-            // setMenuList(prev => prev.filter(item => item.id !== menu.id))
             setSelectedMenus(prev => [...prev, menu]);
         }
     };
