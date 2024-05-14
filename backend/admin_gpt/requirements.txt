@@ -1,0 +1,5 @@
+openai==1.29.0
+Flask==3.0.3
+python-dotenv==1.0.1
+Flask-Cors==4.0.1
+zappa==0.59.0
