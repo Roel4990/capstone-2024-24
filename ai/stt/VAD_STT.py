@@ -74,7 +74,7 @@ class VADAudio():
         print("webRTC-vad model loaded")
 
         # whisper
-        self.whisper_model = whisper.load_model("base")
+        self.whisper_model = whisper.load_model("medium")
         print("Whisper model loaded")
 
         
