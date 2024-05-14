@@ -196,13 +196,13 @@ export function usePromptCreateMutation(onSuccess, onError){
     });
 }
 
-const promptUpdate = async (prompt_id, promptData) => {
+const promptUpdate = async (props) => {
     const token = localStorage.getItem('id_token');
     const company_id = localStorage.getItem('company_id')
     const headers = {
         'Authorization': `Bearer ${token}`
     };
-    const response = await axios.put(`https://jumi-api.youchu.io/v1/business/${company_id}/prompt/${prompt_id}`, promptData, { headers });
+    const response = await axios.put(`https://jumi-api.youchu.io/v1/business/${company_id}/prompt/${props.id}`, {question : props.question, answer: props.answer, items:props.items}, { headers });
     return response.data;
 };
 

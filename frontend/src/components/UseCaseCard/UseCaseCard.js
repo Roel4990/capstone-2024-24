@@ -1,4 +1,5 @@
 import React, {
+    useEffect,
     useState
 } from "react";
 import {
@@ -7,21 +8,18 @@ import {
     Paper, Table, TableBody, TableCell, TableRow, TextField, Typography
 } from "@material-ui/core";
 import useStyles from "./styles";
-import {usePromptCreateMutation, useGPTChatMutation, usePromptUpdateMutation} from "../../api/mutations";
+import {useGPTChatMutation, usePromptUpdateMutation} from "../../api/mutations";
 
 export default function UseCaseCard(props) {
     const classes = useStyles();
 
     const handleGPTChatSuccess = (data) => {
-        console.log('GPTChat 성공:', data);
-        // alert(data)
         setResult1(`${promptText}`);
         setResult2(`${data.answer}`);
-        // setSelectedResult(`${data.answer}`);
         setVisible(true);
     };
     const handleGPTChatError = (error) => {
-        console.error('GPTChat 실패:', error);
+        //console.error('GPTChat 실패:', error);
     };
     // 로그인
     const {
@@ -30,28 +28,12 @@ export default function UseCaseCard(props) {
         handleGPTChatSuccess,
         handleGPTChatError
     )
-
-    const handlePromptCreateSuccess = (data) => {
-        console.log('프롬프트 생성 성공:', data);
-
-    };
-    const handlePromptCreateError = (error) => {
-        console.error('프롬프트 생성 실패:', error);
-    };
-    const {
-        mutate: promptCreateMutation,
-    } = usePromptCreateMutation(
-        handlePromptCreateSuccess,
-        handlePromptCreateError
-    );
-
     const handlePromptUpdateSuccess = (data) => {
-        console.log('프롬프트 업데이트 성공:', data);
-
+        //console.log('프롬프트 업데이트 성공:', data);
+        setUseCase({...useCase, answer: data.data.answer})
     };
     const handlePromptUpdateError = (error) => {
-        console.error('프롬프트 업데이트 실패:', error);
-
+        //console.error('프롬프트 업데이트 실패:', error);
     };
     const {
         mutate: promptUpdateMutation,
@@ -66,31 +48,48 @@ export default function UseCaseCard(props) {
     const [result1, setResult1] = useState('');
     const [result2, setResult2] = useState('');
     const [selectedResult, setSelectedResult] = useState('result2');
-    const [menuList , setMenuList] = useState(props.menuList)
     const [selectedMenus, setSelectedMenus] = useState([]);
-
+    useEffect(() => {
+        if (props.items && props.menuList) {
+            const filteredItems = props.menuList.filter(item => props.items.includes(item.id));
+            setSelectedMenus(filteredItems);
+        }
+    }, [props.items, props.menuList]); // 의존성 배열에 props.items와 props.menuList를 포함
     const handleUpdateMode = (e) => {
         setUseCaseModalOpen(true)
     }
 
     const handleUseCaseModalClose = () => {
         setUseCaseModalOpen(false)
-        setSelectedMenus([])
-        setMenuList(props.menuList)
+        if(props.items && props.menuList) {
+            const filteredItems = props.menuList.filter(item => props.items.includes(item.id));
+            setSelectedMenus(filteredItems);
+        }
         setVisible(false);
     }
     const handleUseCaseSave = () => {
         const answer = selectedResult === "result1" ? result1 : result2
-        promptUpdateMutation(props.id, {
-            question: props.question,
-            answer,
-            items: []
-        })
+        if(props.items instanceof Array) {
+            selectedMenus.sort((a, b) => a.id - b.id);
+            let items = selectedMenus.map(item => item.id);
+            let names = selectedMenus.map(item => item.name);
+            promptUpdateMutation({
+                id : props.id,
+                question: props.question,
+                answer: `해당 매장에서 추천하는 메뉴는 ${names.join(', ')} 입니다.`,
+                items:items,
+            })
+        } else {
+            promptUpdateMutation({
+                id : props.id,
+                question: props.question,
+                answer,
+            })
+        }
         setUseCaseModalOpen(false)
         setVisible(false);
     }
     const handleTransform = () => {
-        console.log("변환")
         setVisible(false);
         GPTChatMutation({
             question: props.question,
@@ -102,18 +101,13 @@ export default function UseCaseCard(props) {
     };
 
     const handleResultSelection = (event) => {
-        console.log(event)
-        // setSelectedResult(event.target.value);
-        // setSelectedResult(event);
         setSelectedResult(event)
     };
     const handleMenuToggle = (menu) => {
         const isAlreadySelected = selectedMenus.some(selectedMenu => selectedMenu.id === menu.id);
         if (isAlreadySelected) {
-            setMenuList(prev => [...prev, menu])
             setSelectedMenus(prev => prev.filter(item => item.id !== menu.id));
         } else {
-            setMenuList(prev => prev.filter(item => item.id !== menu.id))
             setSelectedMenus(prev => [...prev, menu]);
         }
     };
@@ -167,11 +161,11 @@ export default function UseCaseCard(props) {
                     </Typography>
                     {Array.isArray(props.items) ?
                         <>
-                            <Typography variant="h7" className={classes.questionTitle}>
+                            <Typography className={classes.questionTitle}>
                                 추천메뉴를 선택해 주세요!
                             </Typography>
                             <Box className={classes.scrollableGrid}>
-                                {menuList.filter(menu => !selectedMenus.includes(menu)).map(menu => (
+                                {props.menuList.filter(menu => !selectedMenus.includes(menu)).map(menu => (
                                     <Grid item xs={4} key={menu.id}>
                                         <Box
                                             key={menu.id}
@@ -189,11 +183,11 @@ export default function UseCaseCard(props) {
                                 ))}
 
                             </Box>
-                            <Typography variant="h7" className={classes.questionTitle}>
+                            <Typography className={classes.questionTitle}>
                                선택된 추천 메뉴
                             </Typography>
                             <Box className={classes.scrollableGrid}>
-                                {selectedMenus.filter(menu => !menuList.includes(menu)).map(menu => (
+                                {selectedMenus.map(menu => (
                                     <Grid item xs={4} key={menu.id}>
                                         <Box
                                             key={menu.id}
@@ -227,8 +221,7 @@ export default function UseCaseCard(props) {
                             className={classes.textFieldCustom}
                         />
                     }
-
-                    <Box className={classes.buttonContainer}>
+                    {Array.isArray(props.items) ? <></> : <Box className={classes.buttonContainer}>
                         <Button
                             variant="contained"
                             color="primary"
@@ -236,7 +229,8 @@ export default function UseCaseCard(props) {
                         >
                             GPT 변환
                         </Button>
-                    </Box>
+                    </Box>}
+
                     {visible ? (
                         <Box className={classes.resultContainer}>
                             <Box
@@ -264,6 +258,9 @@ export default function UseCaseCard(props) {
                     </Button>
                     {visible ?
                     <Button onClick={handleUseCaseSave} color="primary">
+                        저장하기
+                    </Button> : <></>}
+                    {Array.isArray(props.items) ?  <Button onClick={handleUseCaseSave} color="primary">
                         저장하기
                     </Button> : <></>}
                 </DialogActions>

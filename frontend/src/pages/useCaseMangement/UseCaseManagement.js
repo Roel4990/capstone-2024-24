@@ -16,23 +16,6 @@ import {
     fetchBusinessPromptInfo,
 } from '../../api/mutations.js'
 import {useQuery} from "react-query";
-const useCaseList = [
-    {
-        id: 1,
-        question: "매장에서 가장 추천하는 메뉴가 무엇입니까?",
-        answer: ""
-    },
-    {
-        id: 2,
-        question: "화장실은 어디인가요?",
-        answer: ""
-    },
-    {
-        id: 3,
-        question: "매장에 대해 설명해줘",
-        answer: ""
-    },
-]
 export default function UseCaseManagement(props) {
     const [ promptList, setPromptList ] = useState([])
     const [totalMenuList, setTotalMenuList] = useState([])
@@ -47,7 +30,6 @@ export default function UseCaseManagement(props) {
     const { data: businessItemsInfo, isLoading : businessItemsInfoIsLoading, isError: businessItemsInfoIsError } = useQuery('businessItemsInfo', fetchBusinessItemsInfo);
     useEffect(() => {
         if (!businessItemsInfoIsLoading && !businessItemsInfoIsError && businessItemsInfo) {
-            console.log(businessItemsInfo.data)
             const allItems = businessItemsInfo.data
                 .map(category => category.items)
                 .reduce((acc, curr) => acc.concat(curr), []);
