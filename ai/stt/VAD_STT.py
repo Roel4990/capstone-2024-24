@@ -74,7 +74,7 @@ class VADAudio():
         print("webRTC-vad model loaded")
 
         # whisper
-        self.whisper_model = whisper.load_model("small")
+        self.whisper_model = whisper.load_model("base")
         print("Whisper model loaded")
 
         
@@ -132,9 +132,8 @@ class VADAudio():
                 self.wav_data.extend(frame)
         else:
                 print("webRTC has detected a possible speech")
-                tmp_wav_data = self.wav_data[:]# copy.deepcopy(self.wav_data)
+                tmp_wav_data = self.wav_data[:]  # copy.deepcopy(self.wav_data)
                 self.wav_data = bytearray()
-                # print(tmp_wav_data[0],type(tmp_wav_data[0]))
                 newsound= np.frombuffer(tmp_wav_data, np.int16)
                 audio_float32= self.Int2Float(newsound)
                 time_stamps =self.get_speech_ts(audio_float32, self.vadS)
@@ -144,9 +143,12 @@ class VADAudio():
                     audio = whisper.pad_or_trim(audio_float32)
                     mel = whisper.log_mel_spectrogram(audio)
                     options = whisper.DecodingOptions(language = 'ko', without_timestamps=True, fp16 = False)
-                    transcript = whisper.decode(self.whisper_model, mel, options)
-                    print(transcript.text)
-                    result = transcript.text
+                    try:
+                        transcript = whisper.decode(self.whisper_model, mel, options)
+                        print(transcript.text)
+                        result = transcript.text
+                    except Exception as e:
+                         print(e)
                 else:
                     print("silero VAD has detected a noise")
 
