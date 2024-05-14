@@ -19,24 +19,25 @@ webrtcvad >= 2.0.10
 torchaudio >= 0.8.1
 torch >= 1.8.1
 Soundfile >= 0.13.3
+pyaudio >= 0.2.11
 ```
 
-환경세팅
+환경세팅 (VAD_STT.py)
 ```
-pip3 install webrtcvad
-pip3 install torchaudio
-pip3 install torch
-pip3 install soundfile
+pip install webrtcvad
+pip install torchaudio
+pip install torch
+pip install numpy
+pip install soundfile
 
-pip3 install whisper
+pip install git+https://github.com/openai/whisper.git 
+sudo apt install python3-pyaudio
+ // conda install pyaudio 추천
+ // pyaudio 참고 : https://pypi.org/project/PyAudio/
 ```
 
-필요하다면 
-```
-conda install pyaudio 
-```
 
-
+# 사용 모델
 - py_webrtcvad : https://github.com/wiseman/py-webrtcvad
 - silero-vad : https://github.com/snakers4/silero-vad?tab=readme-ov-file
 
