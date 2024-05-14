@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import Depends
+from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
 from app.db.dependencies import provide_db_session
@@ -15,7 +16,7 @@ class ItemRepository:
     def get_items(self, business_id: int) -> List[BusinessItem]:
         entities = (
             self._session.query(TblItem)
-            .filter(TblItem.business_id == business_id)
+            .filter(and_(TblItem.business_id == business_id, TblItem.status == 1))
             .order_by(TblItem.id)
             .all()
         )
@@ -39,7 +40,9 @@ class ItemRepository:
         return result
 
     def delete_items(self, business_id: int) -> None:
-        self._session.query(TblItem).filter(TblItem.business_id == business_id).delete()
+        self._session.query(TblItem).filter(TblItem.business_id == business_id).update(
+            {TblItem.status: 0}
+        )
         self._session.commit()
 
     def put_items(self, business_id: int, items: List[BusinessItem]) -> None:
