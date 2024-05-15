@@ -23,6 +23,7 @@ class MenuResponse(BaseModel):
 
 
 class ItemRequest(BaseModel):
+    id: int
     name: str
     description: str
     imageUrl: Optional[str] = None

@@ -17,3 +17,4 @@ class Item(Base):
     business_id = Column(Integer, nullable=False)
     created_datetime = Column(DateTime, nullable=False, default=arrow.utcnow().datetime)
     status = Column(Integer, nullable=False, default=1)
+    custom_id = Column(Integer, nullable=False)

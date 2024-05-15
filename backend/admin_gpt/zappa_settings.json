@@ -1,0 +1,17 @@
+{
+    "dev": {
+        "app_function": "jumi_admin_answer_support_gpt.app",
+        "aws_region": "ap-northeast-2",
+        "exclude": [
+            "boto3",
+            "dateutil",
+            "botocore",
+            "s3transfer",
+            "concurrent"
+        ],
+        "profile_name": "default",
+        "project_name": "admin-gpt",
+        "runtime": "python3.9",
+        "s3_bucket": "zappa-4fdzgkk52"
+    }
+}
