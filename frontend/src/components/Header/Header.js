@@ -94,19 +94,21 @@ const notifications = [
 
 export default function Header(props) {
   var classes = useStyles();
-  const { data: userInfo } = useQuery('userInfo', fetchUserInfo);
-  const { data: businessInfo } = useQuery('businessInfo', fetchBusinessInfo);
-  // global
+  const { data: userInfo } = useQuery('userInfo', fetchUserInfo, {
+    enabled: !!localStorage.getItem("id_token")
+  });
+  const { data: businessInfo } = useQuery(
+      'businessInfo',
+      fetchBusinessInfo,
+      {
+        enabled: !!localStorage.getItem("company_id")
+      });
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
   var userDispatch = useUserDispatch();
-  // local
   var [mailMenu, setMailMenu] = useState(null);
-  // var [isMailsUnread, setIsMailsUnread] = useState(true);
   var [notificationsMenu, setNotificationsMenu] = useState(null);
-  // var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
-  // var [isSearchOpen, setSearchOpen] = useState(false);
 
 
 

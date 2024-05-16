@@ -31,12 +31,10 @@ const reorder = (list, startIndex, endIndex) => {
 
 const MenuTable = () => {
   const [totalMenuList, setTotalMenuList] = useState([])
-
   const [updateMode, setUpdateMode] = useState(false)
   const [newItem, setNewItem] = useState({ name: '', price: '', description: '', category: '',  prompt: "", isActive: true }); // 새 항목의 상태
   const [imagePreview, setImagePreview] = useState(null); // 이미지 미리보기 URL 상태
   const [selectedCategory, setSelectedCategory] = useState('');
-  // const filteredMenuList = totalMenuList.filter(menu => menu.category === selectedCategory);
   const [menuList, setMenuList] = useState([]);
   const [selectedMenu, setSelectedMenu] = useState({})
   const [open, setOpen] = useState(false); // 모달 상태
@@ -45,7 +43,6 @@ const MenuTable = () => {
   const [newCategory, setNewCategory] = useState('');
   const [updateCategories, setUpdateCategories] = useState([]);
   const { data: businessItemsInfo, isLoading : businessItemsInfoIsLoading, isError: businessItemsInfoIsError } = useQuery('businessItemsInfo', fetchBusinessItemsInfo);
-
   const handleImageUploadSuccess = (uploadImageData) => {
     setNewItem({ ...newItem, imageUrl:uploadImageData.imageUrl });
     setImagePreview(uploadImageData.imageUrl);
@@ -116,9 +113,6 @@ const MenuTable = () => {
     }
   };
   const handleSave = () => {
-    console.log('카테고리:', selectedCategory);
-    console.log('저장된 데이터:', menuList);
-    console.log("전체 데이터:", totalMenuList)
     if(window.confirm("저장하시겠습니까?")) {
       let isCheck = true
       let categoryName = ""
@@ -131,7 +125,6 @@ const MenuTable = () => {
           ...item,  // 기존 객체의 모든 속성을 복사
           id: parseInt(item.id, 10)  // id 속성을 숫자로 변환
         }));
-
       });
       // 아이템없으면 안된다고해야됩니다.
       if(!isCheck) return alert(`${categoryName} 카테고리 안에 메뉴가 없습니다. 메뉴에 추가하시거나 해당 카테고리를 삭제해주세요.`)
@@ -145,7 +138,6 @@ const MenuTable = () => {
   };
   // 모달 닫기
   const handleClose = () => {
-    // todo : setNewItem => 빈 아이템으로 바꾸기
     setNewItem({ name: '', price: '', description: '', category: selectedCategory, isActive: true })
     setImagePreview(null)
     setOpen(false);
@@ -163,7 +155,6 @@ const MenuTable = () => {
       id: item.id.toString()  // 숫자를 문자열로 변환
     }));
     setMenuList(stringIdArray)
-    // setMenuList(filteredItems.items)
   };
   // 새 항목 추가
   const handleAddItem = () => {
@@ -206,16 +197,6 @@ const MenuTable = () => {
     formData.append('file', file);
     uploadImageMutation(formData)
   };
-
-  // const toggleStatus = (id) => {
-  //   setMenuList(menuList.map(item => {
-  //     if (item.id === id) {
-  //       return { ...item, isActive: item.isActive === '입고' ? '품절' : '입고' };
-  //     }
-  //     return item;
-  //   }));
-  // };
-
   const handleDelete = (id) => {
     // id를 사용하여 menuList에서 해당 항목을 찾아 삭제하는 로직
     // 예: setMenuList(current => current.filter(item => item.id !== id));
@@ -235,14 +216,13 @@ const MenuTable = () => {
         // 업데이트된 전체 메뉴 리스트로 상태 업데이트
         setTotalMenuList(updatedTotalMenuList);
       }
-      // setTotalMenuList(current => current.filter(item => item.id !== id));
       alert("삭제가 완료되었습니다.")
     }
   };
 
   const handleViewDetails = (id) => {
     // id를 사용하여 상세 정보를 표시하는 로직
-    // 예: 상세 정보 모달 열기 또는 상세 페이지로 라우팅
+    // 상세 정보 모달 열기
     const value = menuList.find(menu => menu.id === id)
     setSelectedMenu(value)
     setDetailOpen(true)
@@ -301,20 +281,17 @@ const MenuTable = () => {
       setUpdateCategories(updateCategories.filter(category => category.category !== categoryName));
   };
   const handleCategoryOpen = () => {
-    console.log("카테고리 관리 모달 열기")
     setUpdateCategories(totalMenuList)
     setCategoryManageModalOpen(true)
   }
 
   const handleCategoryClose = () => {
-    console.log("카테고리 관리 모달 닫기")
     setUpdateCategories(totalMenuList)
     setNewCategory('')
     setCategoryManageModalOpen(false)
   }
 
   const handleCategorySave = () => {
-    console.log("카테고리 저장하기")
     setTotalMenuList(updateCategories)
     setCategoryManageModalOpen(false)
   }

@@ -30,8 +30,8 @@ function Login(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTabId, setActiveTabId] = useState(0);
   const [selectCompany, setSelectCompany] = useState(isLoggedIn)
-  const [loginValue, setLoginValue] = useState("admin");
-  const [passwordValue, setPasswordValue] = useState("jumijumi");
+  const [loginValue, setLoginValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
   const [open, setOpen] = useState(false);
   const [newItem, setNewItem] = useState({name: '', description: '', imageUrl: '', prompt: ""}); // 새 항목의 상태
   const [cardImagePreview, setCardImagePreview] = useState(null);
