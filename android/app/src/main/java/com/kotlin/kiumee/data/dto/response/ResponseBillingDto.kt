@@ -8,17 +8,17 @@ data class ResponseBillingDto(
     @SerialName("orderInfo")
     val orderInfo: ResponseBillingOrderInfoDto,
     @SerialName("totalPrice")
-    val totalPrice: Int
+    val totalPrice: Int? = 0
 )
 
 @Serializable
 data class ResponseBillingOrderInfoDto(
     @SerialName("items")
-    val items: List<ResponseBillingItemsDto>
+    val items: List<ResponseBillingOrderInfoItemsDto>
 )
 
 @Serializable
-data class ResponseBillingItemsDto(
+data class ResponseBillingOrderInfoItemsDto(
     @SerialName("id")
     val id: Int,
     @SerialName("category")
