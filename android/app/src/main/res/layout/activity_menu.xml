@@ -26,6 +26,17 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/av_menu_audio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/btn_menu_speak"
+            app:layout_constraintStart_toEndOf="@id/btn_menu_speak"
+            app:layout_constraintTop_toTopOf="@id/btn_menu_speak"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lottie_audio" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_menu_tab"
             android:layout_width="240dp"
