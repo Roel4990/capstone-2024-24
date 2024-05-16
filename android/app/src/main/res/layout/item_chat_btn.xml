@@ -3,14 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="chat"
-            type="com.kotlin.kiumee.presentation.menu.chat.Chat" />
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="240dp"
         android:layout_height="280dp"
@@ -24,7 +16,7 @@
             android:id="@+id/iv_item_chat_btn"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/shape_line_35_rect"
+            android:background="@drawable/shape_line_10_rect"
             android:src="@drawable/ic_no_sign"
             app:layout_constraintBottom_toTopOf="@id/tv_item_chat_btn_name"
             app:layout_constraintDimensionRatio="1:1"
