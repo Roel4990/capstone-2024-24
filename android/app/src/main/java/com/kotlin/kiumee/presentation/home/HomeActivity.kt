@@ -33,7 +33,9 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>(R.layout.activity_home
 
     private fun initScreenClickListener() {
         binding.ivHomeBackground.setOnClickListener {
-            startActivity(Intent(this, MenuActivity::class.java))
+            Intent(this, MenuActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }.let { startActivity(it) }
         }
     }
 }
