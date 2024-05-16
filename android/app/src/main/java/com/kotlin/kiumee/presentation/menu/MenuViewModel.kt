@@ -4,11 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kotlin.kiumee.MainApplication
 import com.kotlin.kiumee.core.view.UiState
-import com.kotlin.kiumee.data.dto.ServicePool
+import com.kotlin.kiumee.data.ServicePool
 import com.kotlin.kiumee.data.dto.request.RequestBillingDto
 import com.kotlin.kiumee.data.dto.request.RequestBillingItemsDto
+import com.kotlin.kiumee.data.dto.request.RequestPromptDto
 import com.kotlin.kiumee.data.dto.response.ResponseBillingDto
+import com.kotlin.kiumee.presentation.menu.chat.ChatEntity
+import com.kotlin.kiumee.presentation.menu.chat.guidebtn.GuideBtnEntity
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
@@ -16,11 +21,18 @@ class MenuViewModel : ViewModel() {
     private val _getMenu = MutableStateFlow<UiState<List<CategoryEntity>>>(UiState.Loading)
     val getMenu: StateFlow<UiState<List<CategoryEntity>>> = _getMenu
 
+    private val _postPrompt = MutableSharedFlow<UiState<ChatEntity>>()
+    val postPrompt: SharedFlow<UiState<ChatEntity>> = _postPrompt
+
+    private val _getPrompts = MutableStateFlow<UiState<List<GuideBtnEntity>>>(UiState.Loading)
+    val getPrompts: StateFlow<UiState<List<GuideBtnEntity>>> = _getPrompts
+
     private val _putBilling = MutableStateFlow<UiState<ResponseBillingDto>>(UiState.Empty)
     val putBilling: StateFlow<UiState<ResponseBillingDto>> = _putBilling
 
     init {
         getCategory()
+        getPrompts()
     }
 
     private fun getCategory() = viewModelScope.launch {
@@ -32,8 +44,29 @@ class MenuViewModel : ViewModel() {
         )
     }
 
+    fun postPrompt(userChatData: RequestPromptDto) = viewModelScope.launch {
+        _postPrompt.emit(UiState.Loading)
+        runCatching {
+            ServicePool.menuApiService.postPrompt(
+                MainApplication.prefs.getBusinessId(),
+                MainApplication.prefs.getSessionId(),
+                userChatData
+            ).toChatEntity()
+        }.fold(
+            { _postPrompt.emit(UiState.Success(it)) },
+            { _postPrompt.emit(UiState.Failure(it.message.toString())) }
+        )
+    }
+
+    private fun getPrompts() = viewModelScope.launch {
+        runCatching { ServicePool.menuApiService.getPrompts(MainApplication.prefs.getBusinessId()).data.map { it.toGuideBtnEntity() } }.fold(
+            { _getPrompts.value = UiState.Success(it) },
+            { _getPrompts.value = UiState.Failure(it.message.toString()) }
+        )
+    }
+
     fun putBilling(billingData: List<RequestBillingItemsDto>) = viewModelScope.launch {
-        kotlin.runCatching {
+        runCatching {
             ServicePool.menuApiService.putBilling(
                 MainApplication.prefs.getBusinessId(),
                 MainApplication.prefs.getSessionId(),
