@@ -25,23 +25,23 @@ client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((HOST, PORT))
 
 def send_audio():
-    while True:
-        try:
+    try:
+        while True:
             data = input_stream.read(CHUNK)
             client_socket.sendall(data)
-        except Exception as e:
-            print(f"ERROR! {e}")
+    except Exception as e:
+        print(f"ERROR! {e}")
 
 def receive_text():
-    while True:
-        try:
+    try:
+        while True:
             data = client_socket.recv(1024)
             print("taking text data to server")
             if not data:
                 break
             print(f"서버로부터 받은 메시지: {data.decode('utf-8')}")
-        except Exception as e:
-            print(f"ERROR! {e}")
+    except Exception as e:
+        print(f"ERROR! {e}")
 
 send_thread = threading.Thread(target=send_audio)
 receive_thread = threading.Thread(target=receive_text)
