@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.kiumee.core.view.ItemDiffCallback
 import com.kotlin.kiumee.databinding.ItemChatJumiBinding
 import com.kotlin.kiumee.databinding.ItemChatUserBinding
-import com.kotlin.kiumee.presentation.menu.chat.Chat.Companion.VIEW_TYPE_JUMI
-import com.kotlin.kiumee.presentation.menu.chat.Chat.Companion.VIEW_TYPE_USER
+import com.kotlin.kiumee.presentation.menu.cart.CartEntity
+import com.kotlin.kiumee.presentation.menu.chat.ChatEntity.Companion.VIEW_TYPE_JUMI
+import com.kotlin.kiumee.presentation.menu.chat.ChatEntity.Companion.VIEW_TYPE_USER
 
-class ChatAdapter() : ListAdapter<Chat, RecyclerView.ViewHolder>(ChatAdapterDiffCallback) {
+class ChatAdapter(private val orderInfoCompareToCart: (List<CartEntity>) -> Unit, private val tabScrollToPosition: (Int) -> Unit, private val orderBtnClickListener: () -> Unit) : ListAdapter<ChatEntity, RecyclerView.ViewHolder>(ChatAdapterDiffCallback) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -19,7 +20,7 @@ class ChatAdapter() : ListAdapter<Chat, RecyclerView.ViewHolder>(ChatAdapterDiff
             VIEW_TYPE_JUMI -> {
                 val binding =
                     ItemChatJumiBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                ChatJumiViewHolder(binding)
+                ChatJumiViewHolder(binding, orderInfoCompareToCart, tabScrollToPosition, orderBtnClickListener)
             }
 
             VIEW_TYPE_USER -> {
@@ -49,9 +50,8 @@ class ChatAdapter() : ListAdapter<Chat, RecyclerView.ViewHolder>(ChatAdapterDiff
 
     companion object {
         private val ChatAdapterDiffCallback =
-            ItemDiffCallback<Chat>(
-                // 추후 수정해야 함
-                onItemsTheSame = { old, new -> old == new },
+            ItemDiffCallback<ChatEntity>(
+                onItemsTheSame = { old, new -> old.content == new.content },
                 onContentsTheSame = { old, new -> old == new }
             )
     }
