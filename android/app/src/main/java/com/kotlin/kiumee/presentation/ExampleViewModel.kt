@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kotlin.kiumee.core.util.enqueueUtil
 import com.kotlin.kiumee.core.view.UiState
-import com.kotlin.kiumee.data.dto.ServicePool
+import com.kotlin.kiumee.data.ServicePool
 import com.kotlin.kiumee.data.dto.response.ResponseExampleDto
 import kotlinx.coroutines.launch
 
