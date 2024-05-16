@@ -1,7 +1,11 @@
 package com.kotlin.kiumee.presentation.login
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.flowWithLifecycle
@@ -19,10 +23,25 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     private val loginViewModel by viewModels<LoginViewModel>()
 
     override fun initView() {
+        requestPermission()
         initAppbarHomeBtn()
         initTextChanged()
         initObserve()
         initLoginBtnClickListener()
+    }
+
+    private fun requestPermission() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.RECORD_AUDIO
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.RECORD_AUDIO),
+                0
+            )
+        }
     }
 
     private fun initAppbarHomeBtn() {
