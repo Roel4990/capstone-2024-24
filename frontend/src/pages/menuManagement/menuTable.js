@@ -29,7 +29,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const CustomTable = () => {
+const MenuTable = () => {
   const [totalMenuList, setTotalMenuList] = useState([])
 
   const [updateMode, setUpdateMode] = useState(false)
@@ -660,4 +660,4 @@ const CustomTable = () => {
   );
 };
 
-export default CustomTable;
+export default MenuTable;

@@ -9,7 +9,7 @@ import {
     TableRow,
     Paper,
     Tooltip,
-    Modal, Box, DialogTitle, DialogContent, Typography, Grid, TextField, Button, DialogActions, Dialog
+    DialogTitle, DialogContent, Typography, Button, DialogActions, Dialog
 } from '@material-ui/core';
 
 const orderData = [
@@ -23,6 +23,7 @@ const OrderList = () => {
     const [selectedOrder, setSelectedOrder] = useState({});
 
     const handleOpen = (order) => {
+        console.log(selectedOrder)
         setSelectedOrder(order);
         setOpen(true);
     };

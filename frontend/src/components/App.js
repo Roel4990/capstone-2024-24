@@ -7,7 +7,6 @@ import Layout from "./Layout";
 // pages
 import Error from "../pages/error";
 import Login from "../pages/login";
-import SelectCompany from "../pages/selectCompany";
 
 // context
 import {useUserDispatch, useUserState} from "../context/UserContext";
@@ -47,7 +46,7 @@ export default function App() {
               userDispatch({ type: "SIGN_OUT_SUCCESS" });
               history.push("/login"); // 렌더링 후 리디렉션
           }
-      }, [userDispatch, history]); // `userDispatch`와 `history`를 의존성 배열에 추가
+      }, [company_id, userDispatch, history]); // `userDispatch`와 `history`를 의존성 배열에 추가
     return (
       <Route
         {...rest}
