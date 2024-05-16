@@ -13,6 +13,7 @@ import CustomCard from "../../components/Card";
 import CollectionsIcon from "@material-ui/icons/Collections";
 import useStyles from "./styles";
 import {signOut, useUserDispatch} from "../../context/UserContext";
+import classNames from "classnames";
 import {
   useSignupMutation,
   useLoginMutation,
@@ -28,7 +29,7 @@ function Login(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("id_token"))
   const [isLoading, setIsLoading] = useState(false);
   const [activeTabId, setActiveTabId] = useState(0);
-  const [selectCompany, setSelectCompany] = useState(isLoggedIn ? 1 : 0)
+  const [selectCompany, setSelectCompany] = useState(isLoggedIn)
   const [loginValue, setLoginValue] = useState("admin");
   const [passwordValue, setPasswordValue] = useState("jumijumi");
   const [open, setOpen] = useState(false);
@@ -51,11 +52,12 @@ function Login(props) {
     // 로그인 성공 후 처리할 로직
     setIsLoading(false);
     localStorage.setItem('id_token', data.token.accessToken)
-    setSelectCompany(1)
+    setSelectCompany(true)
     setIsLoggedIn(true)
   };
   const handleSignupError = (error) => {
-    // 로그인 실패 후 처리할 로직
+    // 회원가입 실패 후 처리할 로직
+    alert(`회원가입 실패 : ${error}`)
     setIsLoading(false);
   };
   // 로그인
@@ -69,15 +71,14 @@ function Login(props) {
     // 로그인 성공 후 처리할 로직
     setIsLoading(false);
     localStorage.setItem('id_token', data.token.accessToken)
-    setSelectCompany(1)
+    setSelectCompany(true)
     setIsLoggedIn(true)
   };
   const handleLoginError = (error) => {
     // 로그인 실패 후 처리할 로직
     console.error('로그인 실패:', error);
     setIsLoading(false);
-    console.error('Login failed:', error);
-    alert("아이디 및 비밀번호를 확인해 주세요.")
+    alert(`로그인 실패 : ${error}`)
   };
   // 로그인
   const {
@@ -142,7 +143,6 @@ function Login(props) {
     setCardData(updatedCards);
   };
   const handleAddCard = () => {
-    console.log(newItem)
     businessCreateMutation(newItem)
   };
   // 매장 생성함수
@@ -166,7 +166,7 @@ function Login(props) {
   };
   return (
     <div>
-      {selectCompany === 0 ? (
+      {!selectCompany ? (
           <Grid container className={classes.container}>
             <div className={classes.formContainer}>
               <div className={classes.form}>
@@ -303,10 +303,6 @@ function Login(props) {
           <Grid container className={classes.selectStoreContainer}>
             <div
                 className={classes.customFormContainer}
-                style={{
-                    marginTop: 50,
-                    width: "50%"
-                }}
             >
               <Grid container spacing={2} style={{ marginTop: 50 }}>
                 <Grid item xs={12} className={classes.addButtonContainer} >
@@ -324,38 +320,23 @@ function Login(props) {
                 <DialogContent className={classes.dialogContent}>
                   <input
                       accept="image/*"
-                      style={{display: 'none'}}
+                      className={classes.display_none}
                       id="raised-button-file"
                       name="imageUrl"
                       type="file"
                       onChange={handleCardImageChange}
                   />
-                  <div style={{position: 'relative', width: "auto", maxWidth: '452px', height: '452px', alignContent: "center"}}>
+                  <div className={classes.imageUploadCoverContainer}>
                     <div
+                        className={classes.imageUploadContainer}
                         style={{
-                          width: '100%',
-                          height: '100%',
-                          marginTop: '10px',
-                          border: '1px solid #ddd',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center',
                           backgroundImage: `url(${cardImagePreview})`,
                         }}
                     >
                       {!cardImagePreview && '이미지 업로드'}
                     </div>
-                    <label htmlFor="raised-button-file" style={{
-                      position: 'absolute',
-                      bottom: '10px', // 버튼의 위치를 이미지 아래쪽에 배치
-                      right: '10px', // 버튼의 위치를 이미지 오른쪽에 배치
-                      background: 'white', // 버튼의 배경색
-                      borderRadius: '10%', // 버튼을 원형으로 만듬
-                      cursor: 'pointer' // 마우스 오버 시 커서를 손가락 모양으로 변경
-                    }}>
-                      <Button variant="contained" component="span" style={{padding: 0, minWidth: 0}}>
+                    <label htmlFor="raised-button-file" className={classes.collectionLabel}>
+                      <Button variant="contained" component="span" className={classNames(classes.padding_0,classes.minWidth_0)}>
                         <CollectionsIcon/>
                       </Button>
                     </label>
@@ -380,7 +361,6 @@ function Login(props) {
                       fullWidth
                       onChange={handleChange}
                   />
-                  {/* 상태는 기본적으로 '활성화'로 설정 */}
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={handleClose} color="secondary">

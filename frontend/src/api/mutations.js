@@ -20,7 +20,7 @@ const loginUser = async (userData) => {
     return response.data;
 };
 
-export function useLoginMutation(onMutate, onSuccess, onError){
+export function useLoginMutation(onSuccess, onError){
     return useMutation(loginUser, {
         onSuccess,
         onError
