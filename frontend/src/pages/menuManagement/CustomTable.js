@@ -174,7 +174,7 @@ const CustomTable = () => {
       if(!newItem.description) return window.alert("설명을 입력해 주세요.")
       newItem.category = selectedCategory
       const target = totalMenuList.find(item => item.category === selectedCategory);
-      const maxId = Math.max(...target.items.map(item => parseInt(item.id, 10)));
+      const maxId = target.items.length > 0 ? Math.max(...target.items.map(item => parseInt(item.id, 10))) : 0;
       setMenuList([...menuList, { ...newItem, id: `${maxId + 1}`, imageUrl: imagePreview }]);
       const targetIndex = totalMenuList.findIndex(item => item.category === selectedCategory);
       if (targetIndex !== -1) {

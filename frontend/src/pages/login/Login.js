@@ -45,7 +45,7 @@ function Login(props) {
   const [passwordValue, setPasswordValue] = useState("123456");
   const [open, setOpen] = useState(false); // 모달 상태
   // 새로운 매장 추가하기
-  const [newItem, setNewItem] = useState({ id: '', name: '', description: '', imageUrl: ''}); // 새 항목의 상태
+  const [newItem, setNewItem] = useState({name: '', description: '', imageUrl: '', prompt: ""}); // 새 항목의 상태
   const [cardImagePreview, setCardImagePreview] = useState(null); // 이미지 미리보기 URL 상태
   const userDispatch = useUserDispatch();
   const handleLoginMutate = (data) => {
