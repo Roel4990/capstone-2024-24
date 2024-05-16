@@ -1,6 +1,7 @@
 package com.kotlin.kiumee.presentation.menu.cart
 
 import com.kotlin.kiumee.data.dto.request.RequestBillingItemsDto
+import com.kotlin.kiumee.data.dto.request.RequestPromptOrderInfoItemsDto
 
 data class CartEntity(
     val id: Int,
@@ -9,6 +10,11 @@ data class CartEntity(
     val price: Int
 ) {
     fun toRequestBillingItemsDto() = RequestBillingItemsDto(
+        id,
+        count
+    )
+
+    fun toRequestPromptOrderInfoItemsDto() = RequestPromptOrderInfoItemsDto(
         id,
         count
     )
