@@ -6,15 +6,8 @@ import {
   withRouter,
 } from "react-router-dom";
 import classnames from "classnames";
-import {Box, IconButton, Link} from '@material-ui/core'
-import Icon from '@mdi/react'
+import {Box} from '@material-ui/core'
 
-//icons
-import {
-  mdiFacebook as FacebookIcon,
-  mdiTwitter as TwitterIcon,
-  mdiGithub as GithubIcon,
-} from '@mdi/js'
 
 // styles
 import useStyles from "./styles";

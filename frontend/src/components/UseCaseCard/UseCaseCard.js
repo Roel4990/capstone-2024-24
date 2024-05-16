@@ -12,7 +12,6 @@ import {useGPTChatMutation, usePromptUpdateMutation} from "../../api/mutations";
 
 export default function UseCaseCard(props) {
     const classes = useStyles();
-
     const handleGPTChatSuccess = (data) => {
         setResult1(`${promptText}`);
         setResult2(`${data.answer}`);
@@ -50,19 +49,19 @@ export default function UseCaseCard(props) {
     const [selectedResult, setSelectedResult] = useState('result2');
     const [selectedMenus, setSelectedMenus] = useState([]);
     useEffect(() => {
-        if (props.items && props.menuList) {
-            const filteredItems = props.menuList.filter(item => props.items.includes(item.id));
+        if (useCase.items && useCase.menuList) {
+            const filteredItems = useCase.menuList.filter(item => useCase.items.includes(item.id));
             setSelectedMenus(filteredItems);
         }
-    }, [props.items, props.menuList]); // 의존성 배열에 props.items와 props.menuList를 포함
+    }, [useCase.items, useCase.menuList]); // 의존성 배열에 props.items와 props.menuList를 포함
     const handleUpdateMode = (e) => {
         setUseCaseModalOpen(true)
     }
 
     const handleUseCaseModalClose = () => {
         setUseCaseModalOpen(false)
-        if(props.items && props.menuList) {
-            const filteredItems = props.menuList.filter(item => props.items.includes(item.id));
+        if(useCase.items && useCase.menuList) {
+            const filteredItems = useCase.menuList.filter(item => useCase.items.includes(item.id));
             setSelectedMenus(filteredItems);
         }
         setVisible(false);

@@ -3,7 +3,6 @@ import {
     FormControl,
     InputLabel, MenuItem, Select,
 } from "@material-ui/core";
-import { useTheme } from "@material-ui/styles";
 import {
     ResponsiveContainer,
     ComposedChart,
@@ -178,7 +177,6 @@ const ageGroupYearMonthChartData = [
 ]
 const AgeGroupYearMonthSalesChart = () => {
     var classes = useStyles();
-    var theme = useTheme();
 
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [salesChartData, setSalesChartData] = useState(getChartDataForYear(selectedYear));

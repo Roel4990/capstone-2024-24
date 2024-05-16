@@ -67,10 +67,7 @@ export default makeStyles(theme => ({
     [theme.breakpoints.down("md")]: {
       width: "50%",
     },
-    // maxHeight: '400px', // 적절한 높이 설정
-    // overflowY: 'auto',
     '& > *': {
-      // mb: 2, // 카드 간 하단 마진 (MUI 시스템 스타일)
       marginBottom: 50
     },
   },
@@ -176,7 +173,41 @@ export default makeStyles(theme => ({
   addButtonContainer: {
     display: 'flex',
     justifyContent: 'flex-end', // 버튼을 오른쪽으로 정렬
-    // backgroundColor: '#f0f0f0', // 배경색 설정
     padding: theme.spacing(1), // 상하좌우에 패딩 적용
+  },
+  collectionLabel:{
+    position: 'absolute',
+    bottom: '10px', // 버튼의 위치를 이미지 아래쪽에 배치
+    right: '10px', // 버튼의 위치를 이미지 오른쪽에 배치
+    background: 'white', // 버튼의 배경색
+    borderRadius: '10%', // 버튼을 원형으로 만듬
+    cursor: 'pointer' // 마우스 오버 시 커서를 손가락 모양으로 변경
+  },
+  padding_0: {
+    padding: 0
+  },
+  minWidth_0: {
+    minWidth: 0
+  },
+  display_none: {
+    display: 'none'
+  },
+  imageUploadContainer: {
+    width: '100%',
+    height: '100%',
+    marginTop: '10px',
+    border: '1px solid #ddd',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  imageUploadCoverContainer: {
+    position: 'relative',
+    width: "auto",
+    maxWidth: '452px',
+    height: '452px',
+    alignContent: "center"
   }
 }));

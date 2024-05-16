@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import CustomTable from './CustomTable';
+import React from 'react';
+import MenuTable from './menuTable';
 import PageTitle from "../../components/PageTitle";
 import useStyles from "./styles";
 
@@ -11,7 +11,7 @@ export default function MenuManagement() {
     < >
       <PageTitle title="메뉴 관리하기" />
       <div className={classes.tableContainer}>
-        <CustomTable/>
+        <MenuTable/>
       </div>
     </>
   );

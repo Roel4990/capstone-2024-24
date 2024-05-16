@@ -20,9 +20,8 @@ const loginUser = async (userData) => {
     return response.data;
 };
 
-export function useLoginMutation(onMutate, onSuccess, onError){
+export function useLoginMutation(onSuccess, onError){
     return useMutation(loginUser, {
-        onMutate,
         onSuccess,
         onError
     });
@@ -68,20 +67,13 @@ export function useBusinessCreateMutation(onSuccess, onError){
     });
 }
 
-const businessList = async () => {
-    const token = localStorage.getItem('id_token');
+export const fetchBusinessList = async () => {
+    const token = localStorage.getItem('id_token')
     const headers = {
-        'Authorization': `Bearer ${token}`,
+        'Authorization' : `Bearer ${token}`
     };
-    const response = await axios.get('https://jumi-api.youchu.io/v1/business', { headers });
+    const response = await axios.get(`https://jumi-api.youchu.io/v1/business`, { headers });
     return response.data;
-};
-
-export function useBusinessListMutation(onSuccess, onError){
-    return useMutation(businessList, {
-        onSuccess,
-        onError
-    });
 }
 
 export const fetchUserInfo = async () => {
@@ -101,6 +93,10 @@ export const fetchBusinessInfo = async () => {
     const headers = {
         'Authorization' : `Bearer ${token}`
     };
+    if (!token || !company_id) {
+        console.log('Token 또는 company_id가 없습니다.');
+        return null; // 또는 적절한 에러 처리
+    }
     const response = await axios.get(`https://jumi-api.youchu.io/v1/business/${company_id}`, { headers });
     return response.data;
 }
@@ -156,7 +152,7 @@ export function useBusinessItemsUpdateMutation(onSuccess, onError){
 
 // gpt 사용해보기
 const GPTChat = async (prompt) => {
-    const response = await axios.post('http://127.0.0.1:5003/prompt', prompt);
+    const response = await axios.post('https://jumi-gpt.youchu.io/prompt', prompt);
     return response.data;
 };
 

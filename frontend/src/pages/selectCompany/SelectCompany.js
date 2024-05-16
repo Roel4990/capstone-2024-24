@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {withRouter} from "react-router-dom";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField} from "@material-ui/core";
-import {signOut} from "../../context/UserContext";
 import CollectionsIcon from "@material-ui/icons/Collections";
 import useStyles from "./styles";
 import CustomCard from "../../components/Card";
