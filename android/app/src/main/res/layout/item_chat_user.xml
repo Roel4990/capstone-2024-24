@@ -7,7 +7,7 @@
 
         <variable
             name="chat"
-            type="com.kotlin.kiumee.presentation.menu.chat.Chat" />
+            type="com.kotlin.kiumee.presentation.menu.chat.ChatEntity" />
 
     </data>
 
