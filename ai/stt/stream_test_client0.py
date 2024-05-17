@@ -32,12 +32,12 @@ def exit_monitor():
     while True:
         if input() == 'q':
             print("클라이언트 종료 중...")
-            client_socket.close()
-            print("successly closing server socket")
             input_stream.stop_stream()
             input_stream.close()
             p.terminate()
             print("stream closed")
+            client_socket.close()
+            print("successly closing server socket")
             sys.exit()
 
 # 종료 모니터 스레드
