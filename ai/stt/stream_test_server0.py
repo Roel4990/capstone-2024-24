@@ -28,7 +28,7 @@ def receive_audio(conn, addr):
         while True:
             data = conn.recv(CHUNK)
             if not data:
-                continue
+                break
             text = stt.vad_collector(data)
             
             if text:
@@ -43,18 +43,12 @@ def receive_audio(conn, addr):
 
 # 종료 명령 감지
 def exit_monitor():
-    try:
-        while True:
-            if input() == 'q':
-                print("서버 종료 중...")
-                server_socket.close()
-                print("successly closing server socket")
-                sys.exit()
-    except:
-        print("서버 종료 중...")
-        server_socket.close()
-        print("successly closing server socket")
-        sys.exit()
+    while True:
+        if input() == 'q':
+            print("서버 종료 중...")
+            server_socket.close()
+            print("successly closing server socket")
+            sys.exit()
 
 # 종료 모니터 스레드
 exit_thread = threading.Thread(target=exit_monitor)

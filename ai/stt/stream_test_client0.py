@@ -1,6 +1,7 @@
 import socket
 import threading
 import pyaudio
+import sys
 
 # PyAudio 설정
 CHUNK = 640
@@ -23,6 +24,27 @@ input_stream = p.open(format=FORMAT,
 # 소켓 생성 및 연결
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((HOST, PORT))
+print("서버연결. ('q' endter시 종료)")
+
+
+# 종료 명령 감지
+def exit_monitor():
+    while True:
+        if input() == 'q':
+            print("클라이언트 종료 중...")
+            client_socket.close()
+            print("successly closing server socket")
+            input_stream.stop_stream()
+            input_stream.close()
+            p.terminate()
+            print("stream closed")
+            sys.exit()
+
+# 종료 모니터 스레드
+exit_thread = threading.Thread(target=exit_monitor)
+exit_thread.daemon = True
+exit_thread.start()
+
 
 def send_audio():
     try:
@@ -52,8 +74,4 @@ receive_thread.start()
 send_thread.join()
 receive_thread.join()
 
-# 종료 처리
-input_stream.stop_stream()
-input_stream.close()
-p.terminate()
-client_socket.close()
+
