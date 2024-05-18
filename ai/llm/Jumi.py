@@ -3,6 +3,7 @@ import anthropic
 import Prompt
 
 from pydantic import BaseModel
+from typing import List, Optional
 import resultData_by_pydantic as dbt
 
 
@@ -35,7 +36,27 @@ class Jumi():
         self.menuPrompt = menuInfo
 
         # additionalInfo
-        self.addedInfo = additionalInfo
+        self.addedInfo = '''
+          그리고 아래는 추가적인 정보야. 아래 내용은 현재 매장에서 제공하는 추가적인 요청이야. 
+          question와 비슷한 내용의 질문이 들어오면 answer같이 response를 생성해줘.
+          ''' + additionalInfo
+        
+        self.notion = '''
+            어떤 대답이든 아래 형식을 꼭 지켜서 답해줘!
+            {
+
+              "response": "대답내용", 
+              "orderInfo": { 
+                  "items": [ 
+                      { "id": 1, "quantity": 1 }, 
+                  ] 
+              }, 
+              "pointerId": null,
+              "doBilling": false,  
+            "suggestItems": []
+
+          }
+          '''
 
 
     # jumiChat : 주미에게 질문을 하고 답변을 받는 함수
@@ -52,36 +73,37 @@ class Jumi():
         message = self.client.messages.create(
             model="claude-3-sonnet-20240229",
             max_tokens=1024,
-            system = self.shopPrompt + self.basePrompt + self.menuPrompt ,
+            system = self.shopPrompt + self.basePrompt + self.menuPrompt + self.addedInfo + self.notion,
             messages= history
         )
-        print(message)
-
+        print(message.content[0].text)
         return self.makeResultToPydantic(message.content[0].text) 
 
-    def makeResultToPydantic(self, resultMessage) -> BaseModel:
+    def makeResultToPydantic(self, resultMessage):
         try:
             message = json.loads(resultMessage)
         except:
             print('ERORR: result is not json')
         result = None
-        try:
-            result = dbt.QueryResult(
+        #try:
+        result = dbt.QueryResult(
                 result = message['response'],
                 orderInfo = dbt.OrderInfo(
+                    items = [
                       dbt.OrderInfoItem(
-                          id = item['id'], 
-                          quantity = item['quantity']
-                        ) 
-                      for item in message['orderInfo']['items']
-                    ),
-                suggestItems = message['suggestItem'],
+                            id = item['id'], 
+                            quantity = item['quantity']
+                          ) 
+                        for item in message['orderInfo']['items']
+                    ]
+                ),
+                suggestItems = message['suggestItems'],
                 pointerId = message['pointerId'],
                 doBilling = message['doBilling'],
 
-            )
-        except Exception as e:
-            print(f"ERROR: {e}")
+        )
+        '''except Exception as e:
+            print(f"ERROR: {e}")'''
 
         return result
         
@@ -240,10 +262,6 @@ if __name__ == '__main__':
           "id": 1, 
           "quantity": 1
         },
-        {
-          "id": 3,
-          "quantity": 1
-        }
       ]
     }
   }
