@@ -77,7 +77,9 @@ class VADAudio():
         self.whisper_model = whisper.load_model("medium")
         print("Whisper model loaded")
 
-        
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.vadS = self.vadS.to(device)
+        self.whisper_model = self.whisper_model.to(device)
 
         num_padding_frames = padding_ms // frame_duration_ms
         self.ring_buffer = collections.deque(maxlen=num_padding_frames)
