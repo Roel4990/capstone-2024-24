@@ -87,8 +87,8 @@ class VADAudio():
 
         self.wav_data = bytearray()
 
-
-    def vad_collector(self, frame, ratio=0.75):
+    #THRESHOLD 제한할 소리크기
+    def vad_collector(self, frame, THRESHOLD = 0, ratio=0.75):
         """
             Generator that yields series of consecutive audio frames comprising each utterence, separated by yielding a single None.
             Determines voice activity by ratio of frames in padding_ms. Uses a buffer to include padding_ms prior to being triggered.
@@ -98,8 +98,9 @@ class VADAudio():
         result = None
 
         # print(len(frame))
-        if len(frame) < 640:
+        if len(frame) < 640 and not(self.is_silent(frame, THRESHOLD)):
             return
+        
 
         is_speech = self.vadW.is_speech(frame, self.sample_rate)
 
@@ -157,7 +158,15 @@ class VADAudio():
                 print()
 
         return result
-
+    
+    def is_silent(self, data_chunk, THRESHOLD):
+        """데이터 청크을 묵음처리할지 확인합니다."""
+        # 데이터 청크를 numpy 배열로 변환
+        audio_data = np.frombuffer(data_chunk, dtype=np.int16)
+        # 소리 크기 계산
+        volume = np.abs(audio_data).mean()
+        print(volume < THRESHOLD, volume)
+        return volume < THRESHOLD
 
     def Int2Float(self, sound):
         _sound = np.copy(sound)  #
@@ -179,7 +188,7 @@ def main(ARGS):
         
         while True:
             a = audio.read()
-            vad_audio.vad_collector(a)
+            vad_audio.vad_collector(a, 1500)
 
 if __name__ == '__main__':
     DEFAULT_SAMPLE_RATE = 16000

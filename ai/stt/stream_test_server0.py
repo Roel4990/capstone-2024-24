@@ -12,6 +12,9 @@ CHUNK = 640
 HOST = 'localhost'
 PORT = 55570
 
+#소리크기
+VOLUME = 1500
+
 
 # 소켓 생성 및 바인딩
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -29,7 +32,7 @@ def receive_audio(conn, addr):
             data = conn.recv(CHUNK)
             if not data:
                 break
-            text = stt.vad_collector(data)
+            text = stt.vad_collector(data, VOLUME)
             
             if text:
                 conn.sendall(text.encode('utf-8'))
