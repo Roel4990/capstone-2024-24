@@ -1,8 +1,9 @@
 import React from "react";
 import {
     Typography,
-    Card, CardContent
+    Card, CardContent, IconButton
 } from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
 // import {ExpandMore, Favorite, MoreVert, Share} from "@material-ui/icons";
 import { useHistory } from 'react-router-dom';
 import {useUserDispatch} from "../../context/UserContext"; // useHistory 훅 임포트
@@ -13,6 +14,7 @@ const useStyles = makeStyles({
         border: '1px solid #ddd', // 카드 테두리
         borderRadius: 16, // 카드 모서리의 둥근 정도
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // 그림자 효과
+        position: 'relative'
     },
     title: {
         fontSize: 14,
@@ -39,23 +41,22 @@ const useStyles = makeStyles({
     },
     content: {
         padding: '32px', // 내부 여백
-    }
+    },
+    deleteButton: {
+        position: 'absolute', // 버튼을 카드의 상대적 위치에서 절대적 위치로 이동
+        top: 0, // 상단에서부터의 위치
+        right: 0, // 좌측에서부터의 위치
+        zIndex: 1, // 다른 컨텐츠 위에 위치
+    },
 });
 function CustomCard({ id, imageUrl, name, description, date, updateCard }) {
     const history = useHistory(); // useHistory 훅을 사용하여 history 객체 얻기
     var userDispatch = useUserDispatch();
     const classes = useStyles();
-    // console.log(logo, title, description, date)
-    // const handleUpdateTitle = () => {
-    //     const newTitle = "Updated Title"; // 새로운 제목
-    //     updateCard(id, { title: newTitle });
-    // };
-    // //수정 및 삭제를 위한 토글버튼
-    // const handleExpandClick = (event) => {
-    //     event.stopPropagation()
-    //     alert("수정 및 삭제를 위한 토글버튼")
-    // };
-    //
+    const handleDelete = (event) => {
+        event.stopPropagation()
+        console.log("삭제를 위한 토글버튼")
+    }
     const handleCompanyClick = () => {
         localStorage.setItem('company_id', id)
         userDispatch({ type: 'LOGIN_SUCCESS' })
@@ -63,6 +64,17 @@ function CustomCard({ id, imageUrl, name, description, date, updateCard }) {
     };
     return (
         <Card className={classes.card} onClick={handleCompanyClick}>
+            {/* 삭제 버튼 */}
+            {/*<IconButton*/}
+            {/*    className={classes.deleteButton}*/}
+            {/*    onClick={(e) => {*/}
+            {/*        e.stopPropagation();*/}
+            {/*        handleDelete();*/}
+            {/*    }}*/}
+            {/*    aria-label="delete"*/}
+            {/*>*/}
+            {/*    <DeleteIcon />*/}
+            {/*</IconButton>*/}
             <CardContent className={classes.content}>
                 {/* 이미지 컨테이너 */}
                 <div className={classes.imageContainer}>
