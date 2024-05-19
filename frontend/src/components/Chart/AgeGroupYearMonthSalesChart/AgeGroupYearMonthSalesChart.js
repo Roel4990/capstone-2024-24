@@ -195,7 +195,7 @@ const AgeGroupYearMonthSalesChart = () => {
                         color="text"
                         colorBrightness="secondary"
                     >
-                        {/*월별매출*/}
+                        나이대별
                     </Typography>
                     <div className={classes.mainChartHeaderLabels}>
                         <div className={classes.mainChartHeaderLabel}>
