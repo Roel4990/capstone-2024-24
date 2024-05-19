@@ -33,6 +33,12 @@ Jumi is being developed to assist those who are unfamiliar with using kiosks, su
 
 Through conversation, Jumi not only handles orders like traditional staff but also provides menu explanations, store guidance, and customer service. This creates a personalized experience for the customer, akin to having a dedicated staff member at their service, while offering the store an opportunity to enhance service quality at lower costs.
 
+## 🤖 포스터
+
+![24팀주미포스터](https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/f7dc530e-4075-4ff4-83ae-beea074f77ff)
+
+포스터(PDF) 다운로드 링크 : [24팀주미포스터.pdf](https://github.com/kookmin-sw/capstone-2024-24/files/15370066/24.pdf)
+
 ## 🤖 소개 영상
 
 https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/36993f9d-da9d-41c4-b8c0-489f13e212bc
@@ -81,12 +87,6 @@ https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/36993f9d-da9d-41c
 ## 🤖 시스템 인포그래픽
 
 <img width="905" alt="image" src="https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/21908c97-9029-48f1-95fd-ebcde12b1035">
-
-## 🤖 포스터
-
-![24팀주미포스터](https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/f7dc530e-4075-4ff4-83ae-beea074f77ff)
-
-포스터(PDF) 다운로드 링크 : [24팀주미포스터.pdf](https://github.com/kookmin-sw/capstone-2024-24/files/15370066/24.pdf)
 
 ## 🤖 팀원 소개
 <table>
