@@ -84,10 +84,9 @@ https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/36993f9d-da9d-41c
 
 ## 🤖 포스터
 
-![24팀주미포스터05](https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/b8e52b30-a8ec-4372-be7b-64d1a7c0de5a)
+![24팀주미포스터](https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/f7dc530e-4075-4ff4-83ae-beea074f77ff)
 
-포스터(PDF)
-[캡스톤24팀_Jumi_포스터.pdf](https://github.com/kookmin-sw/capstone-2024-24/files/15370032/24._Jumi_.pdf)
+포스터(PDF) 다운로드 링크 : [24팀주미포스터.pdf](https://github.com/kookmin-sw/capstone-2024-24/files/15370066/24.pdf)
 
 ## 🤖 팀원 소개
 <table>
