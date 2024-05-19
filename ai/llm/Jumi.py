@@ -77,7 +77,7 @@ class Jumi():
             system = self.shopPrompt + self.basePrompt + self.menuPrompt + self.addedInfo + self.notion,
             messages= history
         )
-        print(message.content[0].text)
+
         return self.makeResultToPydantic(message.content[0].text) 
 
     def makeResultToPydantic(self, resultMessage):
@@ -117,115 +117,200 @@ class Jumi():
 if __name__ == '__main__':
   shopinfotest = '''
   {
-    "name": "미도인",
-    "description": "강남점",
-    "prompt": "우리 가게는 강남에 위치하고 있어. 스테이크 전문점이야. 매장 위치는 서울시 정릉로 22길 302이야."
+    "name": "주미네 우동집",
+    "description": "국민대점",
+    "prompt": "주미우동집은 1998년 1대 임호준 대표가 성북구 정릉동의 10평 작은 매장에서\n김밥, 우동, 짜장, 쫄면 네 가지의 메뉴로  영업을 시작하였습니다.\n김밥은 어머니가 집에서 만들어 주시던 맛을 재현하였고 우동은 오랜 시행착오를 거치며 멸치와 황태, 디포리 등으로 육수를 우려내고 밀가루를 직접 반죽하고 삶아 \n멸치육수와 함께 따끈한 우동 한 그릇을 만들어 영업을 했던 것이 모태가 되어 \n지금의 수제우동 전문점 주미우동집 (주) 물과소금 가맹사업본부로 발전되었습니다.\n40년 전의 우동집은 연탄난로와, 공중전화가 있었으며 손님이 직접 계산하고 \n음식을 가져다 드시는 방식이 현재까지 전통처럼 이어져오고 있습니다.\n현재는 같은 자리에서 2대 안세홍 대표가 이어받아 영업중이며 소문난 맛집으로 \n단골 손님들의 발걸음이 성황을 이루고 있습니다.\n오늘도 40년 전통 주미우동집을 찾아주신 고객님들께 고맙고 감사드리며 \n혼신을 다하여 청결과 정성으로 맛있는 우동 한 그릇을 만들어 올리겠습니다.\n\n감사합니다."
   }
   '''
 
   menuinfotest = '''
   [
-    {
-      "category": "직원 호출",
-      "items": [
         {
-          "id": 25,
-          "name": "물",
-          "description": "",
-          "prompt": "이건 물이야. 손님이 요청하면 준다고 해.",
-          "price": 0
+            "category": "김밥",
+            "items": [
+                {
+                    "id": 2,
+                    "name": "주미김밥",
+                    "description": "기본김밥",
+                    "prompt": "기본",
+                    "price": 3000
+                },
+                {
+                    "id": 3,
+                    "name": "참치김밥",
+                    "description": "참치가 들어간 김밥입니다.",
+                    "prompt": "맛있는 참치김밥입니다.",
+                    "price": 4000
+                },
+                {
+                    "id": 1,
+                    "name": "스팸김밥",
+                    "description": "스팸이 들어간 김밥입니다.",
+                    "prompt": "맛있는 스팸김밥입니다.",
+                    "price": 4000
+                },
+                {
+                    "id": 4,
+                    "name": "크림치즈김밥",
+                    "description": "크림치즈가 들어간 김밥입니다.",
+                    "prompt": "크림치즈가 들어가서 고소한 맛이 일품입니다.",
+                    "price": 5000
+                }
+            ]
         },
         {
-          "id": 26,
-          "name": "숟가락",
-          "description": "",
-          "prompt": "이건 숟가락이야. 손님이 요청하면 준다고 해.",
-          "price": 0
+            "category": "면류",
+            "items": [
+                {
+                    "id": 12,
+                    "name": "어묵우동",
+                    "description": "어묵이 들어간 우동",
+                    "prompt": "맛있어요",
+                    "price": 7000
+                },
+                {
+                    "id": 13,
+                    "name": "얼큰우동",
+                    "description": "얼큰한 우동",
+                    "prompt": "얼큰해요",
+                    "price": 6000
+                },
+                {
+                    "id": 14,
+                    "name": "열무국수",
+                    "description": "열무가 들어간 국수",
+                    "prompt": "얼큰해요",
+                    "price": 7000
+                },
+                {
+                    "id": 15,
+                    "name": "잔치국수",
+                    "description": "잔치국수",
+                    "prompt": "맛있어요",
+                    "price": 5000
+                },
+                {
+                    "id": 9,
+                    "name": "짜장면",
+                    "description": "짜장면",
+                    "prompt": "맛있어요",
+                    "price": 6000
+                },
+                {
+                    "id": 10,
+                    "name": "콩국수",
+                    "description": "콩국수",
+                    "prompt": "여름별미입니다.",
+                    "price": 6000
+                },
+                {
+                    "id": 11,
+                    "name": "비빔국수",
+                    "description": "비빔국수입니다.",
+                    "prompt": "맛있어요",
+                    "price": 6000
+                },
+                {
+                    "id": 8,
+                    "name": "냉모밀",
+                    "description": "냉모밀",
+                    "prompt": "시원해요",
+                    "price": 6000
+                }
+            ]
+        },
+        {
+            "category": "돈까스",
+            "items": [
+                {
+                    "id": 16,
+                    "name": "주미돈까스",
+                    "description": "맛있는 돈까스",
+                    "prompt": "맛있어요",
+                    "price": 8000
+                },
+                {
+                    "id": 17,
+                    "name": "치즈돈까스",
+                    "description": "치즈가 들어간 돈까스",
+                    "prompt": "맛있어요",
+                    "price": 10000
+                }
+            ]
+        },
+        {
+            "category": "만두",
+            "items": [
+                {
+                    "id": 6,
+                    "name": "주미만두",
+                    "description": "김치고기반반 만두입니다.",
+                    "prompt": "맛있어요,",
+                    "price": 5000
+                },
+                {
+                    "id": 5,
+                    "name": "갈비만두",
+                    "description": "갈비만두입니다.",
+                    "prompt": "맛있어요",
+                    "price": 4000
+                },
+                {
+                    "id": 7,
+                    "name": "매운갈비만두",
+                    "description": "매운 갈비만두입니다.",
+                    "prompt": "매워요",
+                    "price": 5000
+                }
+            ]
+        },
+        {
+            "category": "분식",
+            "items": [
+                {
+                    "id": 19,
+                    "name": "국물떡볶이",
+                    "description": "국물 떡볶이입니다.",
+                    "prompt": "맛있어요",
+                    "price": 5000
+                },
+                {
+                    "id": 18,
+                    "name": "제육덮밥",
+                    "description": "제육볶음이 들어간 덮밥입니다.",
+                    "prompt": "맛있어요",
+                    "price": 7000
+                }
+            ]
         }
-      ]
-    },
-    {
-      "category": "스테이크류",
-      "items": [
-        {
-          "id": 27,
-          "name": "트리플 스테이크",
-          "description": "부드러운 부채살 스테이크, 메쉬 포테이토와 대파, 특제 와인소스의 세상에 없는 환상적인 조화",
-          "prompt": "굽기를 물어보면, 굽기 조절 가능하다고 답해줘.",
-          "price": 21000
-        },
-        {
-          "id": 28,
-          "name": "미도인 등심 스테이크",
-          "description": "부드러운 등심 스테이크와 진한 육수로 우려낸 단호박 스프, 아지다마고의 한상차림",
-          "prompt": "굽기를 물어보면, 굽기 조절 가능하다고 답해줘.",
-          "price": 19000
-        }
-      ]
-    },
-    {
-      "category": "덮밥류",
-      "items": [
-        {
-          "id": 29,
-          "name": "대창 덮밥",
-          "description": "말이 필요 없는 맛. 잘 손질된 대창을 매콤한 특제 양념과 불맛나게 볶아낸 특별 덮밥",
-          "prompt": "",
-          "price": 12500
-        },
-        {
-          "id": 30,
-          "name": "대창 큐브 스테이크 덮밥",
-          "description": "스테이크와 대창을 함께 즐길 수 있는 미도인만의 특별한 콜라보 메뉴",
-          "prompt": "",
-          "price": 13000
-        },
-        {
-          "id": 31,
-          "name": "화산 불백 덮밥",
-          "description": "불맛 나는 돼지고기를 화산 모양으로 형상화한 비쥬얼 갑 강추 덮밥",
-          "prompt": "",
-          "price": 13000
-        }
-      ]
-    },
-    {
-      "category": "음료 메뉴",
-      "items": [
-        {
-          "id": 32,
-          "name": "청포도 에이드",
-          "description": "상큼한 청포도 에이드",
-          "prompt": "청포도가 생으로 들어가있어.",
-          "price": 7000
-        },
-        {
-          "id": 33,
-          "name": "복숭아 에이드",
-          "description": "새콤달콤한 복숭아 에이드",
-          "prompt": "복숭아가 생으로 들어가있어.",
-          "price": 7000
-        }
-      ]
-    }
-  ]
+    ]
   '''
 
-  additiontest = '''
+  additiontest ='''
   [
-    {
-      "question": "화장실은 어디야?",
-      "answer": "화장실은 나가서 왼쪽에 있습니다.",
-      "items": null
-    },
-    {
-      "question": "추천 메뉴는 뭐야?",
-      "answer": "미도인 스테이크와 대창 덮밥입니다.",
-      "items": [1,2]
-    }
-  ]
+        {
+            "question": "화장실이 어디인가요?",
+            "answer": "화장실은 건물 안 2층에 위치하고 있습니다.",
+            "items": null,
+            "id": 29
+        },
+        {
+            "question": "매장에서 추천하는 메뉴가 무엇입니까?",
+            "answer": "해당 매장에서 추천하는 메뉴는 어묵우동, 얼큰우동 입니다.",
+            "items": [
+                12,
+                13
+            ],
+            "id": 28
+        },
+        {
+            "question": "매장에 대해서 설명해주세요.",
+            "answer": "저희 매장은 김밥, 우동, 돈까스, 만두 등 다양한 메뉴를 제공합니다. 월요일은 휴무이며, 영업시간은 오전 10시부터 오후 10시까지입니다.",
+            "items": null,
+            "id": 30
+        }
+    ]
   '''
-
 
   #api키 넣어주세요
   api = input('enter your claude 3 sonnet api key. : ')
@@ -256,7 +341,7 @@ if __name__ == '__main__':
 
   querytest = '''
   {
-    "query": "아메리카노 하나 더 줘", 
+    "query": "토마토 스파게티 담아줘", 
     "orderInfo": { 
       "items": [
         {
