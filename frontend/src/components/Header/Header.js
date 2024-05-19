@@ -113,7 +113,7 @@ export default function Header(props) {
 
 
   return (
-    <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: 'rgb(190, 224, 235)' }}>
+    <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: '#2C7EF9' }}>
       <Toolbar className={classes.toolbar}>
         <IconButton
           color="inherit"
@@ -144,7 +144,7 @@ export default function Header(props) {
           )}
         </IconButton>
         {/*<img src="/logo.webp" alt="image" style={{ height: "30px" }} />*/}
-        <Typography variant="h6" weight="medium" className={classes.logotype} style={{ color: 'rgb(7, 53, 80)'}}>
+        <Typography variant="h6" weight="medium" className={classes.logotype} style={{ color: '#ffffff' }}>
           {/*미도인*/}
           {businessInfo?.data?.name}
         </Typography>
@@ -235,6 +235,7 @@ export default function Header(props) {
           id="profile-menu"
           open={Boolean(profileMenu)}
           anchorEl={profileMenu}
+          style={{color: "#ffffff"}}
           onClose={() => setProfileMenu(null)}
           className={classes.headerMenu}
           classes={{ paper: classes.profileMenu }}
@@ -248,12 +249,11 @@ export default function Header(props) {
             </Typography>
             <Typography
                 className={classes.profileMenuLink}
-                color="primary"
-                component="a"
                 style={{
                   marginTop: "30px",
-                  color: "rgb(83, 109, 254)"
-            }}
+                }}
+                color="primary"
+                component="a"
                 onClick={() => {
                   localStorage.removeItem("company_id")
                   props.history.push("/login");
