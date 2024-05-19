@@ -8,7 +8,7 @@
 
 ## 🤖 AI 기반 대화형 키오스크, Jumi(주미)
 
-당신의 주문 도우미 'Jumi(주미)'
+당신만의 점원 'Jumi(주미)'
 
 키오스크 사용이 복잡하고 어렵지 않으신가요?
 AI와의 대화를 통해 더 간편하고, 쉽고, 자신있게 키오스크를 사용하실 수 있습니다. (Jumi)를 통해 매장에서의 불편함을 줄여보세요! 😆
@@ -23,7 +23,7 @@ AI와의 대화를 통해 더 간편하고, 쉽고, 자신있게 키오스크를
 
 ---
 
-Introducing 'Jumi', Your Order Assistant!
+Introducing 'Jumi', Your Own Clerk!
 
 Are you finding kiosk usage complex and challenging? With Jumi, you can interact more conveniently, easily, and confidently through AI conversation for smoother kiosk navigation. Let's reduce the inconvenience at your store! 😆
 
