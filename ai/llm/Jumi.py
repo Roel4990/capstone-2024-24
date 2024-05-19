@@ -24,6 +24,7 @@ class Jumi():
         self.basePrompt = Prompt.basePrompt
         
         # 매장정보 프롬프트
+        shopInfo = shopInfo.replace('\n',' ')
         shop = json.loads(shopInfo)
 
         self.shopPrompt = f'''
