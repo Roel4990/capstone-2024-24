@@ -25,6 +25,7 @@ class Business(BaseModel):
 
 
 class BusinessPrompt(BaseModel):
+    id: Optional[int] = None
     question: str
     answer: str
     items: Optional[list[int]] = None

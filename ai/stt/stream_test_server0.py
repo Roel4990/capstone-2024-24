@@ -1,54 +1,71 @@
 import socket
 import threading
-import pyaudio
+import sys
 
 import VAD_STT as au
 stt = au.VADAudio(input_rate=16000)
 
 # PyAudio 설정
 CHUNK = 640
-FORMAT = pyaudio.paInt16
-CHANNELS = 1
-RATE = 16000
 
 # 소켓 설정
 HOST = 'localhost'
 PORT = 55570
 
+#소리크기
+VOLUME = 1500
+
 
 # 소켓 생성 및 바인딩
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server_socket.bind((HOST, PORT))
-server_socket.listen(1)
-print(f"서버가 {HOST}:{PORT}에서 대기 중입니다...")
-
-conn, addr = server_socket.accept()
-print(f"{addr}에서 연결됨")
+server_socket.listen(5)
+print(f"서버가 {HOST}:{PORT}에서 대기 중입니다... (서버종료키 'q' enter)")
 
 
-def receive_audio():
-    while True:
-        try:
+
+def receive_audio(conn, addr):
+    print(f"Connected by {addr}")
+    try:
+        while True:
             data = conn.recv(CHUNK)
             if not data:
-                continue
-            text = stt.vad_collector(data)
+                break
+            text = stt.vad_collector(data, VOLUME)
             
             if text:
                 conn.sendall(text.encode('utf-8'))
                 print("Sending text data to client")
-        except Exception as e:
-            print(f"ERROR! {e}")
-
-receive_thread = threading.Thread(target=receive_audio)
-
-
-receive_thread.start()
-
-receive_thread.join()
+    except Exception as e:
+        print(f"ERROR! {e}")
+    finally:
+        conn.close()
+        print(f"Connection with {addr} closed")
 
 
-# 종료처리
-p.terminate()
-conn.close()
-server_socket.close()
+# 종료 명령 감지
+def exit_monitor():
+    while True:
+        if input() == 'q':
+            print("서버 종료 중...")
+            server_socket.close()
+            print("successly closing server socket")
+            sys.exit()
+
+# 종료 모니터 스레드
+exit_thread = threading.Thread(target=exit_monitor)
+exit_thread.daemon = True
+exit_thread.start()
+
+# 클라이언트 연결 수락
+try:
+    while True:
+        conn, addr = server_socket.accept()
+        client_thread = threading.Thread(target=receive_audio, args=(conn, addr))
+        client_thread.start()
+except Exception as e:
+    print("Server error:", e)
+finally:
+    server_socket.close()
+    print("Server has been closed")
