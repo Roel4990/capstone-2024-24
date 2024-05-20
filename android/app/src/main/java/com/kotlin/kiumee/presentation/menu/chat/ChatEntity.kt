@@ -4,7 +4,7 @@ data class ChatEntity(
     val viewType: Int,
     val content: String,
     val suggestItems: List<ChatSuggestItemsEntity>? = null,
-    val orderInfo: ChatOrderInfoEntity? = null,
+    val orderInfo: List<ChatOrderInfoEntity>? = null,
     val pointerId: Int? = null,
     val doBilling: Boolean? = false,
     val totalPrice: Int? = 0
@@ -23,13 +23,8 @@ data class ChatSuggestItemsEntity(
 )
 
 data class ChatOrderInfoEntity(
-    val items: List<ChatOrderInfoItemsEntity>
-)
-
-data class ChatOrderInfoItemsEntity(
     val id: Int,
-    val category: String,
     val name: String,
     val price: Int,
-    val quantity: Int
+    val imageUrl: String
 )
