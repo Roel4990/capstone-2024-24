@@ -218,7 +218,7 @@
                 android:layout_height="0dp"
                 android:layout_marginVertical="12dp"
                 android:text="@string/menu_cart_select"
-                android:textAppearance="@style/TextAppearance.Kiumee.body4_regular_44"
+                android:textAppearance="@style/TextAppearance.Kiumee.body6_regular_38"
                 android:textColor="@color/gray_10"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/view_menu_cart_bottom"
