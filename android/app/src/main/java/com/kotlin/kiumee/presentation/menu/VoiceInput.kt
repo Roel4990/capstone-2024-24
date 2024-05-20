@@ -15,6 +15,8 @@ class VoiceInput : Service() {
     private lateinit var audioRecord: AudioRecord
     private lateinit var buffer: ByteArray
     private var isRecording = false
+    private val sampleRate = 16000
+    private val bufferSizeInBytes = 640
 
     override fun onBind(intent: Intent): IBinder? {
         throw UnsupportedOperationException("Not yet implemented")
@@ -24,10 +26,10 @@ class VoiceInput : Service() {
         super.onCreate()
 
         // 오디오 캡처 초기화
-        val sampleRate = 44100
         val channelConfig = AudioFormat.CHANNEL_IN_MONO
         val audioFormat = AudioFormat.ENCODING_PCM_16BIT
-        val minBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
+        // val minBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
+        val minBufferSize = bufferSizeInBytes * 2
 
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -45,7 +47,7 @@ class VoiceInput : Service() {
             minBufferSize
         )
 
-        buffer = ByteArray(minBufferSize / 2)
+        buffer = ByteArray(bufferSizeInBytes)
 
         startAudioCapture()
     }
@@ -58,13 +60,13 @@ class VoiceInput : Service() {
 
         Thread {
             while (isRecording) {
-                val bytesRead = audioRecord.read(buffer, 0, buffer.size)
+                val bytesRead = audioRecord.read(buffer, 0, bufferSizeInBytes)
 
                 if (bytesRead > 0) { // 음성 데이터가 있는 경우
                     // 오디오 데이터를 서버로 전송
                     val audioData = buffer.copyOf(bytesRead)
                     // Timber.tag("voice").d(audioData.contentToString())
-                    SocketClient.sendAudio(audioData, 44100) // 오디오 데이터 전송
+                    SocketClient.sendAudio(audioData) // 오디오 데이터 전송
                 }
             }
         }.start()
