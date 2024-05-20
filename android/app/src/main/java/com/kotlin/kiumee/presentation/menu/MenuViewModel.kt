@@ -6,7 +6,6 @@ import com.kotlin.kiumee.MainApplication
 import com.kotlin.kiumee.core.view.UiState
 import com.kotlin.kiumee.data.ServicePool
 import com.kotlin.kiumee.data.dto.request.RequestBillingDto
-import com.kotlin.kiumee.data.dto.request.RequestBillingItemsDto
 import com.kotlin.kiumee.data.dto.request.RequestPromptDto
 import com.kotlin.kiumee.data.dto.response.ResponseBillingDto
 import com.kotlin.kiumee.presentation.menu.chat.ChatEntity
@@ -65,7 +64,7 @@ class MenuViewModel : ViewModel() {
         )
     }
 
-    fun putBilling(billingData: List<RequestBillingItemsDto>) = viewModelScope.launch {
+    fun putBilling(billingData: List<Int>) = viewModelScope.launch {
         runCatching {
             ServicePool.menuApiService.putBilling(
                 MainApplication.prefs.getBusinessId(),

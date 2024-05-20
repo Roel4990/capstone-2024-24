@@ -24,7 +24,7 @@ class MenuBtnViewHolder(
             tvItemChatBtnPrice.text = "${data.price}원"
 
             root.setOnClickListener {
-                click(CartEntity(data.id, data.name, 1, data.price), adapterPosition)
+                click(CartEntity(data.id, data.name, data.price), adapterPosition)
             }
         }
     }

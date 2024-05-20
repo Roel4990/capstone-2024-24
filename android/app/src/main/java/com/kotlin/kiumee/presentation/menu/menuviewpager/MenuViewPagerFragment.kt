@@ -38,7 +38,7 @@ class MenuViewPagerFragment : BindingFragment<FragmentTabBinding>(R.layout.fragm
 
     private fun initMenuViewPagerAdapter(menuData: List<CategoryEntity>) {
         binding.rvTab.adapter = MenuAdapter(click = { menu, position ->
-            val newCartItem = CartEntity(menu.id, menu.name, 1, menu.price)
+            val newCartItem = CartEntity(menu.id, menu.name, menu.price)
             (activity as? MenuActivity)?.addCartItem(newCartItem)
         }).apply {
             submitList(

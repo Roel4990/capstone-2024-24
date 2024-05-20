@@ -26,7 +26,5 @@ data class ResponseBillingOrderInfoItemsDto(
     @SerialName("name")
     val name: String,
     @SerialName("price")
-    val price: Int,
-    @SerialName("quantity")
-    val quantity: Int
+    val price: Int
 )

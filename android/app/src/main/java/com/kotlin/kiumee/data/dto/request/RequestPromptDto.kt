@@ -8,19 +8,5 @@ data class RequestPromptDto(
     @SerialName("query")
     val query: String,
     @SerialName("orderInfo")
-    val orderInfo: RequestPromptOrderInfoDto
-)
-
-@Serializable
-data class RequestPromptOrderInfoDto(
-    @SerialName("items")
-    val items: List<RequestPromptOrderInfoItemsDto>
-)
-
-@Serializable
-data class RequestPromptOrderInfoItemsDto(
-    @SerialName("id")
-    val id: Int,
-    @SerialName("quantity")
-    val quantity: Int
+    val orderInfo: List<Int>
 )
