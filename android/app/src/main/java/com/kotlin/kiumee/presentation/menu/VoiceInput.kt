@@ -15,8 +15,13 @@ class VoiceInput : Service() {
     private lateinit var audioRecord: AudioRecord
     private lateinit var buffer: ByteArray
     private var isRecording = false
+
+    // 오디오 캡처 초기화
     private val sampleRate = 16000
     private val bufferSizeInBytes = 640
+    private val channelConfig = AudioFormat.CHANNEL_IN_MONO
+    private val audioFormat = AudioFormat.ENCODING_PCM_16BIT
+    private val minBufferSize = bufferSizeInBytes * 2
 
     override fun onBind(intent: Intent): IBinder? {
         throw UnsupportedOperationException("Not yet implemented")
@@ -24,12 +29,6 @@ class VoiceInput : Service() {
 
     override fun onCreate() {
         super.onCreate()
-
-        // 오디오 캡처 초기화
-        val channelConfig = AudioFormat.CHANNEL_IN_MONO
-        val audioFormat = AudioFormat.ENCODING_PCM_16BIT
-        // val minBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
-        val minBufferSize = bufferSizeInBytes * 2
 
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -78,9 +77,27 @@ class VoiceInput : Service() {
         toast("음성인식 종료")
     }
 
-    private fun stopAudioCapture() {
+    fun stopAudioCapture() {
         isRecording = false
-        audioRecord.stop()
-        audioRecord.release()
+        try {
+            audioRecord.stop()
+            audioRecord.release()
+        } catch (exception: Exception) {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.RECORD_AUDIO
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                audioRecord = AudioRecord(
+                    MediaRecorder.AudioSource.MIC,
+                    sampleRate,
+                    channelConfig,
+                    audioFormat,
+                    minBufferSize
+                )
+                audioRecord.stop()
+                audioRecord.release()
+            }
+        }
     }
 }
