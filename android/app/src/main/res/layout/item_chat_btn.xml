@@ -10,11 +10,12 @@
         android:background="@drawable/shape_white_fill_25_rect"
         android:clickable="true"
         android:elevation="8dp"
-        android:padding="20dp">
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="15dp">
 
         <ImageView
             android:id="@+id/iv_item_chat_btn"
-            android:layout_width="0dp"
+            android:layout_width="180dp"
             android:layout_height="0dp"
             android:background="@drawable/shape_line_10_rect"
             android:src="@drawable/ic_no_sign"
@@ -28,7 +29,7 @@
             android:id="@+id/tv_item_chat_btn_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="9dp"
             android:textAppearance="@style/TextAppearance.Kiumee.cap1_regular_36"
             android:textColor="@color/gray_12"
             app:layout_constraintBottom_toTopOf="@id/tv_item_chat_btn_price"
