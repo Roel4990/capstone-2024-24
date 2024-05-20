@@ -1,75 +1,122 @@
 package com.kotlin.kiumee.presentation.menu
 
-import com.kotlin.kiumee.BuildConfig.SOCKET_URL
-import com.kotlin.kiumee.presentation.menu.chat.ChatEntity
-import com.kotlin.kiumee.presentation.menu.chat.ChatEntity.Companion.VIEW_TYPE_USER
-import io.socket.client.IO
-import io.socket.client.Socket
-import org.json.JSONObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.net.URI
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.net.InetSocketAddress
+import java.net.Socket
+import java.nio.charset.Charset
 
 object SocketClient {
+    private const val ip = "34.64.198.63"
+    private const val port = 5000
+
     private lateinit var socket: Socket
     private lateinit var menuActivity: MenuActivity
-    var cnt = 0
 
     fun connect(activity: MenuActivity) {
-        try {
-            menuActivity = activity
+        menuActivity = activity
 
-            val uri = URI.create(SOCKET_URL)
-            val options = IO.Options().apply {
-                transports = arrayOf("websocket")
-                timeout = -1
-            }
-
-            socket = IO.socket(uri, options)
-            socket.connect()
-
-            socket.on(Socket.EVENT_CONNECT) {
-                // 소켓 서버에 연결이 성공하면 호출
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                socket = Socket()
+                socket.connect(InetSocketAddress(ip, port))
                 Timber.tag("voice").d("Socket connected")
-            }.on(Socket.EVENT_DISCONNECT) { args ->
-                // 소켓 서버 연결이 끊어질 경우에 호출
-                Timber.tag("voice").d("Socket disconnected: ${args[0]}")
-            }.on(Socket.EVENT_CONNECT_ERROR) { args ->
-                // 소켓 서버 연결 시 오류가 발생할 경우에 호출
-                val errorMessage =
-                    if (args.isNotEmpty()) args[0].toString() else "Unknown error"
-                Timber.tag("voice").d("Socket connection error: $errorMessage")
-            }.on("response") { args ->
-                val data = args[0] as JSONObject
-                Timber.tag("voice").d("서버로부터 받은 데이터 : $data")
 
-//                if (cnt == 0) {
-//                    Timber.tag("voice").d("서버로부터 받은 데이터 확인용 : ${data.getString("text")}")
-//                    menuActivity.addChatItem(ChatEntity(VIEW_TYPE_USER, data.getString("text")))
-//                }
-//                cnt++
-
-                Timber.tag("voice").d("서버로부터 받은 데이터 확인용 : ${data.getString("text")}")
-                menuActivity.addChatItem(ChatEntity(VIEW_TYPE_USER, data.getString("text")))
+                // 소켓 연결 후 데이터 수신을 위한 스레드 시작
+                startSocketReader()
+            } catch (e: IOException) {
+                Timber.tag("voice").e("Socket connection error: ${e.message}")
             }
-        } catch (e: Exception) {
-            Timber.tag("voice").e("socket 연결부터 에러 : ${e.message}")
-            e.printStackTrace()
         }
     }
 
-    fun sendAudio(audioData: ByteArray, sampleRate: Int) {
-        socket.emit(
-            "audio",
-            JSONObject().apply {
-                put("audio", audioData)
-                put("sample_rate", sampleRate)
-            }
-        )
+    private fun startSocketReader() {
+        try {
+            Thread {
+                Timber.tag("voice").d("데이터 받는 중!")
+                val inputStream = socket.getInputStream()
+
+                if (inputStream != null) {
+                    val byteArrayOutputStream = ByteArrayOutputStream()
+
+                    val buffer = ByteArray(1024)
+                    var bytesRead: Int
+                    while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                        Timber.tag("voice").d("루프 돌고 있음!")
+                        byteArrayOutputStream.write(buffer, 0, bytesRead)
+                        val byteArray = byteArrayOutputStream.toByteArray()
+                        val decodedString = String(byteArray, Charset.forName("UTF-8"))
+                        Timber.tag("voice").d("서버로부터 받은 데이터 decodedString : $decodedString")
+                    }
+                }
+            }.start()
+        } catch (e: IOException) {
+            Timber.tag("voice").e("Error reading from server: ${e.message}")
+        }
+
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                while (true) {
+//                    Timber.tag("voice").d("데이터 받는 중!")
+//                    val inputStream = socket.getInputStream()
+//
+//                    if (inputStream != null) {
+//                        Timber.tag("voice").d("서버로부터 받은 데이터 inputStream : $inputStream")
+//                        val byteArrayOutputStream = ByteArrayOutputStream()
+//                        Timber.tag("voice")
+//                            .d("서버로부터 받은 데이터 byteArrayOutputStream : $byteArrayOutputStream")
+//
+//                        val buffer = ByteArray(1024)
+//                        var bytesRead: Int
+//                        while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+//                            Timber.tag("voice").d("루프 돌고 있음!")
+//                            byteArrayOutputStream.write(buffer, 0, bytesRead)
+//                        }
+//
+//                        val byteArray = byteArrayOutputStream.toByteArray()
+//                        Timber.tag("voice").d("서버로부터 받은 데이터 byteArray : $byteArray")
+//                        val decodedString = String(byteArray, Charset.forName("UTF-8"))
+//                        Timber.tag("voice").d("서버로부터 받은 데이터 decodedString : $decodedString")
+//                    }
+//                }
+//
+//
+//            val dd = socket.getInputStream()
+//            Timber.tag("voice").d("서버로부터 받은 데이터 dd : $dd")
+//            val reader = BufferedReader(InputStreamReader(dd))
+//            Timber.tag("voice").d("서버로부터 받은 데이터 reader : $reader")
+//            var line: String? //            while (reader.readLine().also { line = it } != null) {
+//                String(reader, Charsets.UTF_8)
+//                Timber.tag("voice").d("서버로부터 받은 데이터 line : $line")
+//                   line?.let { text ->
+//                       menuActivity.addChatItem(ChatEntity(VIEW_TYPE_USER, text))
+//                }
+//            }
+//           Timber.tag("voice").d("서버로부터 받은 데이터 end")
+//            } catch (e: IOException) {
+//                Timber.tag("voice").e("Error reading from server: ${e.message}")
+//            }
+//        }
+    }
+
+    fun sendAudio(audioData: ByteArray) {
+        try {
+            socket.getOutputStream().write(audioData)
+        } catch (e: Exception) {
+            Timber.tag("voice").e("Error sending audio: ${e.message}")
+        }
     }
 
     fun disconnect() {
-        Timber.tag("voice").d("Socket disconnect")
-        socket.disconnect()
-        socket.off()
+        try {
+            Timber.tag("voice").d("Socket disconnect")
+            socket.close()
+        } catch (e: Exception) {
+            Timber.tag("voice").e("Error closing socket: ${e.message}")
+        }
     }
 }
