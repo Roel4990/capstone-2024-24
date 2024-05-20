@@ -60,7 +60,7 @@
                 android:textAppearance="@style/TextAppearance.Kiumee.body6_regular_38"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="키우미에게 대화dfdfjjdkfjkfdfdfdfd를 시작해주세요!" />
+                tools:text="키우미에게 대화를 시작해주세요!" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_item_chat_jumi_btn"
