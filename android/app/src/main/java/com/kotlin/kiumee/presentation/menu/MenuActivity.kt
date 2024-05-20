@@ -14,8 +14,6 @@ import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
 import com.kotlin.kiumee.core.view.UiState
 import com.kotlin.kiumee.data.dto.request.RequestPromptDto
-import com.kotlin.kiumee.data.dto.request.RequestPromptOrderInfoDto
-import com.kotlin.kiumee.data.dto.request.RequestPromptOrderInfoItemsDto
 import com.kotlin.kiumee.databinding.ActivityMenuBinding
 import com.kotlin.kiumee.presentation.menu.cart.CartAdapter
 import com.kotlin.kiumee.presentation.menu.cart.CartEntity
@@ -32,13 +30,17 @@ import com.kotlin.kiumee.presentation.menu.menuviewpager.MenuViewPagerAdapter
 import com.kotlin.kiumee.presentation.menu.tab.TabAdapter
 import com.kotlin.kiumee.presentation.menu.tab.TabItemDecorator
 import com.kotlin.kiumee.presentation.orderfinish.OrderFinishActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.Locale
 
 class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu) {
     private val menuViewModel by viewModels<MenuViewModel>()
+
     private val cartSmoothScroller: RecyclerView.SmoothScroller by lazy {
         object : LinearSmoothScroller(this) {
             override fun getVerticalSnapPreference() = SNAP_TO_START
@@ -54,6 +56,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             override fun getVerticalSnapPreference() = SNAP_TO_START
         }
     }
+
     private var tts: TextToSpeech? = null
 
     private val cartList = mutableListOf<CartEntity>()
@@ -66,22 +69,37 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         )
     )
 
+    // private var dummyCnt = 0
+
     override fun initView() {
         initTextToSpeech()
         initChatAdapter(VIEW_TYPE_USER)
         initCartLayoutState()
 
-        SocketClient.connect(this)
-        SocketClient.cnt = 0
+        initSocketConnect()
 
         initObserveGetMenu()
         initObservePostPrompt()
         initObserveGetPrompts()
         initObservePutBilling()
 
+        initCartEmptyBtnClickListener()
         initOrderBtnClickListener()
         initSpeakBtnClickListener()
         initCloseBtnClickListener()
+    }
+
+    private fun initSocketConnect() {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) { SocketClient.connect(this@MenuActivity) }
+        }
+    }
+
+    private fun initCartEmptyBtnClickListener() {
+        binding.ibMenuCartTrashTotal.setOnClickListener {
+            cartList.clear()
+            initCartLayoutState()
+        }
     }
 
     private fun initTextToSpeech() {
@@ -103,7 +121,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     }
 
     private fun runTextToSpeech(string: String) {
-        tts?.speak(string, TextToSpeech.QUEUE_ADD, null, null)
+        tts?.speak(string, TextToSpeech.QUEUE_FLUSH, null, null)
         // tts?.playSilentUtterance(750, TextToSpeech.QUEUE_ADD, null) // deley 시간 설정
     }
 
@@ -145,14 +163,10 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                         chatItem.content,
                         if (cartList.isEmpty()) {
                             // cartList가 비어있는 경우 빈 목록 대신에 하나의 기본값을 가지는 목록을 생성
-                            RequestPromptOrderInfoDto(
-                                listOf(RequestPromptOrderInfoItemsDto(id = 0, quantity = 0))
-                            )
+                            emptyList()
                         } else {
                             // cartList가 비어있지 않은 경우 해당 목록을 변환하여 사용
-                            RequestPromptOrderInfoDto(
-                                cartList.map { it.toRequestPromptOrderInfoItemsDto() }
-                            )
+                            cartList.map { it.id }
                         }
                     )
                 )
@@ -235,7 +249,9 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             }
 
             vpMenuMenu.isUserInputEnabled = false // 스와이프해서 탭 아이템 넘어가는 것을 허용할 것인지?
-            rvMenuTabContent.addItemDecoration(TabItemDecorator(this@MenuActivity))
+            if (binding.rvMenuTabContent.itemDecorationCount == 0) {
+                rvMenuTabContent.addItemDecoration(TabItemDecorator(this@MenuActivity))
+            }
         }
     }
 
@@ -249,7 +265,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     private fun initOrderBtnClickListener() {
         binding.btnMenuCartOrder.setOnClickListener {
             if (cartList.isNotEmpty()) {
-                cartList.map { it.toRequestBillingItemsDto() }.let { menuViewModel.putBilling(it) }
+                cartList.map { it.id }.let { menuViewModel.putBilling(it) }
             }
         }
     }
@@ -371,7 +387,6 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                 layoutMenuChat.visibility = View.GONE
             } else {
                 // position이 유효한 범위를 벗어나면 에러 처리 또는 다른 동작 수행
-                // 예를 들어, 에러 로그를 출력하거나 기본 위치로 스크롤을 이동할 수 있음
                 Timber.e("Invalid position: $position, itemCount: $itemCount")
             }
         }
@@ -389,8 +404,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             },
             orderBtnClickListener = {
                 if (cartList.isNotEmpty()) {
-                    cartList.map { it.toRequestBillingItemsDto() }
-                        .let { menuViewModel.putBilling(it) }
+                    cartList.map { it.id }.let { menuViewModel.putBilling(it) }
                 }
             }
         ).apply {
@@ -421,5 +435,10 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
     fun getLastClickedPosition(): Int {
         return lastClickedPosition
+    }
+
+    override fun onDestroy() {
+        SocketClient.disconnect()
+        super.onDestroy()
     }
 }
