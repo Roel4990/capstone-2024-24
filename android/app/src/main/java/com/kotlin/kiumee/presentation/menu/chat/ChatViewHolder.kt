@@ -51,8 +51,7 @@ class ChatJumiViewHolder(
 
             // 장바구니 정보
             if (data.orderInfo != null) {
-                val orderIntoList =
-                    data.orderInfo.items.map { CartEntity(it.id, it.name, it.quantity, it.price) }
+                val orderIntoList = data.orderInfo.map { CartEntity(it.id, it.name, it.price) }
                 orderInfoCompareToCart.invoke(orderIntoList)
             }
 
