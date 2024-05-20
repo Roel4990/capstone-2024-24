@@ -94,7 +94,7 @@ const SalesChart = () => {
                         color="text"
                         colorBrightness="secondary"
                     >
-                        {/*월별매출*/}
+                        판매매출
                     </Typography>
                     <div className={classes.mainChartHeaderLabels}>
                         <div className={classes.mainChartHeaderLabel}>
@@ -120,8 +120,8 @@ const SalesChart = () => {
                 </div>
             }
         >
-            <ResponsiveContainer width="100%" minWidth={500} height={350} style={{
-                padding: "10px"
+            <ResponsiveContainer width="100%" minWidth={500} height={150} style={{
+                // padding: "10px"
             }}>
                 <ComposedChart
                     margin={{ top: 0, right: 15, left: 15, bottom: 0 }}

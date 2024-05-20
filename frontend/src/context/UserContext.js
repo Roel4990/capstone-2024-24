@@ -3,11 +3,6 @@ import React from "react";
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext();
 
-// 3가지 상태로 존재해야된다.
-// 1. 로그인이 안되어있을 경우
-// 2. 로그인이 되어있지만 매장을 선택하지 않은 경우
-// 3. 로그인도 되어있고 매장도 선택되어 있는 경우
-
 // function userReducer(state, action) {
 //   switch (action.type) {
 //     case "LOGIN_SUCCESS":

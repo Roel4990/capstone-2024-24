@@ -94,24 +94,55 @@ class OrderService:
             for x in self.order_repository.get_session_queries(session_key=session_id)
         ]
 
-        message = self.client.send_query(
-            system_prompt=shop_info + CLAUDE_STATIC_PROMPT + items_info,
-            query_histories=query_histories,
-            query=query,
+        import threading
+
+        def perform_function_five_times(func, *args, **kwargs):
+            results = []
+            threads = []
+
+            def wrapper():
+                result = func(*args, **kwargs)
+                results.append(result)
+
+            for _ in range(4):
+                thread = threading.Thread(target=wrapper)
+                threads.append(thread)
+                thread.start()
+
+            for thread in threads:
+                thread.join()
+
+            return results
+
+        # 함수 호출
+
+        responses = perform_function_five_times(
+            self.client.send_query,
+            CLAUDE_STATIC_PROMPT,
+            query_histories,
+            query,
         )
-        data = ""
-        try:
-            data = json.loads(message)
 
-            response = data["response"]
-            order_items = data["orderInfo"]["items"]
-            pointer_id = data["pointerId"]
+        response = None
+        order_items = None
+        pointer_id = -1
 
-        except Exception as e:
-            raise HTTPException(
-                status_code=503,
-                detail="Model Parsing error: " + str(e) + " " + str(message),
-            )
+        for message in responses:
+            try:
+                data = json.loads(message)
+
+                response = data["response"]
+                order_items = data["orderInfo"]["items"]
+                pointer_id = data["pointerId"]
+
+                break
+
+            except Exception as e:
+                print(e)
+                pass
+
+        if response is None or order_items is None or pointer_id == -1:
+            raise HTTPException(status_code=504, detail="Response not found")
 
         self.order_repository.add_session_query(
             session_key=session_id,

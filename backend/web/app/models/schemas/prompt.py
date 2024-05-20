@@ -9,9 +9,21 @@ class BusinessPrompt(BaseModel):
     items: Optional[List[int]] = None
 
 
+class BusinessPromptResponseModel(BusinessPrompt):
+    id: int
+
+
+class BusinessPromptsResponse(BaseModel):
+    data: List[BusinessPromptResponseModel]
+
+
 class BusinessPromptResponse(BaseModel):
+    data: BusinessPromptResponseModel
+
+
+class BusinessPromptsRequest(BaseModel):
     data: List[BusinessPrompt]
 
 
-class BusinessPromptRequest(BaseModel):
-    data: List[BusinessPrompt]
+class BusinessPromptDeleteResponse(BaseModel):
+    pass
