@@ -17,7 +17,6 @@ import timber.log.Timber
 class ChatJumiViewHolder(
     private val binding: ItemChatJumiBinding,
     private val orderInfoCompareToCart: (List<CartEntity>) -> Unit,
-    private val tabScrollToPosition: (Int) -> Unit,
     private val orderBtnClickListener: () -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
@@ -52,13 +51,13 @@ class ChatJumiViewHolder(
             // 장바구니 정보
             if (data.orderInfo != null) {
                 val orderIntoList = data.orderInfo.map { CartEntity(it.id, it.name, it.price) }
+                Timber.tag("cart").d(orderIntoList.toString())
                 orderInfoCompareToCart.invoke(orderIntoList)
             }
 
-            // 카테고리 포인터
+            // 카테고리 포인터 -> 나중에 구현하던가 빼야 함
             if (data.pointerId != null) {
                 Timber.tag("pointer").d(data.pointerId.toString())
-                tabScrollToPosition.invoke(data.pointerId)
             }
 
             // 주문하기

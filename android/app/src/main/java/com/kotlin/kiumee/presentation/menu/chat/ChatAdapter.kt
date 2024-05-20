@@ -11,7 +11,7 @@ import com.kotlin.kiumee.presentation.menu.cart.CartEntity
 import com.kotlin.kiumee.presentation.menu.chat.ChatEntity.Companion.VIEW_TYPE_JUMI
 import com.kotlin.kiumee.presentation.menu.chat.ChatEntity.Companion.VIEW_TYPE_USER
 
-class ChatAdapter(private val orderInfoCompareToCart: (List<CartEntity>) -> Unit, private val tabScrollToPosition: (Int) -> Unit, private val orderBtnClickListener: () -> Unit) : ListAdapter<ChatEntity, RecyclerView.ViewHolder>(ChatAdapterDiffCallback) {
+class ChatAdapter(private val orderInfoCompareToCart: (List<CartEntity>) -> Unit, private val orderBtnClickListener: () -> Unit) : ListAdapter<ChatEntity, RecyclerView.ViewHolder>(ChatAdapterDiffCallback) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -20,7 +20,7 @@ class ChatAdapter(private val orderInfoCompareToCart: (List<CartEntity>) -> Unit
             VIEW_TYPE_JUMI -> {
                 val binding =
                     ItemChatJumiBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                ChatJumiViewHolder(binding, orderInfoCompareToCart, tabScrollToPosition, orderBtnClickListener)
+                ChatJumiViewHolder(binding, orderInfoCompareToCart, orderBtnClickListener)
             }
 
             VIEW_TYPE_USER -> {

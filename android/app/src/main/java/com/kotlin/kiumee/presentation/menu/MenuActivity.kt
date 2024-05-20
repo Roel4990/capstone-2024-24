@@ -69,11 +69,9 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         )
     )
 
-    // private var dummyCnt = 0
-
     override fun initView() {
         initTextToSpeech()
-        initChatAdapter(VIEW_TYPE_USER)
+        initChatAdapter()
         initCartLayoutState()
 
         initSocketConnect()
@@ -172,13 +170,11 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                 )
                 // 기존 chatList에 새로운 항목 추가
                 chatList.add(chatItem)
-                initChatAdapter(VIEW_TYPE_USER)
+                initChatAdapter()
             } else {
                 // 기존 chatList에 새로운 항목 추가
                 chatList.add(chatItem)
-                // binding.rvMenuChat.adapter?.notifyItemInserted(chatList.size - 1)
-                // initChatScrollPointer()
-                initChatAdapter(VIEW_TYPE_JUMI)
+                initChatAdapter()
                 runTextToSpeech(chatItem.content)
             }
         }
@@ -277,6 +273,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                     if (clicked) {
                         setupSpeakOff()
                     }
+                    VoiceInput().stopAudioCapture()
                     SocketClient.disconnect()
                     startActivity(Intent(this, OrderFinishActivity::class.java))
                 }
@@ -333,11 +330,15 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     }
 
     private fun initCartScrollPointer() {
-        binding.rvMenuCart.layoutManager?.startSmoothScroll(
-            cartSmoothScroller.apply {
-                targetPosition = cartList.size - 1
-            }
-        )
+        binding.rvMenuCart.post {
+            binding.rvMenuCart.scrollToPosition((binding.rvMenuCart.adapter?.itemCount ?: 1) - 1)
+
+//            binding.rvMenuCart.layoutManager?.startSmoothScroll(
+//                cartSmoothScroller.apply {
+//                    targetPosition = cartList.size - 1
+//                }
+//            )
+        }
     }
 
     private fun initCartTotalPrice() {
@@ -365,9 +366,18 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     }
 
     private fun setCartCompareToOrderInfo(orderInfo: List<CartEntity>) {
-        if (cartList != orderInfo) {
+        Timber.tag("cart").d("수행됨")
+        val orderInfoList = orderInfo.map { it.id }
+        val currentCartList = cartList.map { it.id }
+        Timber.tag("cart").d(orderInfoList.toString())
+        Timber.tag("cart").d(currentCartList.toString())
+
+        if (currentCartList != orderInfoList) {
+            Timber.tag("cart").d("여기도 수행됨")
             cartList.clear()
-            cartList.addAll(orderInfo)
+            for (item in orderInfo) {
+                cartList.add(item)
+            }
             initCartLayoutState()
         }
     }
@@ -392,15 +402,10 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }
     }
 
-    private fun initChatAdapter(chatType: Int) {
+    private fun initChatAdapter() {
         binding.rvMenuChat.adapter = ChatAdapter(
             orderInfoCompareToCart = { orderInfo ->
                 setCartCompareToOrderInfo(orderInfo)
-            },
-            tabScrollToPosition = { position ->
-                if (chatType == VIEW_TYPE_JUMI) {
-                    setTabScrollToPosition(position)
-                }
             },
             orderBtnClickListener = {
                 if (cartList.isNotEmpty()) {
@@ -422,12 +427,12 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
     private fun initChatScrollPointer() {
         binding.rvMenuChat.post {
-            val newPosition = chatList.size
-            Timber.tag("scroll").d(newPosition.toString())
+            // binding.rvMenuChat.scrollToPosition((binding.rvMenuChat.adapter?.itemCount ?: 1) - 1)
+            // binding.rvMenuChat.scrollToPosition(chatList.size - 1)
 
             binding.rvMenuChat.layoutManager?.startSmoothScroll(
                 chatSmoothScroller.apply {
-                    targetPosition = newPosition
+                    targetPosition = chatList.size
                 }
             )
         }
@@ -438,6 +443,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     }
 
     override fun onDestroy() {
+        VoiceInput().stopAudioCapture()
         SocketClient.disconnect()
         super.onDestroy()
     }
