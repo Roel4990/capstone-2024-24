@@ -55,7 +55,7 @@ export default function Dashboard(props) {
         <>
             {/*<PageTitle title="Dashboard" />*/}
             <Grid container spacing={4}>
-                <Grid item lg={3} md={4} sm={6} xs={12}>
+                <Grid item lg={4} md={4} sm={4} xs={12}>
                     <Widget
                         title="오늘의 주문 수"
                         upperTitle
@@ -119,7 +119,7 @@ export default function Dashboard(props) {
                         </Grid>
                     </Widget>
                 </Grid>
-                <Grid item lg={3} md={8} sm={6} xs={12}>
+                <Grid item lg={8} md={8} sm={8} xs={12}>
                     {/*<Widget*/}
                     {/*    title="App Performance"*/}
                     {/*    upperTitle*/}
@@ -183,7 +183,7 @@ export default function Dashboard(props) {
                     {/*</Widget>*/}
                     <SalesChart/>
                 </Grid>
-                <Grid item lg={3} md={8} sm={6} xs={12}>
+                <Grid item lg={8} md={8} sm={8} xs={12}>
                     {/*<Widget*/}
                     {/*    title="Server Overview"*/}
                     {/*    upperTitle*/}
@@ -265,7 +265,7 @@ export default function Dashboard(props) {
                     {/*</Widget>*/}
                     <OrderList />
                 </Grid>
-                <Grid item lg={3} md={4} sm={6} xs={12}>
+                <Grid item lg={4} md={4} sm={4} xs={12}>
                     <Widget title="카테고리별 주문" upperTitle className={classes.card}>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>

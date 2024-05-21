@@ -59,13 +59,9 @@ const MenuTable = () => {
   );
 
   const handleBusinessItemsUpdateSuccess = (businessData) => {
-    // 매장 아이템 리스트 업데이트 성공시
-    //console.log('BusinessItemsUpdate successful:', businessData);
     alert("성공적으로 저장했습니다.")
   };
-  const handleBusinessItemsUpdateError = (error) => {
-    //console.error('BusinessItemsUpdate failed:', error);
-  };
+  const handleBusinessItemsUpdateError = (error) => {};
   // 매장 생성
   const {
     mutate: businessItemsUpdateMutation,
@@ -76,6 +72,7 @@ const MenuTable = () => {
   useEffect(() => {
     if (!businessItemsInfoIsLoading && !businessItemsInfoIsError && businessItemsInfo) {
       // 데이터가 로드되었고, 에러가 없을 경우 상태 업데이트
+      console.log(businessItemsInfo.data)
       setTotalMenuList(businessItemsInfo.data)
       if(businessItemsInfo.data.length > 0) {
         setSelectedCategory(businessItemsInfo.data[0].category)
@@ -242,21 +239,28 @@ const MenuTable = () => {
       if (targetIndex !== -1) {
         // 선택된 카테고리를 찾아 해당 items 배열에서 아이템을 업데이트
         const updatedItems = totalMenuList[targetIndex].items.map(item => {
-          if (item.id === newItem.id) { // ID가 일치하는 아이템을 찾아 업데이트
-            return { ...item, ...newItem, imageUrl: imagePreview };
+          if (`${item.id}` === newItem.id) { // ID가 일치하는 아이템을 찾아 업데이트
+            return {...item,
+              name: newItem.name,
+              description:newItem.description,
+              prompt: newItem.prompt,
+              imageUrl: imagePreview
+            };
           }
           return item; // 그 외 아이템은 그대로 유지
         });
-        setMenuList(updatedItems)
-        // totalMenuList의 복사본을 만들고, 해당 카테고리의 items만 업데이트
+        let setMenuListCustom = updatedItems.map(item => ({
+          ...item,  // 기존 객체의 모든 속성을 복사
+          id: `${item.id}`  // id 속성을 숫자로 변환
+        }));
+        setMenuList(setMenuListCustom)
         const updatedTotalMenuList = totalMenuList.map((item, index) => {
           if (index === targetIndex) {
             return { ...item, items: updatedItems };
           }
           return item;
         });
-
-        // 업데이트된 전체 메뉴 리스트로 상태 업데이트
+        // // 업데이트된 전체 메뉴 리스트로 상태 업데이트
         setTotalMenuList(updatedTotalMenuList);
       }
       setUpdateMode(false)
