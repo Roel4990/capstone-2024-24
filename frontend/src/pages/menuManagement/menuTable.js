@@ -72,7 +72,6 @@ const MenuTable = () => {
   useEffect(() => {
     if (!businessItemsInfoIsLoading && !businessItemsInfoIsError && businessItemsInfo) {
       // 데이터가 로드되었고, 에러가 없을 경우 상태 업데이트
-      console.log(businessItemsInfo.data)
       setTotalMenuList(businessItemsInfo.data)
       if(businessItemsInfo.data.length > 0) {
         setSelectedCategory(businessItemsInfo.data[0].category)
@@ -153,6 +152,10 @@ const MenuTable = () => {
     }));
     setMenuList(stringIdArray)
   };
+  // 전체 갯수 세는 함수
+  function countItems(data) {
+    return data.reduce((total, category) => total + category.items.length, 0);
+  }
   // 새 항목 추가
   const handleAddItem = () => {
     if(window.confirm("추가하시겠습니까?")) {
@@ -161,13 +164,13 @@ const MenuTable = () => {
       if(!newItem.price) return window.alert("가격을 입력해 주세요.")
       if(!newItem.description) return window.alert("설명을 입력해 주세요.")
       newItem.category = selectedCategory
-      const target = totalMenuList.find(item => item.category === selectedCategory);
-      const maxId = target.items.length > 0 ? Math.max(...target.items.map(item => parseInt(item.id, 10))) : 0;
-      setMenuList([...menuList, { ...newItem, id: `${maxId + 1}`, imageUrl: imagePreview }]);
+      // const target = totalMenuList.find(item => item.category === selectedCategory);
+      // const maxId = target.items.length > 0 ? Math.max(...target.items.map(item => parseInt(item.id, 10))) : 0;
+      setMenuList([...menuList, { ...newItem, id: `${countItems(totalMenuList) + 1}`, imageUrl: imagePreview }]);
       const targetIndex = totalMenuList.findIndex(item => item.category === selectedCategory);
       if (targetIndex !== -1) {
         // 선택된 카테고리를 찾아 해당 items 배열을 업데이트
-        const updatedItems = [...totalMenuList[targetIndex].items, { ...newItem, id: `${maxId + 1}`, imageUrl: imagePreview }];
+        const updatedItems = [...totalMenuList[targetIndex].items, { ...newItem, id: `${countItems(totalMenuList) + 1}`, imageUrl: imagePreview }];
         // totalMenuList의 복사본을 만들고, 해당 카테고리의 items만 업데이트
         const updatedTotalMenuList = totalMenuList.map((item, index) => {
           if (index === targetIndex) {
