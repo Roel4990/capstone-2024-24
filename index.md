@@ -36,9 +36,9 @@ Through conversation, Jumi not only handles orders like traditional staff but al
 
 ## 🤖 포스터
 
-![24팀주미포스터](https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/f7dc530e-4075-4ff4-83ae-beea074f77ff)
+![2024캡스톤_24팀_포스터png](https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/f5c8cfb6-1fcf-4da5-95a6-90f43006359f)
 
-포스터(PDF) 다운로드 링크 : [24팀주미포스터.pdf](https://github.com/kookmin-sw/capstone-2024-24/files/15370066/24.pdf)
+포스터(PDF) 다운로드 링크 : [24팀주미포스터.pdf](https://github.com/kookmin-sw/capstone-2024-24/files/15393286/2024._24._.pdf)
 
 ## 🤖 소개 영상
 
