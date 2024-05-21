@@ -8,12 +8,12 @@
 - 수행결과보고서 : <a target="_blank" href="https://drive.google.com/file/d/1vi2nvJ_A4Qb20O01VEcj0In3O8hSa6kL/view?usp=sharing" >https://drive.google.com/file/d/1vi2nvJ_A4Qb20O01VEcj0In3O8hSa6kL/view?usp=sharing</a>
 - 포스터 : <a target="_blank" href="https://drive.google.com/file/d/1oQoV6bzTY10QpyRvhAZydqwsXpPe6nHu/view?usp=sharing" >https://drive.google.com/file/d/1oQoV6bzTY10QpyRvhAZydqwsXpPe6nHu/view?usp=sharing</a>
 
-## 🤖 AI 기반 대화형 키오스크, Jumi(주미)
+## 🤖 AI 기반 대화형 키오스크, 주미(Jumi)
 
-당신만의 점원 'Jumi(주미)'
+당신만의 점원 '주미(Jumi)'
 
 키오스크 사용이 복잡하고 어렵지 않으신가요?
-AI와의 대화를 통해 더 간편하고, 쉽고, 자신있게 키오스크를 사용하실 수 있습니다. (Jumi)를 통해 매장에서의 불편함을 줄여보세요! 😆
+AI와의 대화를 통해 더 간편하고, 쉽고, 자신있게 키오스크를 사용하실 수 있습니다. 주미(Jumi)를 통해 매장에서의 불편함을 줄여보세요! 😆
 
 ![Jumi_Logo](https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/dd21254e-987e-414b-acb9-e737a7b61659)
 
