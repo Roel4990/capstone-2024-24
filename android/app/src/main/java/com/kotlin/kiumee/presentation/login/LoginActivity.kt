@@ -84,7 +84,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                 }
 
                 is UiState.Loading -> {
-                    LoadingActivity(this)
+                    LoadingActivity(this).show()
                     Timber.d("로딩중")
                 }
 
