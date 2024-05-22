@@ -26,8 +26,9 @@ class StoreActivity : BindingActivity<ActivityStoreBinding>(R.layout.activity_st
 
     private fun initHomeBtnClickListener() {
         binding.appbarStore.ibLoginHome.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+            Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }.let { startActivity(it) }
         }
     }
 
