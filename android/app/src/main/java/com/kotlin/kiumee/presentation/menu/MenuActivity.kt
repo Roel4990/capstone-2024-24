@@ -2,6 +2,7 @@ package com.kotlin.kiumee.presentation.menu
 
 import android.content.Intent
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.get
@@ -117,10 +118,33 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                 }
             }
         )
+        tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onStart(utteranceId: String?) {
+                // 음성 재생이 시작되면
+                Timber.tag("tts").d("재생 시작")
+                binding.btnMenuSpeak.isClickable = false
+            }
+
+            override fun onDone(utteranceId: String?) {
+                // 음성 재생이 완료되면
+                Timber.tag("tts").d("재생 완료")
+                binding.btnMenuSpeak.isClickable = true
+            }
+
+            override fun onError(utteranceId: String?) {
+                // 음성 재생 중 오류가 발생하면
+            }
+        })
     }
 
     private fun runTextToSpeech(string: String) {
-        tts?.speak(string, TextToSpeech.QUEUE_FLUSH, null, null)
+        setupSpeakOff()
+        tts?.speak(
+            string,
+            TextToSpeech.QUEUE_FLUSH,
+            null,
+            TextToSpeech.ACTION_TTS_QUEUE_PROCESSING_COMPLETED
+        )
         // tts?.playSilentUtterance(750, TextToSpeech.QUEUE_ADD, null) // deley 시간 설정
     }
 
