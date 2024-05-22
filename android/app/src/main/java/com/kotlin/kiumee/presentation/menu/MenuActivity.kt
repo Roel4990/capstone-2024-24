@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
+import com.kotlin.kiumee.core.util.context.formatAmount
 import com.kotlin.kiumee.core.view.UiState
 import com.kotlin.kiumee.data.dto.request.RequestPromptDto
 import com.kotlin.kiumee.databinding.ActivityMenuBinding
@@ -273,7 +274,6 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                     if (clicked) {
                         setupSpeakOff()
                     }
-                    VoiceInput().stopAudioCapture()
                     SocketClient.disconnect()
                     startActivity(Intent(this, OrderFinishActivity::class.java))
                 }
@@ -344,7 +344,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     private fun initCartTotalPrice() {
         // 카트 목록의 가격 합계 계산
         val totalPrice = cartList.sumOf { it.price }
-        binding.tvMenuCartTotalPrice.text = "${totalPrice}원"
+        binding.tvMenuCartTotalPrice.text = "${formatAmount(totalPrice)}원"
     }
 
     private fun initGuideBtnAdapter(data: List<GuideBtnEntity>) {
