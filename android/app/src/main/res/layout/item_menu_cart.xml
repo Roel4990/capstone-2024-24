@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_item_menu_cart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent">
 
         <TextView
             android:id="@+id/tv_item_menu_cart_name"
@@ -26,10 +27,10 @@
             android:id="@+id/ib_item_menu_cart_trash"
             android:layout_width="58dp"
             android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
             android:background="@android:color/transparent"
             android:clickable="true"
             android:src="@drawable/ic_menu_cart_trash"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_item_menu_cart_name" />
 
