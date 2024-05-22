@@ -76,7 +76,9 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     private fun initObserve() {
         loginViewModel.postLogin.flowWithLifecycle(lifecycle).onEach {
             when (it) {
-                is UiState.Success -> startActivity(Intent(this, StoreActivity::class.java))
+                is UiState.Success -> Intent(this, StoreActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }.let { startActivity(it) }
 
                 is UiState.Failure -> {
                     toast("로그인 실패! 다시 입력해주세요.")
