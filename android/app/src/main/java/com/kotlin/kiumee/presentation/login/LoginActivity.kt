@@ -12,8 +12,10 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
+import com.kotlin.kiumee.core.util.context.toast
 import com.kotlin.kiumee.core.view.UiState
 import com.kotlin.kiumee.databinding.ActivityLoginBinding
+import com.kotlin.kiumee.presentation.LoadingActivity
 import com.kotlin.kiumee.presentation.store.StoreActivity
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -75,8 +77,17 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         loginViewModel.postLogin.flowWithLifecycle(lifecycle).onEach {
             when (it) {
                 is UiState.Success -> startActivity(Intent(this, StoreActivity::class.java))
-                is UiState.Failure -> Timber.d("실패 : $it")
-                is UiState.Loading -> Timber.d("로딩중")
+
+                is UiState.Failure -> {
+                    toast("로그인 실패! 다시 입력해주세요.")
+                    Timber.d("실패 : $it")
+                }
+
+                is UiState.Loading -> {
+                    LoadingActivity(this)
+                    Timber.d("로딩중")
+                }
+
                 is UiState.Empty -> Timber.d("empty")
             }
         }.launchIn(lifecycleScope)
