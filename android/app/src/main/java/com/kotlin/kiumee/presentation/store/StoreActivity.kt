@@ -26,8 +26,9 @@ class StoreActivity : BindingActivity<ActivityStoreBinding>(R.layout.activity_st
 
     private fun initHomeBtnClickListener() {
         binding.appbarStore.ibLoginHome.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+            Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }.let { startActivity(it) }
         }
     }
 
@@ -37,6 +38,7 @@ class StoreActivity : BindingActivity<ActivityStoreBinding>(R.layout.activity_st
                 is UiState.Success -> initFormAdapter(it.data)
                 is UiState.Failure -> Timber.d("실패 : $it")
                 is UiState.Loading -> Timber.d("로딩중")
+                is UiState.Empty -> Timber.d("empty")
             }
         }.launchIn(lifecycleScope)
     }

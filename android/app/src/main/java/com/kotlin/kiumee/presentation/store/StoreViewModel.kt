@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kotlin.kiumee.MainApplication
 import com.kotlin.kiumee.core.view.UiState
-import com.kotlin.kiumee.data.dto.ServicePool
+import com.kotlin.kiumee.data.ServicePool
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ class StoreViewModel : ViewModel() {
 
     private fun getStore() = viewModelScope.launch {
         runCatching {
-            ServicePool.businessApiService.getBusiness().data.map { it.toStoreEntity() }
+            ServicePool.storeApiService.getBusiness().data.map { it.toStoreEntity() }
         }.fold(
             { _getStore.value = UiState.Success(it) },
             { _getStore.value = UiState.Failure(it.message.toString()) }

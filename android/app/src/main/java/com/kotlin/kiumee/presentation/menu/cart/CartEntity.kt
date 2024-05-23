@@ -1,7 +1,7 @@
 package com.kotlin.kiumee.presentation.menu.cart
 
-data class Cart(
+data class CartEntity(
+    val id: Int,
     val name: String,
-    val count: Int,
     val price: Int
 )

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">kiumee</string>
+    <string name="app_name">Jumi</string>
 
     <!-- 로그인 페이지 -->
     <string name="login_id">아이디</string>

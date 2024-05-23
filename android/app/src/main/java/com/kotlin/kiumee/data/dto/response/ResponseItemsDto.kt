@@ -39,7 +39,7 @@ data class ResponseItemsDataItemsDto(
     @SerialName("price")
     val price: Int,
     @SerialName("isActive")
-    val isActive: Boolean
+    val isActive: Boolean?
 ) {
     fun toMenuEntity() = MenuEntity(
         id,
@@ -47,6 +47,6 @@ data class ResponseItemsDataItemsDto(
         description,
         imageUrl,
         price,
-        isActive
+        isActive ?: true
     )
 }

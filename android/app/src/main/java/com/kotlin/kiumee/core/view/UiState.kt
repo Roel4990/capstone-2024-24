@@ -1,6 +1,7 @@
 package com.kotlin.kiumee.core.view
 
 sealed interface UiState<out T> {
+    object Empty : UiState<Nothing>
     object Loading : UiState<Nothing>
 
     data class Success<T>(

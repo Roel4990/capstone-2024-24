@@ -2,6 +2,7 @@ package com.kotlin.kiumee.presentation.menu
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.kotlin.kiumee.core.util.context.formatAmount
 import com.kotlin.kiumee.databinding.ItemMenuBinding
 
 class MenuViewHolder(
@@ -18,7 +19,7 @@ class MenuViewHolder(
             }
             ivItemMenu.clipToOutline = true
             tvItemMenuName.text = data.name
-            tvItemMenuPrice.text = data.price.toString() + "원"
+            tvItemMenuPrice.text = "${formatAmount(data.price)}원"
             tvItemMenuDescription.text = data.description
 
             root.setOnClickListener {

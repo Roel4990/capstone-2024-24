@@ -11,6 +11,7 @@
         android:id="@+id/layout_item_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:clickable="true">
 
         <ImageView
@@ -18,6 +19,7 @@
             android:layout_width="260dp"
             android:layout_height="0dp"
             android:background="@drawable/shape_line_35_rect"
+            android:clipToOutline="true"
             android:padding="5dp"
             android:src="@drawable/ic_no_sign"
             app:layout_constraintBottom_toBottomOf="parent"

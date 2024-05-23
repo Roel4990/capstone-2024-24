@@ -13,7 +13,7 @@ import com.kotlin.kiumee.presentation.menu.MenuActivity
 import com.kotlin.kiumee.presentation.menu.MenuAdapter
 import com.kotlin.kiumee.presentation.menu.MenuItemDecorator
 import com.kotlin.kiumee.presentation.menu.MenuViewModel
-import com.kotlin.kiumee.presentation.menu.cart.Cart
+import com.kotlin.kiumee.presentation.menu.cart.CartEntity
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -28,19 +28,17 @@ class MenuViewPagerFragment : BindingFragment<FragmentTabBinding>(R.layout.fragm
     private fun initObserve() {
         menuViewModel.getMenu.flowWithLifecycle(lifecycle).onEach {
             when (it) {
-                is UiState.Success -> {
-                    initMenuViewPagerAdapter(it.data)
-                }
-
+                is UiState.Success -> initMenuViewPagerAdapter(it.data)
                 is UiState.Failure -> Timber.d("실패 : $it")
                 is UiState.Loading -> Timber.d("로딩중")
+                is UiState.Empty -> Timber.d("empty")
             }
         }.launchIn(lifecycleScope)
     }
 
     private fun initMenuViewPagerAdapter(menuData: List<CategoryEntity>) {
         binding.rvTab.adapter = MenuAdapter(click = { menu, position ->
-            val newCartItem = Cart(menu.name, 1, menu.price)
+            val newCartItem = CartEntity(menu.id, menu.name, menu.price)
             (activity as? MenuActivity)?.addCartItem(newCartItem)
         }).apply {
             submitList(
