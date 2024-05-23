@@ -65,7 +65,7 @@ class ChatJumiViewHolder(
                 // 5초 후에 작업 수행
                 Handler(Looper.getMainLooper()).postDelayed({
                     orderBtnClickListener.invoke()
-                }, 5000)
+                }, 6000)
             }
         }
     }
