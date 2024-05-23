@@ -90,8 +90,8 @@ https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/36993f9d-da9d-41c
 - (ai) voice detecting 기능과 whisper를 연결하여, 말을 인식하여 음성파일을 만들어 text로 출력하는 테스트 파일
 
 ## 🤖 시스템 인포그래픽
+<img width="1141" alt="image" src="https://github.com/kookmin-sw/capstone-2024-24/assets/57210308/38fabd9b-7904-4c45-ac55-f3240a607b10">
 
-<img width="905" alt="image" src="https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/21908c97-9029-48f1-95fd-ebcde12b1035">
 
 ## 🤖 팀원 소개
 <table>
