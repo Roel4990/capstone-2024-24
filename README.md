@@ -5,7 +5,7 @@
 - 국민대 2024년 캡스톤 24조 https://github.com/kookmin-sw/capstone-2024-24
 - 중간보고서 : https://drive.google.com/file/d/16NaXpkgVccnvjZIrgBijLE6NKX_uG9iI/view?usp=sharing
 - 중간발표자료 : https://drive.google.com/file/d/1uSfNx9Hp3RWLK9qVZHUtFuv0Xsn-snNT/view?usp=sharing
-- 수행결과보고서 : https://drive.google.com/file/d/1aJdbAOt7WtFSTQh_ZimNnUibWIp6pZ2E/view?usp=sharing
+- 수행결과보고서 : https://drive.google.com/file/d/1IbI-sa29dC_Hl3WDFYEpwIP4-hk6hBiu/view?usp=sharing
 - 포스터 : https://drive.google.com/file/d/1oQoV6bzTY10QpyRvhAZydqwsXpPe6nHu/view?usp=sharing
   
 ## 🤖 AI 기반 대화형 키오스크, 주미(Jumi)
