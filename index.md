@@ -5,7 +5,7 @@
 - 국민대 2024년 캡스톤 24조 <a target="_blank" href="https://github.com/kookmin-sw/capstone-2024-24">https://github.com/kookmin-sw/capstone-2024-24</a>
 - 중간보고서 : <a target="_blank" href="https://drive.google.com/file/d/16NaXpkgVccnvjZIrgBijLE6NKX_uG9iI/view?usp=sharing" >https://drive.google.com/file/d/16NaXpkgVccnvjZIrgBijLE6NKX_uG9iI/view?usp=sharing</a>
 - 중간발표자료 : <a target="_blank" href="https://drive.google.com/file/d/1uSfNx9Hp3RWLK9qVZHUtFuv0Xsn-snNT/view?usp=sharing">https://drive.google.com/file/d/1uSfNx9Hp3RWLK9qVZHUtFuv0Xsn-snNT/view?usp=sharing</a>
-- 수행결과보고서 : <a target="_blank" href="https://drive.google.com/file/d/1vi2nvJ_A4Qb20O01VEcj0In3O8hSa6kL/view?usp=sharing" >https://drive.google.com/file/d/1vi2nvJ_A4Qb20O01VEcj0In3O8hSa6kL/view?usp=sharing</a>
+- 수행결과보고서 : <a target="_blank" href="https://drive.google.com/file/d/1IbI-sa29dC_Hl3WDFYEpwIP4-hk6hBiu/view?usp=sharing" >https://drive.google.com/file/d/1IbI-sa29dC_Hl3WDFYEpwIP4-hk6hBiu/view?usp=sharing</a>
 - 포스터 : <a target="_blank" href="https://drive.google.com/file/d/1oQoV6bzTY10QpyRvhAZydqwsXpPe6nHu/view?usp=sharing" >https://drive.google.com/file/d/1oQoV6bzTY10QpyRvhAZydqwsXpPe6nHu/view?usp=sharing</a>
 
 ## 🤖 AI 기반 대화형 키오스크, 주미(Jumi)
