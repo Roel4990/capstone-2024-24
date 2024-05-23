@@ -90,7 +90,7 @@ Through conversation, Jumi not only handles orders like traditional staff but al
   
 ## 🤖 시스템 인포그래픽
 
-<img width="1141" alt="image" src="https://github.com/kookmin-sw/capstone-2024-24/assets/57210308/38fabd9b-7904-4c45-ac55-f3240a607b10">
+<img width="719" alt="image" src="https://github.com/kookmin-sw/capstone-2024-24/assets/57210308/ea8b683d-47f7-4366-83ab-26804dffa1b3">
 
 ## 🤖 팀원 소개
 <table>
