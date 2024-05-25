@@ -83,19 +83,10 @@ https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/36993f9d-da9d-41c
 
 현재 테스트 파일로 각각의 폴더 내의 안내를 참고해 주세요.
 
-구현 내역
 - (frontend) 관리자 페이지
 - (android) 키오스크 앱 동작 및 구성
 - (backend) 데이터 및 LLM에 접근 가능한 서버 엔드포인트 (API) 구현
-<<<<<<< HEAD
 - (ai) voice detecting 기능과 whisper를 연결하여, 말을 인식하여 음성파일을 만들어 text로 출력하는 테스트 파일
-=======
-- (ai)  음성을 인식하여 text와 시키는 stt구현 및 테스트 파일(ai/stt)
-
-  llm인 claude sonnet을 키오스크 도우미 jumi로 사용하기 위한 세팅 및 테스트 파일(ai/llm)
-
-  llm와 stt모델을 결정할때 사용한 정보를 담은 문서(ai/README.md,ai/llm/claude 성능 테스트)
->>>>>>> e5fc72c ([update_README.md] ai 폴더 정보 보기 좋게 수정)
 
 ## 🤖 시스템 인포그래픽
 <img width="719" alt="image" src="https://github.com/kookmin-sw/capstone-2024-24/assets/57210308/ea8b683d-47f7-4366-83ab-26804dffa1b3">
