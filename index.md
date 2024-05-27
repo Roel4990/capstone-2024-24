@@ -46,7 +46,7 @@ Through conversation, Jumi not only handles orders like traditional staff but al
 
 ## 🤖 소개 영상
 
-[![Video Label](https://img.youtube.com/vi/aUr39A649iQ/0.jpg)](https://youtu.be/aUr39A649iQ) 
+[![Video Label](https://i.ytimg.com/an_webp/PfI_DjAjB6w/mqdefault_6s.webp?du=3000&sqp=CNCe0LIG&rs=AOn4CLC5KuQXlsphl-Mfz8GMD8N7pjQzXA)](https://www.youtube.com/watch?v=PfI_DjAjB6w) 
 
 ## 🤖 프로젝트 기능
 
