@@ -267,7 +267,7 @@ export default function Dashboard(props) {
                 </Grid>
                 <Grid item lg={4} md={4} sm={4} xs={12}>
                     <Widget title="카테고리별 주문" upperTitle className={classes.card}>
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} style={{paddingTop: "36px"}}>
                             <Grid item xs={6}>
                                 <ResponsiveContainer width="100%" height={144}>
                                     <PieChart>
@@ -305,9 +305,9 @@ export default function Dashboard(props) {
                         </Grid>
                     </Widget>
                 </Grid>
-                <Grid item xs={12}>
-                    <SalesChart />
-                </Grid>
+                {/*<Grid item xs={12}>*/}
+                {/*    <SalesChart />*/}
+                {/*</Grid>*/}
                 <Grid item xs={12}>
                     {/*<Widget*/}
                     {/*    bodyClass={classes.mainChartBody}*/}
@@ -409,23 +409,23 @@ export default function Dashboard(props) {
                     {/*</Widget>*/}
                     <AgeGroupYearMonthSalesChart />
                 </Grid>
-                {mock.bigStat.map(stat => (
-                    <Grid item md={4} sm={6} xs={12} key={stat.product}>
-                        <BigStat {...stat} />
-                    </Grid>
-                ))}
-                <Grid item xs={12}>
-                    {/*<Widget*/}
-                    {/*    title="Support Requests"*/}
-                    {/*    upperTitle*/}
-                    {/*    noBodyPadding*/}
-                    {/*    bodyClass={classes.tableWidget}*/}
-                    {/*>*/}
-                    {/*    <Table data={mock.table} />*/}
-                    {/*</Widget>*/}
-                    <OrderList />
+                {/*{mock.bigStat.map(stat => (*/}
+                {/*    <Grid item md={4} sm={6} xs={12} key={stat.product}>*/}
+                {/*        <BigStat {...stat} />*/}
+                {/*    </Grid>*/}
+                {/*))}*/}
+                {/*<Grid item xs={12}>*/}
+                {/*    /!*<Widget*!/*/}
+                {/*    /!*    title="Support Requests"*!/*/}
+                {/*    /!*    upperTitle*!/*/}
+                {/*    /!*    noBodyPadding*!/*/}
+                {/*    /!*    bodyClass={classes.tableWidget}*!/*/}
+                {/*    /!*>*!/*/}
+                {/*    /!*    <Table data={mock.table} />*!/*/}
+                {/*    /!*</Widget>*!/*/}
+                {/*    <OrderList />*/}
 
-                </Grid>
+                {/*</Grid>*/}
             </Grid>
         </>
     );
