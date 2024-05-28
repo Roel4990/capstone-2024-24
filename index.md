@@ -3,7 +3,7 @@ layout: default
 title: 당신만의 점원, Jumi
 ---
 
-## 🤖 프로젝트 소개
+## 🤖 프로젝트 자료
 
 - github pages : <a target="_blank" href="https://kookmin-sw.github.io/capstone-2024-24/">https://kookmin-sw.github.io/capstone-2024-24</a>
 - 국민대 2024년 캡스톤 24조 <a target="_blank" href="https://github.com/kookmin-sw/capstone-2024-24">https://github.com/kookmin-sw/capstone-2024-24</a>
@@ -11,6 +11,12 @@ title: 당신만의 점원, Jumi
 - 중간발표자료 : <a target="_blank" href="https://drive.google.com/file/d/1uSfNx9Hp3RWLK9qVZHUtFuv0Xsn-snNT/view?usp=sharing">https://drive.google.com/file/d/1uSfNx9Hp3RWLK9qVZHUtFuv0Xsn-snNT/view?usp=sharing</a>
 - 수행결과보고서 : <a target="_blank" href="https://drive.google.com/file/d/1IbI-sa29dC_Hl3WDFYEpwIP4-hk6hBiu/view?usp=sharing" >https://drive.google.com/file/d/1IbI-sa29dC_Hl3WDFYEpwIP4-hk6hBiu/view?usp=sharing</a>
 - 포스터 : <a target="_blank" href="https://drive.google.com/file/d/14_RdeUE0qICHoIB8ew2KacO1oV-oKbmF/view?usp=sharing" >https://drive.google.com/file/d/14_RdeUE0qICHoIB8ew2KacO1oV-oKbmF/view?usp=sharing</a>
+
+## 🤖 포스터
+
+![2024캡스톤_24팀_포스터_png](https://github.com/kookmin-sw/capstone-2024-24/assets/57210308/19a692e2-3763-43d2-bb34-65529f43f3e8)
+
+포스터(PDF) 다운로드 링크 : [2024캡스톤_24팀_포스터.pdf](https://github.com/kookmin-sw/capstone-2024-24/files/15415655/2024._24._.pdf)
 
 ## 🤖 AI 기반 대화형 키오스크, 주미(Jumi)
 
@@ -39,14 +45,6 @@ According to the 'Seoul Citizen Digital Competency Survey' released by the Seoul
 Jumi is being developed to assist those who are unfamiliar with using kiosks, such as the middle-aged and elderly, or those visiting a store for the first time, by providing explanations and assistance.
 
 Through conversation, Jumi not only handles orders like traditional staff but also provides menu explanations, store guidance, and customer service. This creates a personalized experience for the customer, akin to having a dedicated staff member at their service, while offering the store an opportunity to enhance service quality at lower costs.
-
-## 🤖 포스터
-
-![2024캡스톤_24팀_포스터_png](https://github.com/kookmin-sw/capstone-2024-24/assets/57210308/19a692e2-3763-43d2-bb34-65529f43f3e8)
-
-
-포스터(PDF) 다운로드 링크 : [2024캡스톤_24팀_포스터.pdf](https://github.com/kookmin-sw/capstone-2024-24/files/15415655/2024._24._.pdf)
-
 
 ## 🤖 소개 영상
 
