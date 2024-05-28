@@ -1,4 +1,8 @@
-# 당신만의 점원, Jumi
+---
+layout: default
+title: 당신만의 점원, Jumi
+---
+
 ## 🤖 프로젝트 소개
 
 - github pages : <a target="_blank" href="https://kookmin-sw.github.io/capstone-2024-24/">https://kookmin-sw.github.io/capstone-2024-24</a>
