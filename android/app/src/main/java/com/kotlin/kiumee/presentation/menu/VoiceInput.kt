@@ -52,7 +52,7 @@ class VoiceInput : Service() {
     }
 
     private fun startAudioCapture() {
-        toast("음성인식 시작")
+        // toast("음성인식 시작")
 
         isRecording = true
         audioRecord.startRecording()
@@ -74,7 +74,7 @@ class VoiceInput : Service() {
     override fun onDestroy() {
         super.onDestroy()
         stopAudioCapture()
-        toast("음성인식 종료")
+        // toast("음성인식 종료")
     }
 
     fun stopAudioCapture() {
