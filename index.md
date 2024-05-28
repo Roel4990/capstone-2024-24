@@ -1,5 +1,5 @@
-
-## 🤖 AI 기반 대화형 키오스크, 주미(Jumi)
+# 당신만의 점원, Jumi
+## 🤖 프로젝트 소개
 
 - github pages : <a target="_blank" href="https://kookmin-sw.github.io/capstone-2024-24/">https://kookmin-sw.github.io/capstone-2024-24</a>
 - 국민대 2024년 캡스톤 24조 <a target="_blank" href="https://github.com/kookmin-sw/capstone-2024-24">https://github.com/kookmin-sw/capstone-2024-24</a>
