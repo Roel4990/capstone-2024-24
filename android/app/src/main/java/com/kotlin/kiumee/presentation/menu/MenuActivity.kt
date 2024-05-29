@@ -80,6 +80,8 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
         initObserveGetMenu()
         initObservePostPrompt()
+        // 더미용
+        initObservePostCasePrompt()
         initObserveGetPrompts()
         initObservePutBilling()
 
@@ -178,6 +180,26 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         }.launchIn(lifecycleScope)
     }
 
+    // 더미용
+    private fun initObservePostCasePrompt() {
+        menuViewModel.postCasePrompt.flowWithLifecycle(lifecycle).onEach {
+            when (it) {
+                is UiState.Success -> {
+                    addChatItem(it.data)
+                    binding.rvMenuChatGuide.isClickable = true
+                }
+
+                is UiState.Failure -> Timber.d("실패 : $it")
+                is UiState.Loading -> {
+                    Timber.d("로딩중")
+                    binding.rvMenuChatGuide.isClickable = false
+                }
+
+                is UiState.Empty -> Timber.d("empty")
+            }
+        }.launchIn(lifecycleScope)
+    }
+
     fun addChatItem(chatItem: ChatEntity) {
         runOnUiThread {
             if (chatItem.viewType == VIEW_TYPE_USER) {
@@ -193,13 +215,36 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                         }
                     )
                 )
+
+                // 더미용
+//                menuViewModel.postCasePrompt(
+//                    4,
+//                    RequestPromptDto(
+//                        chatItem.content,
+//                        if (cartList.isEmpty()) {
+//                            // cartList가 비어있는 경우 빈 목록 대신에 하나의 기본값을 가지는 목록을 생성
+//                            emptyList()
+//                        } else {
+//                            // cartList가 비어있지 않은 경우 해당 목록을 변환하여 사용
+//                            cartList.map { it.id }
+//                        }
+//                    )
+//                )
                 // 기존 chatList에 새로운 항목 추가
                 chatList.add(chatItem)
-                initChatAdapter()
+                binding.rvMenuChat.removeItemDecorationAt(0)
+                binding.rvMenuChat.addItemDecoration(ChatItemDecorator(this))
+                binding.rvMenuChat.adapter?.notifyItemInserted(chatList.size - 1)
+                initChatScrollPointer()
+                // initChatAdapter()
             } else {
                 // 기존 chatList에 새로운 항목 추가
                 chatList.add(chatItem)
-                initChatAdapter()
+                binding.rvMenuChat.removeItemDecorationAt(0)
+                binding.rvMenuChat.addItemDecoration(ChatItemDecorator(this))
+                binding.rvMenuChat.adapter?.notifyItemInserted(chatList.size - 1)
+                initChatScrollPointer()
+                // initChatAdapter()
                 runTextToSpeech(chatItem.content)
             }
         }
@@ -440,13 +485,13 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             submitList(chatList)
         }
 
+        initChatScrollPointer()
+
         if (binding.rvMenuChat.itemDecorationCount == 0) {
             binding.rvMenuChat.addItemDecoration(
                 ChatItemDecorator(this)
             )
         }
-
-        initChatScrollPointer()
     }
 
     private fun initChatScrollPointer() {
