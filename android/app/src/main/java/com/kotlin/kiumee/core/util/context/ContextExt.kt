@@ -16,6 +16,7 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
+import java.text.DecimalFormat
 
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -27,21 +28,21 @@ fun Context.longToast(message: String) {
 
 fun Context.snackBar(
     anchorView: View,
-    message: () -> String,
+    message: () -> String
 ) {
     Snackbar.make(anchorView, message(), Snackbar.LENGTH_SHORT).show()
 }
 
 fun Context.stringOf(
-    @StringRes resId: Int,
+    @StringRes resId: Int
 ) = getString(resId)
 
 fun Context.colorOf(
-    @ColorRes resId: Int,
+    @ColorRes resId: Int
 ) = ContextCompat.getColor(this, resId)
 
 fun Context.drawableOf(
-    @DrawableRes resId: Int,
+    @DrawableRes resId: Int
 ) = ContextCompat.getDrawable(this, resId)
 
 fun Context.hideKeyboard(view: View) {
@@ -51,7 +52,7 @@ fun Context.hideKeyboard(view: View) {
 
 fun Context.dialogFragmentResize(
     dialogFragment: DialogFragment,
-    horizontalMargin: Float,
+    horizontalMargin: Float
 ) {
     val dpToPixel = Resources.getSystem().displayMetrics.density
     val dialogHorizontalMarginInPixels =
@@ -59,7 +60,7 @@ fun Context.dialogFragmentResize(
     val deviceWidth = Resources.getSystem().displayMetrics.widthPixels
     dialogFragment.dialog?.window?.setLayout(
         deviceWidth - 2 * dialogHorizontalMarginInPixels,
-        WindowManager.LayoutParams.WRAP_CONTENT,
+        WindowManager.LayoutParams.WRAP_CONTENT
     )
     dialogFragment.dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 }
@@ -68,14 +69,19 @@ fun Context.pxToDp(px: Int): Int {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
         px.toFloat(),
-        resources.displayMetrics,
+        resources.displayMetrics
     ).toInt()
 }
 
 fun Context.statusBarColorOf(
-    @ColorRes resId: Int,
+    @ColorRes resId: Int
 ) {
     if (this is Activity) {
         window?.statusBarColor = colorOf(resId)
     }
+}
+
+fun formatAmount(amount: Int): String {
+    val dec = DecimalFormat("#,###")
+    return dec.format(amount)
 }

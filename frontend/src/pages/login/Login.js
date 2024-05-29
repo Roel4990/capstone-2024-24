@@ -310,7 +310,7 @@ function Login(props) {
                   <Button onClick={handleOpen} color="primary">매장 추가하기</Button>
                 </Grid>
                 {cardData.map((data) => (
-                    <Grid item xs={12} md={6} key={data.id}>
+                    <Grid item xs={12} lg={3} md={6} sm={12} key={data.id}>
                       <CustomCard key={data.id} {...data} updateCard={updateCard} className={classes.marginTop}/>
                     </Grid>
                 ))}

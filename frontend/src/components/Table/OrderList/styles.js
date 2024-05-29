@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) =>({
     scrollContainer: {
         display: 'flex',
         overflowX: 'auto',
-        marginBottom: theme.spacing(1),
+        // marginBottom: theme.spacing(1),
         '&::-webkit-scrollbar': {
             height: '8px',
         },

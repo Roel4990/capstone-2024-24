@@ -1,49 +1,79 @@
 package com.kotlin.kiumee.presentation.menu.chat
 
-import android.view.Gravity
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.kotlin.kiumee.R
-import com.kotlin.kiumee.core.util.context.colorOf
-import com.kotlin.kiumee.databinding.ItemChatBinding
+import com.kotlin.kiumee.core.util.context.toast
+import com.kotlin.kiumee.databinding.ItemChatJumiBinding
+import com.kotlin.kiumee.databinding.ItemChatUserBinding
+import com.kotlin.kiumee.presentation.menu.MenuActivity
+import com.kotlin.kiumee.presentation.menu.cart.CartEntity
 import com.kotlin.kiumee.presentation.menu.chat.menubtn.MenuBtnAdapter
+import timber.log.Timber
 
-class ChatViewHolder(private val binding: ItemChatBinding) :
+class ChatJumiViewHolder(
+    private val binding: ItemChatJumiBinding,
+    private val orderInfoCompareToCart: (List<CartEntity>) -> Unit,
+    private val orderBtnClickListener: () -> Unit
+) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(data: Chat) {
+    fun bind(data: ChatEntity) {
         with(binding) {
             chat = data
 
-            if (data.type == 0) { // 본인 채팅
-                layoutItemChatBackground.setBackgroundResource(R.drawable.shape_secondary_fill_start_bottom_30_rect)
-                layoutItemChat.gravity = Gravity.END
-                tvItemChat.setTextColor(root.context.colorOf(R.color.white))
-            } else if (data.type == 1) { // 상대 채팅
-                layoutItemChatBackground.setBackgroundResource(R.drawable.shape_gray3_fill_end_bottom_30_rect)
-                layoutItemChat.gravity = Gravity.START
-                tvItemChat.setTextColor(root.context.colorOf(R.color.black))
-            }
+            // 추천 메뉴
+            if (data.suggestItems != null) {
+                rvItemChatJumiBtn.visibility = View.VISIBLE
 
-            if (data.button != null) {
-                rvItemChatBtn.visibility = View.VISIBLE
-
-                val layoutParams = layoutItemChatBackground.layoutParams
+                val layoutParams = layoutItemChatJumiBackground.layoutParams
                 layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                layoutItemChatBackground.layoutParams = layoutParams
+                layoutItemChatJumiBackground.layoutParams = layoutParams
 
-                rvItemChatBtn.apply {
-                    adapter = MenuBtnAdapter().apply { submitList(data.button) }
+                rvItemChatJumiBtn.apply {
+                    adapter = MenuBtnAdapter(click = { cartData, position ->
+                        val activity = itemView.context as? MenuActivity
+                        activity?.addCartItem(cartData)
+                        context.toast("장바구니에 선택한 메뉴가 담겼습니다.")
+                    }).apply { submitList(data.suggestItems) }
                     layoutManager = LinearLayoutManager(
-                        binding.rvItemChatBtn.context,
+                        binding.rvItemChatJumiBtn.context,
                         LinearLayoutManager.HORIZONTAL,
                         false
                     )
                 }
             } else {
-                rvItemChatBtn.visibility = View.GONE
+                rvItemChatJumiBtn.visibility = View.GONE
+            }
+
+            // 장바구니 정보
+            if (data.orderInfo != null) {
+                val orderIntoList = data.orderInfo.map { CartEntity(it.id, it.name, it.price) }
+                Timber.tag("cart").d(orderIntoList.toString())
+                orderInfoCompareToCart.invoke(orderIntoList)
+            }
+
+            // 카테고리 포인터 -> 나중에 구현하던가 빼야 함
+            if (data.pointerId != null) {
+                Timber.tag("pointer").d(data.pointerId.toString())
+            }
+
+            // 주문하기
+            if (data.doBilling == true) {
+                // 5초 후에 작업 수행
+                Handler(Looper.getMainLooper()).postDelayed({
+                    orderBtnClickListener.invoke()
+                }, 6000)
             }
         }
+    }
+}
+
+class ChatUserViewHolder(private val binding: ItemChatUserBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    fun bind(data: ChatEntity) {
+        binding.chat = data
     }
 }

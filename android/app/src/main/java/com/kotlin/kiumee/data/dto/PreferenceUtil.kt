@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.kotlin.kiumee.core.util.KeyStorage.ACCESS_TOKEN
 import com.kotlin.kiumee.core.util.KeyStorage.BUSINESS_ID
+import com.kotlin.kiumee.core.util.KeyStorage.SESSION_ID
 
 class PreferenceUtil(context: Context) {
     private val prefs: SharedPreferences =
@@ -23,5 +24,13 @@ class PreferenceUtil(context: Context) {
 
     fun setBusinessId(businessId: Int) {
         prefs.edit().putInt(BUSINESS_ID, businessId).apply()
+    }
+
+    fun getSessionId(): String {
+        return prefs.getString(SESSION_ID, null).toString()
+    }
+
+    fun setSessionId(sessionId: String) {
+        prefs.edit().putString(SESSION_ID, sessionId).apply()
     }
 }

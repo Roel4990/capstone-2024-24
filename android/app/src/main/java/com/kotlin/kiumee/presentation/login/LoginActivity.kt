@@ -1,17 +1,21 @@
 package com.kotlin.kiumee.presentation.login
 
-import android.content.Context
+import android.Manifest
 import android.content.Intent
-import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.kotlin.kiumee.R
 import com.kotlin.kiumee.core.base.BindingActivity
+import com.kotlin.kiumee.core.util.context.toast
 import com.kotlin.kiumee.core.view.UiState
 import com.kotlin.kiumee.databinding.ActivityLoginBinding
+import com.kotlin.kiumee.presentation.LoadingActivity
 import com.kotlin.kiumee.presentation.store.StoreActivity
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -19,15 +23,27 @@ import timber.log.Timber
 
 class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_login) {
     private val loginViewModel by viewModels<LoginViewModel>()
-    private val sharedPreferences: SharedPreferences by lazy {
-        getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-    }
 
     override fun initView() {
+        requestPermission()
         initAppbarHomeBtn()
         initTextChanged()
         initObserve()
         initLoginBtnClickListener()
+    }
+
+    private fun requestPermission() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.RECORD_AUDIO
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.RECORD_AUDIO),
+                0
+            )
+        }
     }
 
     private fun initAppbarHomeBtn() {
@@ -60,9 +76,21 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     private fun initObserve() {
         loginViewModel.postLogin.flowWithLifecycle(lifecycle).onEach {
             when (it) {
-                is UiState.Success -> startActivity(Intent(this, StoreActivity::class.java))
-                is UiState.Failure -> Timber.d("실패 : $it")
-                is UiState.Loading -> Timber.d("로딩중")
+                is UiState.Success -> Intent(this, StoreActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }.let { startActivity(it) }
+
+                is UiState.Failure -> {
+                    toast("로그인 실패! 다시 입력해주세요.")
+                    Timber.d("실패 : $it")
+                }
+
+                is UiState.Loading -> {
+                    LoadingActivity(this).show()
+                    Timber.d("로딩중")
+                }
+
+                is UiState.Empty -> Timber.d("empty")
             }
         }.launchIn(lifecycleScope)
     }

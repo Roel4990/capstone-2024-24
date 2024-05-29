@@ -7,4 +7,9 @@ object KeyStorage {
     const val BUSINESS = "business"
     const val ITEMS = "items"
     const val BUSINESS_ID = "business_id"
+    const val SESSION_ID = "session_id"
+    const val ORDERS = "orders"
+    const val PROMPT = "prompt"
+    const val NEW_SESSION = "new-session"
+    const val BILLING = "billing"
 }

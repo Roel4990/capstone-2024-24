@@ -341,7 +341,7 @@ if __name__ == '__main__':
 
   querytest = '''
   {
-    "query": "토마토 스파게티 담아줘", 
+    "query": "계산할래", 
     "orderInfo": { 
       "items": [
         {
