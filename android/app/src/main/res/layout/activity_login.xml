@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <include
             android:id="@+id/appbar_login"
@@ -31,7 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="60dp"
-                app:boxBackgroundColor="@android:color/transparent"
+                android:background="@color/white"
+                app:boxBackgroundColor="@color/white"
                 app:counterMaxLength="10"
                 app:hintTextAppearance="@style/TextAppearance.Kiumee.cap1_regular_36">
 
@@ -51,7 +52,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxBackgroundColor="@android:color/transparent"
+                android:background="@color/white"
+                app:boxBackgroundColor="@color/white"
                 app:hintTextAppearance="@style/TextAppearance.Kiumee.cap1_regular_36"
                 app:passwordToggleEnabled="true">
 

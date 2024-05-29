@@ -21,6 +21,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "BASE_URL", properties["base.url"]
+        buildConfigField "String", "SOCKET_URL", properties["socket.url"]
     }
 
     buildTypes {
@@ -74,13 +75,14 @@ dependencies {
     // Kotlin
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
 
-    // viewPager
-    implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'com.tbuonomo:dotsindicator:5.0'
-
     // glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
 
     // lottie
     implementation 'com.airbnb.android:lottie:5.0.2'
+
+    // socket-io
+    implementation ('io.socket:socket.io-client:2.0.1') {
+        exclude group: 'org.json', module: 'json'
+    }
 }

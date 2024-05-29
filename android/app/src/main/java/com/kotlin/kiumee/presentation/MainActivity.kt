@@ -22,6 +22,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 is UiState.Success -> Timber.d("성공")
                 is UiState.Failure -> Timber.d("실패")
                 is UiState.Loading -> Timber.d("로딩중")
+                is UiState.Empty -> Timber.d("empty")
             }
         }
     }

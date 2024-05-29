@@ -5,13 +5,15 @@
 - 국민대 2024년 캡스톤 24조 https://github.com/kookmin-sw/capstone-2024-24
 - 중간보고서 : https://drive.google.com/file/d/16NaXpkgVccnvjZIrgBijLE6NKX_uG9iI/view?usp=sharing
 - 중간발표자료 : https://drive.google.com/file/d/1uSfNx9Hp3RWLK9qVZHUtFuv0Xsn-snNT/view?usp=sharing
+- 수행결과보고서 : https://drive.google.com/file/d/1IbI-sa29dC_Hl3WDFYEpwIP4-hk6hBiu/view?usp=sharing
+- 포스터 : https://drive.google.com/file/d/14_RdeUE0qICHoIB8ew2KacO1oV-oKbmF/view?usp=sharing
+  
+## 🤖 AI 기반 대화형 키오스크, 주미(Jumi)
 
-## 🤖 AI 기반 대화형 키오스크, Jumi(주미)
-
-당신만의 점원 'Jumi(주미)'
+당신만의 점원 '주미(Jumi)'
 
 키오스크 사용이 복잡하고 어렵지 않으신가요?
-AI와의 대화를 통해 더 간편하고, 쉽고, 자신있게 키오스크를 사용하실 수 있습니다. (Jumi)를 통해 매장에서의 불편함을 줄여보세요! 😆
+AI와의 대화를 통해 더 간편하고, 쉽고, 자신있게 키오스크를 사용하실 수 있습니다. 주미(Jumi)를 통해 매장에서의 불편함을 줄여보세요! 😆
 
 ![Jumi_Logo](https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/19762b3a-6bf8-4d6f-bcbd-824c30cd62c6)
 
@@ -35,9 +37,12 @@ Through conversation, Jumi not only handles orders like traditional staff but al
 
 ## 🤖 포스터
 
-![24팀주미포스터](https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/f7dc530e-4075-4ff4-83ae-beea074f77ff)
+![2024캡스톤_24팀_포스터_png](https://github.com/kookmin-sw/capstone-2024-24/assets/57210308/19a692e2-3763-43d2-bb34-65529f43f3e8)
 
-포스터(PDF) 다운로드 링크 : [24팀주미포스터.pdf](https://github.com/kookmin-sw/capstone-2024-24/files/15370066/24.pdf)
+
+포스터(PDF) 다운로드 링크 : [2024캡스톤_24팀_포스터.pdf](https://github.com/kookmin-sw/capstone-2024-24/files/15415655/2024._24._.pdf)
+
+
 
 ## 🤖 소개 영상
 
@@ -78,15 +83,15 @@ https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/36993f9d-da9d-41c
 
 현재 테스트 파일로 각각의 폴더 내의 안내를 참고해 주세요.
 
-구현 내역
 - (frontend) 관리자 페이지
 - (android) 키오스크 앱 동작 및 구성
 - (backend) 데이터 및 LLM에 접근 가능한 서버 엔드포인트 (API) 구현
 - (ai) voice detecting 기능과 whisper를 연결하여, 말을 인식하여 음성파일을 만들어 text로 출력하는 테스트 파일
 
 ## 🤖 시스템 인포그래픽
+<img width="719" alt="image" src="https://github.com/kookmin-sw/capstone-2024-24/assets/57210308/ea8b683d-47f7-4366-83ab-26804dffa1b3">
 
-<img width="905" alt="image" src="https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/21908c97-9029-48f1-95fd-ebcde12b1035">
+
 
 ## 🤖 팀원 소개
 <table>

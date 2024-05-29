@@ -5,15 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.kotlin.kiumee.core.view.ItemDiffCallback
 import com.kotlin.kiumee.databinding.ItemChatBtnBinding
+import com.kotlin.kiumee.presentation.menu.cart.CartEntity
+import com.kotlin.kiumee.presentation.menu.chat.ChatSuggestItemsEntity
 
-class MenuBtnAdapter() : ListAdapter<String, MenuBtnViewHolder>(MenuBtnAdapterDiffCallback) {
+class MenuBtnAdapter(
+    private val click: (CartEntity, Int) -> Unit = { _, _ -> }
+) : ListAdapter<ChatSuggestItemsEntity, MenuBtnViewHolder>(MenuBtnAdapterDiffCallback) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): MenuBtnViewHolder {
         val binding =
             ItemChatBtnBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MenuBtnViewHolder(binding)
+        return MenuBtnViewHolder(binding, click)
     }
 
     override fun onBindViewHolder(
@@ -25,9 +29,8 @@ class MenuBtnAdapter() : ListAdapter<String, MenuBtnViewHolder>(MenuBtnAdapterDi
 
     companion object {
         private val MenuBtnAdapterDiffCallback =
-            ItemDiffCallback<String>(
-                // 추후 수정해야 함
-                onItemsTheSame = { old, new -> old == new },
+            ItemDiffCallback<ChatSuggestItemsEntity>(
+                onItemsTheSame = { old, new -> old.id == new.id },
                 onContentsTheSame = { old, new -> old == new }
             )
     }
