@@ -159,6 +159,7 @@ https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/36993f9d-da9d-41c
 |UI Framework|![mui](https://img.shields.io/badge/mui-007FFF?style=for-the-badge&logo=mui&logoColor=white)|
 |Programming Language|![JavaScript](https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white)|
 |Formatting|![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)|
+|Data Fetching|![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)|
 |Package Manager|![Npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)|                                         
 |CI/CD|![Vercel](https://img.shields.io/badge/vercel-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)|
 <br />
