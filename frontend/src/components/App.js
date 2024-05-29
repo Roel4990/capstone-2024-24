@@ -11,31 +11,37 @@ import Login from "../pages/login";
 // context
 import {useUserDispatch, useUserState} from "../context/UserContext";
 import {QueryClient, QueryClientProvider} from "react-query";
+import {SimpleBackdrop} from './BackDrop/BackDrop'
+import {RecoilRoot} from 'recoil';
+
+
 const queryClient = new QueryClient();
 
 export default function App() {
   // global
   var { isAuthenticated } = useUserState();
+
   return (
       <QueryClientProvider client={queryClient}> {/* QueryClientProvider 추가 */}
-        <HashRouter>
-          <Switch>
-            <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
-            <Route
-              exact
-              path="/app"
-              render={() => <Redirect to="/app/dashboard" />}
-            />
-            <PrivateRoute path="/app" component={Layout} />
-            {/*<PrivateRoute path="/selectCompany" component={SelectCompany} />*/}
-            <PublicRoute path="/login" component={Login} />
-            <Route component={Error} />
-          </Switch>
-        </HashRouter>
+          <RecoilRoot>
+              <SimpleBackdrop /> {/* 백드랍 컴포넌트 추가 */}
+            <HashRouter>
+              <Switch>
+                <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
+                <Route
+                  exact
+                  path="/app"
+                  render={() => <Redirect to="/app/dashboard" />}
+                />
+                <PrivateRoute path="/app" component={Layout} />
+                {/*<PrivateRoute path="/selectCompany" component={SelectCompany} />*/}
+                <PublicRoute path="/login" component={Login} />
+                <Route component={Error} />
+              </Switch>
+            </HashRouter>
+          </RecoilRoot>
       </QueryClientProvider>
   );
-
-  // #######################################################################
 
   function PrivateRoute({ component, ...rest }) {
       const userDispatch = useUserDispatch();

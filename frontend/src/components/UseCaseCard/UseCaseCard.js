@@ -9,16 +9,21 @@ import {
 } from "@material-ui/core";
 import useStyles from "./styles";
 import {useGPTChatMutation, usePromptUpdateMutation} from "../../api/mutations";
+import {backdropState} from "../../recoil/atoms";
+import {useSetRecoilState} from "recoil";
 
 export default function UseCaseCard(props) {
     const classes = useStyles();
+    const setBackDropOpen = useSetRecoilState(backdropState);
     const handleGPTChatSuccess = (data) => {
         setResult1(`${promptText}`);
         setResult2(`${data.answer}`);
         setVisible(true);
+        setBackDropOpen(false)
     };
     const handleGPTChatError = (error) => {
         //console.error('GPTChat 실패:', error);
+        setBackDropOpen(false)
     };
     // 로그인
     const {
@@ -90,6 +95,7 @@ export default function UseCaseCard(props) {
     }
     const handleTransform = () => {
         setVisible(false);
+        setBackDropOpen(true)
         GPTChatMutation({
             question: props.question,
             prompt: promptText
