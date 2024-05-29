@@ -153,8 +153,20 @@ const MenuTable = () => {
     setMenuList(stringIdArray)
   };
   // 전체 갯수 세는 함수
-  function countItems(data) {
-    return data.reduce((total, category) => total + category.items.length, 0);
+  function maxCount(data) {
+    let maxInt = 0
+    data.map((category) => {
+      let items = category.items
+      if(items !== []) {
+        items.map((item) => {
+          if(maxInt < parseInt(item.id)) {
+            maxInt = parseInt(item.id)
+          }
+        });
+      }
+    })
+    return maxInt
+    // return data.reduce((total, category) => total + category.items.length, 0);
   }
   // 새 항목 추가
   const handleAddItem = () => {
@@ -166,11 +178,11 @@ const MenuTable = () => {
       newItem.category = selectedCategory
       // const target = totalMenuList.find(item => item.category === selectedCategory);
       // const maxId = target.items.length > 0 ? Math.max(...target.items.map(item => parseInt(item.id, 10))) : 0;
-      setMenuList([...menuList, { ...newItem, id: `${countItems(totalMenuList) + 1}`, imageUrl: imagePreview }]);
+      setMenuList([...menuList, { ...newItem, id: `${maxCount(totalMenuList) + 1}`, imageUrl: imagePreview }]);
       const targetIndex = totalMenuList.findIndex(item => item.category === selectedCategory);
       if (targetIndex !== -1) {
         // 선택된 카테고리를 찾아 해당 items 배열을 업데이트
-        const updatedItems = [...totalMenuList[targetIndex].items, { ...newItem, id: `${countItems(totalMenuList) + 1}`, imageUrl: imagePreview }];
+        const updatedItems = [...totalMenuList[targetIndex].items, { ...newItem, id: `${maxCount(totalMenuList) + 1}`, imageUrl: imagePreview }];
         // totalMenuList의 복사본을 만들고, 해당 카테고리의 items만 업데이트
         const updatedTotalMenuList = totalMenuList.map((item, index) => {
           if (index === targetIndex) {
@@ -205,7 +217,7 @@ const MenuTable = () => {
       const targetIndex = totalMenuList.findIndex(item => item.category === selectedCategory);
       if (targetIndex !== -1) {
         // 선택된 카테고리를 찾아 해당 items 배열을 업데이트
-        const updatedItems = totalMenuList[targetIndex].items.filter(item => item.id !== id);
+        const updatedItems = totalMenuList[targetIndex].items.filter(item => item.id !== parseInt(id));
         // totalMenuList의 복사본을 만들고, 해당 카테고리의 items만 업데이트
         const updatedTotalMenuList = totalMenuList.map((item, index) => {
           if (index === targetIndex) {
