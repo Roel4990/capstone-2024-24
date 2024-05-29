@@ -1,9 +1,10 @@
 import React from "react";
 import {
     Typography,
-    Card, CardContent, IconButton
+    Card, CardContent,
+    // IconButton
 } from "@material-ui/core";
-import DeleteIcon from '@material-ui/icons/Delete';
+// import DeleteIcon from '@material-ui/icons/Delete';
 // import {ExpandMore, Favorite, MoreVert, Share} from "@material-ui/icons";
 import { useHistory } from 'react-router-dom';
 import {useUserDispatch} from "../../context/UserContext"; // useHistory 훅 임포트
@@ -53,10 +54,10 @@ function CustomCard({ id, imageUrl, name, description, date, updateCard }) {
     const history = useHistory(); // useHistory 훅을 사용하여 history 객체 얻기
     var userDispatch = useUserDispatch();
     const classes = useStyles();
-    const handleDelete = (event) => {
-        event.stopPropagation()
-        console.log("삭제를 위한 토글버튼")
-    }
+    // const handleDelete = (event) => {
+    //     event.stopPropagation()
+    //     console.log("삭제를 위한 토글버튼")
+    // }
     const handleCompanyClick = () => {
         localStorage.setItem('company_id', id)
         userDispatch({ type: 'LOGIN_SUCCESS' })
