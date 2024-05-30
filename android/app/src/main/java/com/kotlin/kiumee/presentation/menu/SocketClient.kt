@@ -20,14 +20,13 @@ object SocketClient {
     private lateinit var socket: Socket
     private lateinit var menuActivity: MenuActivity
 
-    fun connect(activity: MenuActivity) {
+    private fun connect(activity: MenuActivity) {
         menuActivity = activity
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 socket = Socket()
                 socket.connect(InetSocketAddress(ip, port), 5000)
                 Timber.tag("socket").d("Socket connected")
-                startSocketReader()
 
                 // 소켓 연결 후 데이터 수신을 위한 스레드 시작
                 startSocketReader()
@@ -55,6 +54,7 @@ object SocketClient {
 
                         val decodedString = byteArrayOutputStream.toString("UTF-8")
                         Timber.tag("socket").d("서버로부터 받은 데이터 decodedString : $decodedString")
+
                         menuActivity.addChatItem(ChatEntity(VIEW_TYPE_USER, decodedString))
                         byteArrayOutputStream.reset()
                     }
@@ -69,18 +69,38 @@ object SocketClient {
         }.start()
     }
 
-    fun sendAudio(audioData: ByteArray) {
+    private fun sendAudio(audioData: ByteArray) {
+        // Thread {
         try {
             val outputStream = socket.getOutputStream()
+            Timber.tag("socket").d("됨")
+            if (!menuActivity.clicked) {
+                outputStream.write(audioData.take(17).toByteArray())
+                outputStream.flush()
+                return
+            }
             outputStream.write(audioData)
             outputStream.flush()
         } catch (e: Exception) {
             Timber.tag("socket").e("Error sending audio: ${e.message}")
             connect(menuActivity)
         }
+        // }.start()
     }
 
-    fun disconnect() {
+    fun pipeSendSocket(audioData: ByteArray) {
+        sendAudio(audioData)
+    }
+
+    fun pipeConnectSocket(activity: MenuActivity) {
+        connect(activity)
+    }
+
+    fun pipeDisconnectSocket() {
+        disconnect()
+    }
+
+    private fun disconnect() {
         try {
             Timber.tag("socket").d("Socket disconnect")
             socket.close()

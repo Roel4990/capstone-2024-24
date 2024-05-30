@@ -23,6 +23,12 @@ class VoiceInput : Service() {
     private val audioFormat = AudioFormat.ENCODING_PCM_16BIT
     private val minBufferSize = bufferSizeInBytes * 2
 
+    val BUFFER_SIZE_RECORDING = AudioRecord.getMinBufferSize(
+        sampleRate,
+        channelConfig,
+        audioFormat
+    ) * 4
+
     override fun onBind(intent: Intent): IBinder? {
         throw UnsupportedOperationException("Not yet implemented")
     }
@@ -52,7 +58,7 @@ class VoiceInput : Service() {
     }
 
     private fun startAudioCapture() {
-        toast("음성인식 시작")
+        // toast("음성인식 시작")
 
         isRecording = true
         audioRecord.startRecording()
@@ -64,8 +70,9 @@ class VoiceInput : Service() {
                 if (bytesRead > 0) { // 음성 데이터가 있는 경우
                     // 오디오 데이터를 서버로 전송
                     val audioData = buffer.copyOf(bytesRead)
-                    // Timber.tag("voice").d(audioData.contentToString())
-                    SocketClient.sendAudio(audioData) // 오디오 데이터 전송
+                    // Timber.tag("socket").d(audioData.contentToString())
+                    // SocketClient.sendAudio(audioData) // 오디오 데이터 전송
+                    SocketClient.pipeSendSocket(audioData)
                 }
             }
         }.start()
@@ -74,7 +81,7 @@ class VoiceInput : Service() {
     override fun onDestroy() {
         super.onDestroy()
         stopAudioCapture()
-        toast("음성인식 종료")
+        // toast("음성인식 종료")
     }
 
     fun stopAudioCapture() {

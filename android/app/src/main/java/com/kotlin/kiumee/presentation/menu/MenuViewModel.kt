@@ -23,6 +23,10 @@ class MenuViewModel : ViewModel() {
     private val _postPrompt = MutableSharedFlow<UiState<ChatEntity>>()
     val postPrompt: SharedFlow<UiState<ChatEntity>> = _postPrompt
 
+    // 더미용
+    private val _postCasePrompt = MutableSharedFlow<UiState<ChatEntity>>()
+    val postCasePrompt: SharedFlow<UiState<ChatEntity>> = _postCasePrompt
+
     private val _getPrompts = MutableStateFlow<UiState<List<GuideBtnEntity>>>(UiState.Loading)
     val getPrompts: StateFlow<UiState<List<GuideBtnEntity>>> = _getPrompts
 
@@ -49,6 +53,22 @@ class MenuViewModel : ViewModel() {
             ServicePool.menuApiService.postPrompt(
                 MainApplication.prefs.getBusinessId(),
                 MainApplication.prefs.getSessionId(),
+                userChatData
+            ).toChatEntity()
+        }.fold(
+            { _postPrompt.emit(UiState.Success(it)) },
+            { _postPrompt.emit(UiState.Failure(it.message.toString())) }
+        )
+    }
+
+    // 더미용
+    fun postCasePrompt(case: Int, userChatData: RequestPromptDto) = viewModelScope.launch {
+        _postPrompt.emit(UiState.Loading)
+        runCatching {
+            ServicePool.menuApiService.postCasePrompt(
+                MainApplication.prefs.getBusinessId(),
+                MainApplication.prefs.getSessionId(),
+                case,
                 userChatData
             ).toChatEntity()
         }.fold(
