@@ -130,7 +130,6 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             override fun onDone(utteranceId: String?) {
                 // 음성 재생이 완료되면
                 Timber.tag("tts").d("재생 완료")
-                SocketClient.checkSendSocket = true
                 binding.btnMenuSpeak.isClickable = true
             }
 
@@ -171,10 +170,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                     binding.rvMenuChatGuide.isClickable = true
                 }
 
-                is UiState.Failure -> {
-                    SocketClient.checkSendSocket = true
-                    Timber.d("실패 : $it")
-                }
+                is UiState.Failure -> Timber.d("실패 : $it")
                 is UiState.Loading -> {
                     Timber.d("로딩중")
                     binding.rvMenuChatGuide.isClickable = false
@@ -292,11 +288,6 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
         val intent = Intent(this, VoiceInput::class.java)
         stopService(intent)
-    }
-
-    fun initStopSpeak() {
-        setupSpeakOff()
-        binding.btnMenuSpeak.isClickable = false
     }
 
     private fun initObserveGetMenu() {
