@@ -10,6 +10,7 @@ import android.media.MediaRecorder
 import android.os.IBinder
 import androidx.core.app.ActivityCompat
 import com.kotlin.kiumee.core.util.context.toast
+import kotlin.math.abs
 
 class VoiceInput : Service() {
     private lateinit var audioRecord: AudioRecord
@@ -22,6 +23,12 @@ class VoiceInput : Service() {
     private val channelConfig = AudioFormat.CHANNEL_IN_MONO
     private val audioFormat = AudioFormat.ENCODING_PCM_16BIT
     private val minBufferSize = bufferSizeInBytes * 2
+
+    val BUFFER_SIZE_RECORDING = AudioRecord.getMinBufferSize(
+        sampleRate,
+        channelConfig,
+        audioFormat
+    ) * 4
 
     override fun onBind(intent: Intent): IBinder? {
         throw UnsupportedOperationException("Not yet implemented")
@@ -64,11 +71,38 @@ class VoiceInput : Service() {
                 if (bytesRead > 0) { // 음성 데이터가 있는 경우
                     // 오디오 데이터를 서버로 전송
                     val audioData = buffer.copyOf(bytesRead)
-                    // Timber.tag("voice").d(audioData.contentToString())
-                    SocketClient.sendAudio(audioData) // 오디오 데이터 전송
+                    // Timber.tag("socket").d(audioData.contentToString())
+                    // SocketClient.sendAudio(audioData) // 오디오 데이터 전송
+                    SocketClient.pipeSendSocket(audioData)
+
+                    // 샘플 값이 임계값을 초과하는지 확인
+//                    if (isAudioAboveThreshold2(audioData) && SocketClient.checkSendSocket) {
+//                        // 오디오 데이터를 서버로 전송
+//                        SocketClient.pipeSendSocket(audioData)
+//                    }
                 }
             }
         }.start()
+    }
+
+    private fun isAudioAboveThreshold(buffer: ByteArray, threshold: Int = 80): Boolean {
+        for (byte in buffer) {
+            // Timber.tag("socket").d(abs(byte.toInt()).toString())
+            if (abs(byte.toInt()) > threshold) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun isAudioAboveThreshold2(buffer: ByteArray, threshold: Int = 1000): Boolean {
+        for (i in buffer.indices step 2) {
+            val sample = (buffer[i].toInt() and 0xFF) or (buffer[i + 1].toInt() shl 8)
+            if (abs(sample) > threshold) {
+                return true
+            }
+        }
+        return false
     }
 
     override fun onDestroy() {

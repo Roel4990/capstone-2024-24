@@ -32,11 +32,8 @@ import com.kotlin.kiumee.presentation.menu.menuviewpager.MenuViewPagerAdapter
 import com.kotlin.kiumee.presentation.menu.tab.TabAdapter
 import com.kotlin.kiumee.presentation.menu.tab.TabItemDecorator
 import com.kotlin.kiumee.presentation.orderfinish.OrderFinishActivity
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.Locale
 
@@ -70,6 +67,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             content = "주미에게 버튼을 눌러 대화를 걸어보세요."
         )
     )
+    var receiveNowCartInfo = false
 
     override fun initView() {
         initTextToSpeech()
@@ -91,10 +89,12 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         initCloseBtnClickListener()
     }
 
+    // TODO: 오픈할 때 열지 말고 대화 켜기 할 때 소켓 연결 열기
     private fun initSocketConnect() {
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) { SocketClient.connect(this@MenuActivity) }
-        }
+//        lifecycleScope.launch {
+//            withContext(Dispatchers.IO) { SocketClient.cc(this@MenuActivity) }
+//        }
+        SocketClient.pipeConnectSocket(this@MenuActivity)
     }
 
     private fun initCartEmptyBtnClickListener() {
@@ -130,6 +130,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
             override fun onDone(utteranceId: String?) {
                 // 음성 재생이 완료되면
                 Timber.tag("tts").d("재생 완료")
+                SocketClient.checkSendSocket = true
                 binding.btnMenuSpeak.isClickable = true
             }
 
@@ -165,11 +166,15 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         menuViewModel.postPrompt.flowWithLifecycle(lifecycle).onEach {
             when (it) {
                 is UiState.Success -> {
+                    receiveNowCartInfo = true
                     addChatItem(it.data)
                     binding.rvMenuChatGuide.isClickable = true
                 }
 
-                is UiState.Failure -> Timber.d("실패 : $it")
+                is UiState.Failure -> {
+                    SocketClient.checkSendSocket = true
+                    Timber.d("실패 : $it")
+                }
                 is UiState.Loading -> {
                     Timber.d("로딩중")
                     binding.rvMenuChatGuide.isClickable = false
@@ -289,6 +294,11 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
         stopService(intent)
     }
 
+    fun initStopSpeak() {
+        setupSpeakOff()
+        binding.btnMenuSpeak.isClickable = false
+    }
+
     private fun initObserveGetMenu() {
         menuViewModel.getMenu.flowWithLifecycle(lifecycle).onEach {
             when (it) {
@@ -343,7 +353,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
                     if (clicked) {
                         setupSpeakOff()
                     }
-                    SocketClient.disconnect()
+                    SocketClient.pipeDisconnectSocket()
                     startActivity(Intent(this, OrderFinishActivity::class.java))
                 }
 
@@ -355,6 +365,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     }
 
     private fun initCartLayoutState() {
+        Timber.tag("cart").d(cartList.size.toString())
         if (cartList.isNotEmpty()) {
             with(binding) {
                 rvMenuCart.visibility = View.VISIBLE
@@ -474,7 +485,10 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
     private fun initChatAdapter() {
         binding.rvMenuChat.adapter = ChatAdapter(
             orderInfoCompareToCart = { orderInfo ->
-                setCartCompareToOrderInfo(orderInfo)
+                if (receiveNowCartInfo) {
+                    setCartCompareToOrderInfo(orderInfo)
+                    receiveNowCartInfo = false
+                }
             },
             orderBtnClickListener = {
                 if (cartList.isNotEmpty()) {
@@ -513,7 +527,7 @@ class MenuActivity : BindingActivity<ActivityMenuBinding>(R.layout.activity_menu
 
     override fun onDestroy() {
         VoiceInput().stopAudioCapture()
-        SocketClient.disconnect()
+        SocketClient.pipeDisconnectSocket()
         super.onDestroy()
     }
 }
