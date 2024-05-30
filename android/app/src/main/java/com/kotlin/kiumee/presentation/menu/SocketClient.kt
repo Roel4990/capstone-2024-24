@@ -19,7 +19,6 @@ object SocketClient {
 
     private lateinit var socket: Socket
     private lateinit var menuActivity: MenuActivity
-    var checkSendSocket = true
 
     private fun connect(activity: MenuActivity) {
         menuActivity = activity
@@ -55,11 +54,8 @@ object SocketClient {
 
                         val decodedString = byteArrayOutputStream.toString("UTF-8")
                         Timber.tag("socket").d("서버로부터 받은 데이터 decodedString : $decodedString")
-                        Timber.tag("socket").d(checkSendSocket.toString())
-                        if (checkSendSocket) {
-                            menuActivity.addChatItem(ChatEntity(VIEW_TYPE_USER, decodedString))
-                            checkSendSocket = false
-                        }
+
+                        menuActivity.addChatItem(ChatEntity(VIEW_TYPE_USER, decodedString))
                         byteArrayOutputStream.reset()
                     }
                 }
@@ -77,8 +73,13 @@ object SocketClient {
         // Thread {
         try {
             val outputStream = socket.getOutputStream()
+            Timber.tag("socket").d("됨")
+            if (!menuActivity.clicked) {
+                outputStream.write(audioData.take(17).toByteArray())
+                outputStream.flush()
+                return
+            }
             outputStream.write(audioData)
-            Timber.tag("socket").d("버퍼 사이즈: ${audioData.size}")
             outputStream.flush()
         } catch (e: Exception) {
             Timber.tag("socket").e("Error sending audio: ${e.message}")
@@ -88,7 +89,6 @@ object SocketClient {
     }
 
     fun pipeSendSocket(audioData: ByteArray) {
-        // Timber.tag("socket").d("됨")
         sendAudio(audioData)
     }
 
