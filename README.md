@@ -117,7 +117,7 @@ https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/36993f9d-da9d-41c
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/devkaspee">
-              <img src="https://media.licdn.com/dms/image/D4D03AQGnXLN8XfT99A/profile-displayphoto-shrink_400_400/0/1709892878675?e=1717632000&v=beta&t=4P74nV3eJ6eIlBHz0JGjL104xmfzodYcDvd72GnUxEM" width="100">
+              <img src="https://github.com/kookmin-sw/capstone-2024-24/assets/57210308/17035fbe-52d6-41dd-b69e-154ab19fcfb9" width="100">
               <br />
               <b>임호준</b>
             </a> 
@@ -133,6 +133,7 @@ https://github.com/kookmin-sw/capstone-2024-24/assets/93641814/36993f9d-da9d-41c
                        <br/>
               20203030
         </td>
+
     </tr>
     <tr align="center">
         <td>
