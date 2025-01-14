@@ -12,4 +12,6 @@ object KeyStorage {
     const val PROMPT = "prompt"
     const val NEW_SESSION = "new-session"
     const val BILLING = "billing"
+    // 더미용
+    const val CASE = "case"
 }

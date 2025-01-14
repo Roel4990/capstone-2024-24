@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class StoreViewModel : ViewModel() {
-    private val _getStore = MutableStateFlow<UiState<List<StoreEntity>>>(UiState.Loading)
+    private val _getStore = MutableStateFlow<UiState<List<StoreEntity>>>(UiState.Empty)
     val getStore: StateFlow<UiState<List<StoreEntity>>> = _getStore
 
     init {
@@ -18,6 +18,7 @@ class StoreViewModel : ViewModel() {
     }
 
     private fun getStore() = viewModelScope.launch {
+        _getStore.value = UiState.Loading
         runCatching {
             ServicePool.storeApiService.getBusiness().data.map { it.toStoreEntity() }
         }.fold(

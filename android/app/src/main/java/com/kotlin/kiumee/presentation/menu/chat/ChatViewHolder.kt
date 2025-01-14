@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.kotlin.kiumee.core.util.context.toast
 import com.kotlin.kiumee.databinding.ItemChatJumiBinding
 import com.kotlin.kiumee.databinding.ItemChatUserBinding
 import com.kotlin.kiumee.presentation.menu.MenuActivity
@@ -36,7 +35,7 @@ class ChatJumiViewHolder(
                     adapter = MenuBtnAdapter(click = { cartData, position ->
                         val activity = itemView.context as? MenuActivity
                         activity?.addCartItem(cartData)
-                        context.toast("장바구니에 선택한 메뉴가 담겼습니다.")
+                        // context.toast("장바구니에 선택한 메뉴가 담겼습니다.")
                     }).apply { submitList(data.suggestItems) }
                     layoutManager = LinearLayoutManager(
                         binding.rvItemChatJumiBtn.context,

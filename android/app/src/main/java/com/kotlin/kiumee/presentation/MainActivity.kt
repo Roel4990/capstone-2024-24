@@ -13,7 +13,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
     private val exampleViewModel by viewModels<ExampleViewModel>()
 
     override fun initView() {
-        startActivity(Intent(this, LoginActivity::class.java))
+        Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }.let { startActivity(it) }
     }
 
     private fun exampleObserve() {
